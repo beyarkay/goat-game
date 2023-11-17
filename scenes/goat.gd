@@ -49,8 +49,8 @@ func _physics_process(delta: float) -> void:
 func _process(_delta: float) -> void:
 	# animate sprite based on current movement direction
 	var direction: float = Input.get_axis("p%d_left" % player, "p%d_right" % player)
-	if direction != 0: sprite.flip_h = direction > 0
+	if direction != 0: sprite.flip_h = direction < 0
 	if velocity.length() > MIN_ANIMATED_RUN_SPEED:
-		sprite.play()
+		sprite.play("running")
 	else:
-		sprite.stop()
+		sprite.play("idle")
