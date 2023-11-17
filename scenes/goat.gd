@@ -1,11 +1,12 @@
 class_name Goat
-extends RigidBody2D
+extends CharacterBody2D
 
 # exported parameters
-@export var player: int = 2
+@export_range(1, 2, 1) var player: int = 2
 @export_range(0, 1) var jump_lean: float = 0.8 # increase to make jumps less vertical & more perpendicular to floor
 @export var jump_vel: float = -750.0
 @export var run_acc: float = 30.0
+@export var run_dec: float = 40.0
 @export var max_hor_vel: float = 700.0
 
 # constants
@@ -27,28 +28,30 @@ func find_ground():
 	return [false, Vector2(0, -1)]
 
 func _physics_process(delta: float) -> void:
-	var ground = find_ground()
+	var on_floor = is_on_floor()
 	
-	if not ground[0]:
-		linear_velocity.y += gravity * delta
+	if not on_floor:
+		velocity.y += gravity * delta
 
-	if Input.is_action_just_pressed("p%d_up" % player) and ground[0]:
-		linear_velocity -= jump_vel * (jump_lean * ground[1] + (1 - jump_lean) * Vector2(0, -1))
+	if Input.is_action_just_pressed("p%d_up" % player) and on_floor:
+		velocity.y = jump_vel
 
 	var direction: float = Input.get_axis("p%d_left" % player, "p%d_right" % player)
-	var along_floor = ground[1].rotated(90)
 	if direction:
-		linear_velocity += direction * run_acc * along_floor
-		if abs(linear_velocity.x) > max_hor_vel:
-			linear_velocity.x = sign(linear_velocity.x) * max_hor_vel
+		if sign(velocity.x) != sign(direction):
+			velocity.x = move_toward(velocity.x, direction * max_hor_vel, run_dec)
+		else:
+			velocity.x = move_toward(velocity.x, direction * max_hor_vel, run_acc)
 	else:
-		linear_velocity.x = move_toward(linear_velocity.x, 0, run_acc)
+		velocity.x = move_toward(velocity.x, 0, run_dec)
+		
+	move_and_slide()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# animate sprite based on current movement direction
 	var direction: float = Input.get_axis("p%d_left" % player, "p%d_right" % player)
 	if direction != 0: sprite.flip_h = direction > 0
-	if linear_velocity.length() > MIN_ANIMATED_RUN_SPEED:
+	if velocity.length() > MIN_ANIMATED_RUN_SPEED:
 		sprite.play()
 	else:
 		sprite.stop()

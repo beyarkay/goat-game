@@ -1,9 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://bgfo3l08bifum"]
+[gd_scene load_steps=14 format=3 uid="uid://bgfo3l08bifum"]
 
 [ext_resource type="Script" path="res://scenes/goat.gd" id="1_2in7i"]
 [ext_resource type="Texture2D" uid="uid://biqulgswk2j64" path="res://assets/goat.png" id="1_vnefr"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kj733"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_01sup"]
 radius = 12.0
@@ -82,10 +80,9 @@ animations = [{
 a = Vector2(-17, 0)
 b = Vector2(17, 0)
 
-[node name="goat" type="RigidBody2D"]
+[node name="goat" type="CharacterBody2D"]
 position = Vector2(315, 206)
-physics_material_override = SubResource("PhysicsMaterial_kj733")
-lock_rotation = true
+floor_max_angle = 1.0472
 script = ExtResource("1_2in7i")
 metadata/_edit_group_ = true
 
