@@ -1,17 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://7bx78t0blvcr"]
+[gd_scene load_steps=4 format=3 uid="uid://50yyteppwyus"]
 
 [ext_resource type="Texture2D" uid="uid://bgkvuia5h1kkl" path="res://assets/background_art/background.png" id="1_ok0je"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="2_7yjoa"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xdf5i"]
-rough = true
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_m8xlw"]
-size = Vector2(1159.4, 190.5)
-
-[sub_resource type="QuadMesh" id="QuadMesh_m7efa"]
+[ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_m0bcc"]
 
 [node name="root" type="Node"]
+
+[node name="decorations" type="Node" parent="."]
+
+[node name="Background" type="Sprite2D" parent="decorations"]
+position = Vector2(602, 316.75)
+scale = Vector2(0.36243, 0.308565)
+texture = ExtResource("1_ok0je")
+
+[node name="ColorRect" type="ColorRect" parent="decorations"]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.309804, 0.309804, 0.309804, 0.87451)
 
 [node name="player1_start_position" type="Marker2D" parent="."]
 
@@ -19,25 +24,20 @@ size = Vector2(1159.4, 190.5)
 
 [node name="platforms" type="Node" parent="."]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="platforms"]
-physics_material_override = SubResource("PhysicsMaterial_xdf5i")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="platforms/StaticBody2D"]
-position = Vector2(588, 476)
-shape = SubResource("RectangleShape2D_m8xlw")
+[node name="StaticBody2D3" type="StaticBody2D" parent="platforms" groups=["ground"]]
+position = Vector2(56, 8)
+scale = Vector2(0.989878, 1)
 metadata/_edit_group_ = true
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="platforms/StaticBody2D/CollisionShape2D"]
-position = Vector2(-1.79864, -3.24998)
-scale = Vector2(1151, 191)
-mesh = SubResource("QuadMesh_m7efa")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D3" groups=["ground"]]
+polygon = PackedVector2Array(24.2454, 8, 16.1636, 32, 56.5726, 32, 88.8998, 128, 80.818, 200, 96.9816, 216, 145.472, 224, 145.472, 256, 72.7362, 368, 56.5726, 424, 72.7362, 432, 80.818, 432, 80.818, 448, 64.6544, 472, 0, 496, -16.1636, 552, 48.4908, 584, 145.472, 584, 129.309, 640, -56.5726, 640, -56.5726, -8, 32.3272, -8)
+script = ExtResource("2_m0bcc")
 
-[node name="decorations" type="Node" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
 
-[node name="Background" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(1241, 689)
-scale = Vector2(0.767275, 0.653241)
-texture = ExtResource("1_ok0je")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D"]
+polygon = PackedVector2Array(400, 88, 384, 112, 400, 160, 424, 184, 432, 312, 424, 376, 400, 384, 312, 376, 288, 392, 280, 424, 256, 480, 288, 528, 312, 584, 304, 648, 800, 648, 816, 480, 904, 400, 896, 352, 824, 344, 800, 296, 808, 248, 760, 208, 704, 184, 648, 264, 584, 232, 552, 144, 480, 112, 488, 80, 464, 56, 424, 56, 432, 80, 416, 88)
+script = ExtResource("2_m0bcc")
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("2_7yjoa")]
