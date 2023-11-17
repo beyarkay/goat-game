@@ -1,10 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://50yyteppwyus"]
+[gd_scene load_steps=7 format=3 uid="uid://50yyteppwyus"]
 
 [ext_resource type="Texture2D" uid="uid://bgkvuia5h1kkl" path="res://assets/background_art/background.png" id="1_ok0je"]
+[ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_oncvh"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="2_7yjoa"]
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_m0bcc"]
+[ext_resource type="Script" path="res://scenes/cable_car.gd" id="5_hp86m"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xrgsd"]
+rough = true
 
 [node name="root" type="Node"]
+script = ExtResource("1_oncvh")
 
 [node name="decorations" type="Node" parent="."]
 
@@ -43,3 +49,21 @@ jump_lean = 0.4
 position = Vector2(363, 197)
 player = 1
 jump_lean = 0.4
+
+[node name="cable_car" type="Node" parent="."]
+script = ExtResource("5_hp86m")
+
+[node name="from" type="Marker2D" parent="cable_car"]
+position = Vector2(120, 8)
+
+[node name="to" type="Marker2D" parent="cable_car"]
+position = Vector2(440, 16)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="cable_car"]
+position = Vector2(80, 16)
+physics_material_override = SubResource("PhysicsMaterial_xrgsd")
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="cable_car/StaticBody2D"]
+polygon = PackedVector2Array(-8, 32, 96, 32, 96, 16, 88, 16, 80, 24, 8, 24, 0, 16, -8, 16)
+script = ExtResource("2_m0bcc")
