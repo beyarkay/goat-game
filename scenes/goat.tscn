@@ -111,3 +111,6 @@ shape = SubResource("SegmentShape2D_er8hu")
 target_position = Vector2(0, 19)
 
 [node name="input_buffer_timeout" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="input_buffer_timeout" to="." method="_on_input_buffer_timeout_timeout"]

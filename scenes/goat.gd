@@ -3,11 +3,15 @@ extends CharacterBody2D
 
 # exported parameters
 @export_range(1, 2, 1) var player: int = 2
-@export_range(0, 1) var jump_lean: float = 0.8 # increase to make jumps less vertical & more perpendicular to floor
+
+@export_category("Physics")
 @export var jump_vel: float = -750.0
 @export var run_acc: float = 30.0
 @export var run_dec: float = 70.0
 @export var max_hor_vel: float = 700.0
+
+@export_category("Input")
+@export var input_buffer_duration: float = 0.1
 
 # constants
 const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
@@ -15,9 +19,15 @@ const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
 # child nodes
 @onready var sprite: AnimatedSprite2D = $sprite as AnimatedSprite2D
 @onready var floor_test: ShapeCast2D = $floor_test as ShapeCast2D
+@onready var input_buffer_timeout: Timer = $input_buffer_timeout as Timer
 
 # get gravity from project settings to sync with RigidBody nodes
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
+
+var input_buffer = null
+
+func _ready() -> void:
+	input_buffer_timeout.wait_time = input_buffer_duration
 
 func find_ground():
 	# scan down to find first colliding object in "ground" group;
@@ -54,3 +64,6 @@ func _process(_delta: float) -> void:
 		sprite.play("running")
 	else:
 		sprite.play("idle")
+
+func _on_input_buffer_timeout_timeout() -> void:
+	input_buffer = null
