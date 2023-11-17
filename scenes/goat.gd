@@ -6,7 +6,7 @@ extends CharacterBody2D
 @export_range(0, 1) var jump_lean: float = 0.8 # increase to make jumps less vertical & more perpendicular to floor
 @export var jump_vel: float = -750.0
 @export var run_acc: float = 30.0
-@export var run_dec: float = 40.0
+@export var run_dec: float = 70.0
 @export var max_hor_vel: float = 700.0
 
 # constants
@@ -38,10 +38,9 @@ func _physics_process(delta: float) -> void:
 
 	var direction: float = Input.get_axis("p%d_left" % player, "p%d_right" % player)
 	if direction:
-		if sign(velocity.x) != sign(direction):
-			velocity.x = move_toward(velocity.x, direction * max_hor_vel, run_dec)
-		else:
-			velocity.x = move_toward(velocity.x, direction * max_hor_vel, run_acc)
+		var acc: float = run_acc
+		if sign(velocity.x) != sign(direction): acc = run_dec
+		velocity.x = move_toward(velocity.x, direction * max_hor_vel, acc)
 	else:
 		velocity.x = move_toward(velocity.x, 0, run_dec)
 		
