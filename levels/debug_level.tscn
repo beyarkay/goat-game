@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://50yyteppwyus"]
+[gd_scene load_steps=6 format=3 uid="uid://7bx78t0blvcr"]
 
 [ext_resource type="Texture2D" uid="uid://bgkvuia5h1kkl" path="res://assets/background_art/background.png" id="1_ok0je"]
+[ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="2_7yjoa"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xdf5i"]
 rough = true
@@ -22,8 +23,9 @@ size = Vector2(1159.4, 190.5)
 physics_material_override = SubResource("PhysicsMaterial_xdf5i")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="platforms/StaticBody2D"]
-position = Vector2(1119.3, 980.75)
+position = Vector2(588, 476)
 shape = SubResource("RectangleShape2D_m8xlw")
+metadata/_edit_group_ = true
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="platforms/StaticBody2D/CollisionShape2D"]
 position = Vector2(-1.79864, -3.24998)
@@ -37,3 +39,5 @@ visible = false
 position = Vector2(1241, 689)
 scale = Vector2(0.767275, 0.653241)
 texture = ExtResource("1_ok0je")
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("2_7yjoa")]

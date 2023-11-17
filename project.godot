@@ -11,13 +11,12 @@ config_version=5
 [application]
 
 config/name="goat-game"
+run/main_scene="res://scenes/goat.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=2560
-window/size/viewport_height=1440
 window/stretch/mode="canvas_items"
 
 [input]
