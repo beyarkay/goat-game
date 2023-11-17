@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://50yyteppwyus"]
+
+[ext_resource type="Texture2D" uid="uid://bgkvuia5h1kkl" path="res://assets/background_art/background.png" id="1_ok0je"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xdf5i"]
+rough = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m8xlw"]
+size = Vector2(1159.4, 190.5)
+
+[sub_resource type="QuadMesh" id="QuadMesh_m7efa"]
+
+[node name="root" type="Node"]
+
+[node name="player1_start_position" type="Marker2D" parent="."]
+
+[node name="player2_start_position" type="Marker2D" parent="."]
+
+[node name="platforms" type="Node" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="platforms"]
+physics_material_override = SubResource("PhysicsMaterial_xdf5i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platforms/StaticBody2D"]
+position = Vector2(1119.3, 980.75)
+shape = SubResource("RectangleShape2D_m8xlw")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="platforms/StaticBody2D/CollisionShape2D"]
+position = Vector2(-1.79864, -3.24998)
+scale = Vector2(1151, 191)
+mesh = SubResource("QuadMesh_m7efa")
+
+[node name="decorations" type="Node" parent="."]
+
+[node name="Background" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(1241, 689)
+scale = Vector2(0.767275, 0.653241)
+texture = ExtResource("1_ok0je")
