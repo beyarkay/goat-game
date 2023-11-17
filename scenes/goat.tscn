@@ -1,7 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://bgfo3l08bifum"]
+[gd_scene load_steps=15 format=3 uid="uid://bgfo3l08bifum"]
 
 [ext_resource type="Script" path="res://scenes/goat.gd" id="1_2in7i"]
 [ext_resource type="Texture2D" uid="uid://biqulgswk2j64" path="res://assets/goat.png" id="1_vnefr"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kj733"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_01sup"]
 radius = 12.0
@@ -76,18 +78,28 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_er8hu"]
+a = Vector2(-17, 0)
+b = Vector2(17, 0)
+
+[node name="goat" type="RigidBody2D"]
 position = Vector2(315, 206)
-scale = Vector2(1.5, 1.5)
-floor_max_angle = 1.74533
+physics_material_override = SubResource("PhysicsMaterial_kj733")
+lock_rotation = true
 script = ExtResource("1_2in7i")
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="collider" type="CollisionShape2D" parent="."]
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_01sup")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, -3)
 sprite_frames = SubResource("SpriteFrames_vfikg")
 animation = &"walk_left"
+
+[node name="floor_test" type="ShapeCast2D" parent="."]
+shape = SubResource("SegmentShape2D_er8hu")
+target_position = Vector2(0, 19)
+
+[node name="input_buffer_timeout" type="Timer" parent="."]
