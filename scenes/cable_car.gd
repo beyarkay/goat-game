@@ -1,15 +1,19 @@
 extends Node
 
-var duration_ms: int = 5
+@export var speed: float = 0.005
 var progress = 0.0
 @onready var static_body: StaticBody2D = $StaticBody2D
-@onready var from: Marker2D = $from
-@onready var to: Marker2D = $to
+@export var from: Marker2D = null
+@export var to: Marker2D = null
 var looping_progress = 0.0
+
+func _ready() -> void:
+    if from == null: from = $from
+    if to == null: to = $to
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-    progress += delta / duration_ms
+    progress += delta * speed
     while progress > 1.0:
         progress -= 1.0
     looping_progress = 1 - abs(progress * 2 - 1)
