@@ -1,10 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://50yyteppwyus"]
+[gd_scene load_steps=5 format=3 uid="uid://50yyteppwyus"]
 
 [ext_resource type="Texture2D" uid="uid://bgkvuia5h1kkl" path="res://assets/background_art/background.png" id="1_ok0je"]
+[ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_oncvh"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="2_7yjoa"]
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_m0bcc"]
 
 [node name="root" type="Node"]
+script = ExtResource("1_oncvh")
 
 [node name="decorations" type="Node" parent="."]
 
@@ -39,5 +41,10 @@ metadata/_edit_group_ = true
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D"]
 polygon = PackedVector2Array(400, 88, 384, 112, 400, 160, 424, 184, 432, 312, 424, 376, 400, 384, 312, 376, 288, 392, 280, 424, 256, 480, 288, 528, 312, 584, 304, 648, 800, 648, 816, 480, 904, 400, 896, 352, 824, 344, 800, 296, 808, 248, 760, 208, 704, 184, 648, 264, 584, 232, 552, 144, 480, 112, 488, 80, 464, 56, 424, 56, 432, 80, 416, 88)
 script = ExtResource("2_m0bcc")
+
+[node name="CharacterBody2D2" parent="." instance=ExtResource("2_7yjoa")]
+position = Vector2(872, 264)
+scale = Vector2(2.25, 2.25)
+player = 1
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("2_7yjoa")]
