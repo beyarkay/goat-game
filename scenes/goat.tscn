@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bgfo3l08bifum"]
+[gd_scene load_steps=17 format=3 uid="uid://bgfo3l08bifum"]
 
 [ext_resource type="Script" path="res://scenes/goat.gd" id="1_2in7i"]
 [ext_resource type="Texture2D" uid="uid://dml3t6s147ax" path="res://assets/goat/spritesheets/idle.png" id="2_t8pnn"]
@@ -88,7 +88,10 @@ animations = [{
 a = Vector2(-17, 0)
 b = Vector2(17, 0)
 
-[node name="goat" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_408vh"]
+size = Vector2(28, 51)
+
+[node name="goat" type="CharacterBody2D" groups=["player"]]
 floor_max_angle = 1.0472
 script = ExtResource("1_2in7i")
 player = 1
@@ -113,4 +116,11 @@ target_position = Vector2(0, 19)
 [node name="input_buffer_timeout" type="Timer" parent="."]
 autostart = true
 
+[node name="attack_area" type="Area2D" parent="."]
+
+[node name="attack_collider" type="CollisionShape2D" parent="attack_area"]
+position = Vector2(21, -8.5)
+shape = SubResource("RectangleShape2D_408vh")
+
 [connection signal="timeout" from="input_buffer_timeout" to="." method="_on_input_buffer_timeout_timeout"]
+[connection signal="body_entered" from="attack_area" to="." method="_on_area_2d_body_entered"]
