@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://dd06m2ltf02j4"]
+
+[ext_resource type="Script" path="res://scenes/hud.gd" id="1_5j267"]
+[ext_resource type="Texture2D" uid="uid://3t3d8g0dqbk5" path="res://assets/skull_left.png" id="2_gpkqg"]
+[ext_resource type="Texture2D" uid="uid://l1xnxixtt8yc" path="res://assets/horn_left.png" id="3_xrbbl"]
+[ext_resource type="Texture2D" uid="uid://dyytsp8jofq6r" path="res://assets/skull_right.png" id="4_eyrek"]
+[ext_resource type="Texture2D" uid="uid://blbjm6e2bs081" path="res://assets/horn_right.png" id="5_stbyi"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_5j267")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+scale = Vector2(0.15, 0.15)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -587.5
+offset_right = 587.5
+offset_bottom = 536.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="left_skull" type="TextureProgressBar" parent="Control/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.0
+fill_mode = 5
+texture_under = ExtResource("2_gpkqg")
+texture_progress = ExtResource("3_xrbbl")
+radial_initial_angle = 72.7
+radial_fill_degrees = 156.3
+
+[node name="CenterContainer" type="CenterContainer" parent="Control/HBoxContainer"]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+
+[node name="time" type="Label" parent="Control/HBoxContainer/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 120
+text = "00:00"
+
+[node name="right_skull" type="TextureProgressBar" parent="Control/HBoxContainer"]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+max_value = 1.0
+step = 0.0
+fill_mode = 4
+texture_under = ExtResource("4_eyrek")
+texture_progress = ExtResource("5_stbyi")
+radial_initial_angle = 283.5
+radial_fill_degrees = 170.8
