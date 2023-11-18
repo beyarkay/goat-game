@@ -11,7 +11,7 @@ extends CharacterBody2D
 @export var max_hor_vel: float = 700.0
 
 @export_category("Inputs")
-@export var input_buffer_duration: float = 0.1
+@export var input_buffer_duration: float = 0.15
 
 # constants
 const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
@@ -43,8 +43,11 @@ func _physics_process(delta: float) -> void:
 	if not on_floor:
 		velocity.y += gravity * delta
 
-	if Input.is_action_just_pressed("p%d_up" % player) and on_floor:
+	var jumping = Input.is_action_just_pressed("p%d_up" % player)
+	if (jumping or input_buffer == "jump") and on_floor:
 		velocity.y = jump_vel
+	if jumping and not on_floor:
+		input_buffer = "jump"
 
 	var direction: float = Input.get_axis("p%d_left" % player, "p%d_right" % player)
 	if direction:

@@ -89,9 +89,9 @@ a = Vector2(-17, 0)
 b = Vector2(17, 0)
 
 [node name="goat" type="CharacterBody2D"]
-position = Vector2(315, 206)
 floor_max_angle = 1.0472
 script = ExtResource("1_2in7i")
+player = 1
 jump_vel = -550.0
 max_hor_vel = 600.0
 metadata/_edit_group_ = true
