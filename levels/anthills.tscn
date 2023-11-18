@@ -1,74 +1,16 @@
-[gd_scene load_steps=14 format=3 uid="uid://dvt8fbml2xrq3"]
+[gd_scene load_steps=7 format=3 uid="uid://dvt8fbml2xrq3"]
 
 [ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_3vass"]
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_i7fye"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="3_pifa8"]
 [ext_resource type="PackedScene" uid="uid://djja458gq1tos" path="res://scenes/camera.tscn" id="4_jgbv6"]
-[ext_resource type="PackedScene" uid="uid://daso46ino6jaw" path="res://scenes/bridge.tscn" id="5_junu8"]
-[ext_resource type="Script" path="res://scenes/plank.gd" id="6_cf7nd"]
-[ext_resource type="Texture2D" uid="uid://beo6vxpjr5ak6" path="res://assets/plank.png" id="7_l3f8u"]
+[ext_resource type="PackedScene" uid="uid://dn606s03i2mqs" path="res://scenes/bridge.tscn" id="5_junu8"]
 
-[sub_resource type="Curve2D" id="Curve2D_4vi3q"]
+[sub_resource type="Curve2D" id="Curve2D_i0e4h"]
 _data = {
-"points": PackedVector2Array(-216.011, -193.649, 216.011, 193.649, 72.6363, 145.574, 0, 0, 0, 0, 568.636, 153.574)
+"points": PackedVector2Array(-183.336, -50.8221, 183.336, 50.8221, 128, 209, -206.233, 34.7058, 206.233, -34.7058, 621, 220)
 }
 point_count = 2
-
-[sub_resource type="Animation" id="Animation_pif5x"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("sprite:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
-[sub_resource type="Animation" id="Animation_qpnlp"]
-resource_name = "wobble"
-length = 0.27
-step = 0.015
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("sprite:rotation")
-tracks/0/interp = 4
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.045, 0.09, 0.135, 0.18, 0.225, 0.27),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [0.0, 0.141372, 0.0, -0.141372, 0.0, 0.141372, 0.0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_4pgyn"]
-_data = {
-"RESET": SubResource("Animation_pif5x"),
-"wobble": SubResource("Animation_qpnlp")
-}
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xulgv"]
-size = Vector2(29.5, 13)
-
-[sub_resource type="PackedScene" id="PackedScene_q2yei"]
-_bundled = {
-"conn_count": 2,
-"conns": PackedInt32Array(1073741828, 1073741829, 21, 22, 2, 0, 0, 1073741830, 1073741831, 23, 24, 2, 0, 0),
-"editable_instances": [],
-"names": PackedStringArray("plank", "RigidBody2D", "gravity_scale", "lock_rotation", "freeze", "freeze_mode", "script", "sprite", "Sprite2D", "scale", "texture", "wobbler", "AnimationPlayer", "libraries", "collider", "CollisionShape2D", "position", "shape", "despawn_timer", "Timer", "wait_time", "animation_finished", "_on_wobbler_animation_finished", "timeout", "_on_despawn_timer_timeout"),
-"node_count": 5,
-"node_paths": [NodePath("."), NodePath("."), NodePath("."), NodePath("."), NodePath("wobbler"), NodePath("."), NodePath("despawn_timer"), NodePath(".")],
-"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 5, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 0, 1073741824, 0, 8, 7, -1, 2, 9, 5, 10, 6, 0, 1073741825, 0, 12, 11, -1, 1, 13, 7, 0, 1073741826, 0, 15, 14, -1, 2, 16, 8, 17, 9, 0, 1073741827, 0, 19, 18, -1, 1, 20, 10, 0),
-"variants": [0.0, true, true, 1, ExtResource("6_cf7nd"), Vector2(0.470588, 0.470588), ExtResource("7_l3f8u"), {
-"": SubResource("AnimationLibrary_4pgyn")
-}, Vector2(-4.75, 6.5), SubResource("RectangleShape2D_xulgv"), 5.0],
-"version": 3
-}
 
 [node name="anthills" type="Node"]
 script = ExtResource("1_3vass")
@@ -153,7 +95,4 @@ position = Vector2(1096, 64)
 [node name="camera_pivot" parent="." instance=ExtResource("4_jgbv6")]
 
 [node name="bridge" parent="." instance=ExtResource("5_junu8")]
-position = Vector2(55.3637, 62.4262)
-curve = SubResource("Curve2D_4vi3q")
-plank_scene = SubResource("PackedScene_q2yei")
-num_planks = 10
+curve = SubResource("Curve2D_i0e4h")
