@@ -40,12 +40,10 @@ script = ExtResource("2_m0bcc")
 
 [node name="CharacterBody2D2" parent="." instance=ExtResource("2_7yjoa")]
 position = Vector2(720, 120)
-jump_lean = 0.4
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("2_7yjoa")]
 position = Vector2(363, 197)
 player = 1
-jump_lean = 0.4
 
 [node name="cable_car" parent="." node_paths=PackedStringArray("from", "to") instance=ExtResource("5_7qenv")]
 speed = 0.05
