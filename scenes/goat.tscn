@@ -1,10 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://bgfo3l08bifum"]
+[gd_scene load_steps=31 format=3 uid="uid://bgfo3l08bifum"]
 
 [ext_resource type="Script" path="res://scenes/goat.gd" id="1_2in7i"]
 [ext_resource type="Texture2D" uid="uid://ypx8ekjf3e6v" path="res://assets/goat/spritesheets/charge.png" id="2_srj55"]
 [ext_resource type="Texture2D" uid="uid://dml3t6s147ax" path="res://assets/goat/spritesheets/idle.png" id="2_t8pnn"]
 [ext_resource type="Texture2D" uid="uid://daaa5n1pvsgys" path="res://assets/goat/spritesheets/running.png" id="3_ctjsc"]
 [ext_resource type="Texture2D" path="res://assets/goat/spritesheets/falling.png" id="3_diymy"]
+[ext_resource type="Texture2D" uid="uid://1atsr4was4gj" path="res://assets/goat/spritesheets/knocked_out.png" id="4_3nynr"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_01sup"]
 radius = 12.0
@@ -45,6 +46,14 @@ region = Rect2(256, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_41lls"]
 atlas = ExtResource("2_t8pnn")
 region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o1tie"]
+atlas = ExtResource("4_3nynr")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_51itk"]
+atlas = ExtResource("4_3nynr")
+region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7yw58"]
 atlas = ExtResource("3_ctjsc")
@@ -108,6 +117,17 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o1tie")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_51itk")
+}],
+"loop": true,
+"name": &"knocked_out",
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -195,8 +215,8 @@ shape = SubResource("CapsuleShape2D_01sup")
 position = Vector2(1, -3)
 scale = Vector2(1.01586, 0.977672)
 sprite_frames = SubResource("SpriteFrames_au2ay")
-animation = &"slamming"
-frame_progress = 0.523567
+animation = &"knocked_out"
+frame_progress = 0.510227
 
 [node name="floor_test" type="ShapeCast2D" parent="."]
 shape = SubResource("SegmentShape2D_er8hu")

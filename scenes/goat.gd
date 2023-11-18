@@ -125,6 +125,8 @@ func _process(_delta: float) -> void:
 			sprite.play("slamming")
 		else:
 			sprite.play("running")
+	elif is_knocked_out:
+		sprite.play("knocked_out")
 	else:
 		sprite.play("idle")
 
