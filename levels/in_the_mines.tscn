@@ -76,4 +76,7 @@ position = Vector2(1008, 592)
 [node name="camera_pivot" parent="." instance=ExtResource("4_cgcvx")]
 
 [connection signal="health_change" from="CharacterBody2D2" to="decorations/HUD" method="_on_health_change"]
+[connection signal="shake_screen" from="CharacterBody2D2" to="camera_pivot" method="_on_shake_screen"]
 [connection signal="health_change" from="CharacterBody2D3" to="decorations/HUD" method="_on_health_change"]
+[connection signal="shake_screen" from="CharacterBody2D3" to="camera_pivot" method="_on_shake_screen"]
+[connection signal="shake_screen" from="camera_pivot" to="camera_pivot" method="_on_shake_screen"]
