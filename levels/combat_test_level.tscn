@@ -15,8 +15,9 @@ polygon = PackedVector2Array(-83.8487, 451, 514.205, 505, 1109.23, 460, 1109.23,
 script = ExtResource("1_atsoa")
 
 [node name="goat" parent="." instance=ExtResource("2_13alk")]
-position = Vector2(76, 450)
+position = Vector2(83, 406)
 
 [node name="goat2" parent="." instance=ExtResource("2_13alk")]
-position = Vector2(711, 475)
+modulate = Color(1, 0.509804, 0.435294, 1)
+position = Vector2(710, 399)
 player = 2
