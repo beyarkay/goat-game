@@ -158,6 +158,6 @@ func _on_charge_timeout_timeout() -> void:
 
 func _on_health_regen_timeout_timeout():
 	health = GlobalState.GOAT_HEALTH_MAX
+	health_change.emit(player, health)
 	is_knocked_out = false
 	print("no longer knocked out")
-	pass # Replace with function body.
