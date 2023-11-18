@@ -15,3 +15,7 @@ func _process(delta: float) -> void:
 	var minutes: int = seconds / 60
 	seconds -= minutes * 60
 	time.text = "%02d:%02d" % [minutes, seconds]
+
+func _on_health_change(player, new_health) -> void:
+	print("Player %d health changed to %d" % [player, new_health])
+	set_health(player, new_health)
