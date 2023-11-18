@@ -8,6 +8,11 @@ extends Node2D
 ## remains constant
 @export var screen_fraction = 0.75
 
+signal shake_screen(strength)
+
+@onready var rand = RandomNumberGenerator.new()
+var shake_strength = 0.0
+
 @export var zoom_in_step_size = 0.001
 @export var zoom_out_step_size = 0.004
 
@@ -25,7 +30,7 @@ func _ready() -> void:
         assert(node is CharacterBody2D)
         players.append(node as CharacterBody2D)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
     var mean_position = Vector2.ZERO
 
     var max_dist = 0.0
@@ -54,6 +59,23 @@ func _process(_delta: float) -> void:
         -zoom_out_step_size,
         zoom_in_step_size,
     )
-    # print("%.2f %.2f %.2f %.2f" % [target_zoom, camera.zoom.x, target_zoom - camera.zoom.x, zoom_adjustment])
     camera.zoom += Vector2.ONE * zoom_adjustment
 
+    apply_screen_shake()
+
+func start_screen_shake(strength):
+    shake_strength = strength
+    apply_screen_shake()
+
+func apply_screen_shake():
+    # Shake the screen
+    camera.offset = Vector2(
+        rand.randf_range(-shake_strength, shake_strength),
+        rand.randf_range(-shake_strength, shake_strength)
+    )
+    # Decay the shake strength
+    shake_strength = lerp(shake_strength, 0, 2.5)
+
+
+func _on_shake_screen(strength) -> void:
+    start_screen_shake(strength)
