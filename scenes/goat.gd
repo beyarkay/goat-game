@@ -1,6 +1,8 @@
 class_name Goat
 extends CharacterBody2D
 
+@onready var animation: AnimationPlayer = $AnimationPlayer as AnimationPlayer
+
 # exported parameters
 @export_range(1, 2, 1) var player: int = 2
 
@@ -9,16 +11,23 @@ extends CharacterBody2D
 @export var run_acc: float = 30.0
 @export var run_dec: float = 70.0
 @export var max_hor_vel: float = 600
+@export var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export_category("Inputs")
 @export var input_buffer_duration: float = 0.15
 
-@export_category("Attacks")
+@export_category("Charge Attack")
 @export var charge_damage: float = 100
 @export var charge_vel_threshold: float = max_hor_vel
 @export var charge_buildup_time: float = 0.5
 @onready var charge_timeout: Timer = $charge_timeout as Timer
-var charging: bool = false
+var is_charging: bool = false
+
+@export_category("Slam Attack")
+@export var slam_damage: float = 100
+@export var max_falling_damage: float = 100
+var slamming_dec: float = 10
+var is_slamming: bool = false
 
 # constants
 const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
@@ -27,9 +36,6 @@ const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
 @onready var sprite: AnimatedSprite2D = $sprite as AnimatedSprite2D
 @onready var floor_test: ShapeCast2D = $floor_test as ShapeCast2D
 @onready var input_buffer_timeout: Timer = $input_buffer_timeout as Timer
-
-# get gravity from project settings to sync with RigidBody nodes
-var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var input_buffer = null
 
@@ -58,29 +64,51 @@ func _physics_process(delta: float) -> void:
 		input_buffer = "jump"
 	
 	var direction: float = Input.get_axis("p%d_left" % player, "p%d_right" % player)
-	if direction:
+	if direction and !is_slamming:
 		var acc: float = run_acc
 		if sign(velocity.x) != sign(direction): acc = run_dec
 		velocity.x = move_toward(velocity.x, direction * max_hor_vel, acc)
-		$attack_area.scale.x = direction
-		sprite.flip_h = direction < 0
+	elif is_slamming:
+		velocity.x = move_toward(velocity.x, 0, slamming_dec)
 	else:
 		velocity.x = move_toward(velocity.x, 0, run_dec)
+
+	if direction:
+		$attack_area.scale.x = direction
+		sprite.flip_h = direction < 0
+		
+		
+	# Falling attack
+	if Input.is_action_just_pressed("p%d_down" % player) and !on_floor:
+		is_slamming = true
+		gravity *= 2.5
+		if sprite.flip_h:
+			animation.play("slamming_left")
+		else:
+			animation.play("slamming_right")
+		
+	if on_floor:
+		is_slamming = false
+		gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+		animation.stop()
 	
+	# charging attack
 	if abs(velocity.x) == charge_vel_threshold && on_floor:
 		if charge_timeout.time_left == 0:
 			charge_timeout.start()
 	else:
 		charge_timeout.stop()
-		charging = false
+		is_charging = false
 		
 	move_and_slide()
 
 func _process(_delta: float) -> void:
 	# animate sprite based on current movement direction
 	if velocity.length() > MIN_ANIMATED_RUN_SPEED:
-		if charging:
+		if is_charging:
 			sprite.play("charging")
+		elif is_slamming:
+			sprite.play("slamming")
 		else:
 			sprite.play("running")
 	else:
@@ -92,8 +120,10 @@ func _on_input_buffer_timeout_timeout() -> void:
 func _on_area_2d_body_entered(body):
 	if (body.is_in_group("player") && body.player == self.player || !body.has_method("hit")):
 		return
-	if (charging):
+	if (is_charging):
 		body.hit(charge_damage)
+	if (is_slamming):
+		body.hit(slam_damage)
 
 func hit(damage: float) -> void:
 	print(self, " has taken ", damage, " damage")
@@ -102,4 +132,4 @@ func hit(damage: float) -> void:
 
 func _on_charge_timeout_timeout() -> void:
 	print("charge ready")
-	charging = true
+	is_charging = true
