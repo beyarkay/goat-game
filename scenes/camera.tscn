@@ -1,3 +1,12 @@
-[gd_scene format=3 uid="uid://djja458gq1tos"]
+[gd_scene load_steps=2 format=3 uid="uid://djja458gq1tos"]
 
-[node name="Camera2D" type="Camera2D"]
+[ext_resource type="Script" path="res://scenes/camera.gd" id="1_nb2s5"]
+
+[node name="camera_pivot" type="Node2D"]
+position = Vector2(568, 328)
+script = ExtResource("1_nb2s5")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+ignore_rotation = false
+position_smoothing_enabled = true
+metadata/_edit_lock_ = true
