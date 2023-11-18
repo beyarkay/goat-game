@@ -10,7 +10,7 @@ extends CharacterBody2D
 @export var run_dec: float = 70.0
 @export var max_hor_vel: float = 700.0
 
-@export_category("Input")
+@export_category("Inputs")
 @export var input_buffer_duration: float = 0.1
 
 # constants
