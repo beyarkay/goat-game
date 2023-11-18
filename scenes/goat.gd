@@ -20,22 +20,21 @@ extends CharacterBody2D
 @export_category("Charge Attack")
 @export var charge_damage: float = 100
 @export var charge_vel_threshold: float = max_hor_vel
-@export var charge_buildup_time: float = 0.5
+@export var charge_buildup_time: float = 0.2
 @onready var charge_timeout: Timer = $charge_timeout as Timer
 var is_charging: bool = false
 
 @export_category("Slam Attack")
-@export var slam_damage: float = 100
+@export var slam_damage: float = 150
 @export var max_falling_damage: float = 100
 @export var slam_gravity_multiplier: float = 1.75
 var slamming_dec: float = 10
 var is_slamming: bool = false
 
 @export_category("Stats")
-@export var init_health: float = 200
-var health: float = init_health
+var health: float = GlobalState.GOAT_HEALTH_MAX
 var is_knocked_out: bool = false
-@export var health_regen_duration: float = 10
+@export var health_regen_duration: float = 8
 @onready var health_regen_timeout: Timer = $health_regen_timeout as Timer
 
 signal health_change(player, new_health)
@@ -65,9 +64,9 @@ func find_ground():
 func _physics_process(delta: float) -> void:
 	if is_knocked_out:
 		return
-	
+
 	var on_floor = is_on_floor()
-	
+
 	if not on_floor:
 		velocity.y += gravity * delta
 
@@ -76,7 +75,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y = jump_vel
 	if jumping and not on_floor:
 		input_buffer = "jump"
-	
+
 	var direction: float = Input.get_axis("p%d_left" % player, "p%d_right" % player)
 	if direction and !is_slamming:
 		var acc: float = run_acc
@@ -90,8 +89,8 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		$attack_area.scale.x = direction
 		sprite.flip_h = direction < 0
-		
-		
+
+
 	# Falling attack
 	if Input.is_action_just_pressed("p%d_down" % player) and !on_floor:
 		is_slamming = true
@@ -100,12 +99,12 @@ func _physics_process(delta: float) -> void:
 			animation.play("slamming_left")
 		else:
 			animation.play("slamming_right")
-		
+
 	if on_floor:
 		is_slamming = false
 		gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 		animation.stop()
-	
+
 	# charging attack
 	if abs(velocity.x) == charge_vel_threshold && on_floor:
 		if charge_timeout.time_left == 0:
@@ -113,7 +112,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		charge_timeout.stop()
 		is_charging = false
-		
+
 	move_and_slide()
 
 func _process(_delta: float) -> void:
@@ -158,7 +157,7 @@ func _on_charge_timeout_timeout() -> void:
 
 
 func _on_health_regen_timeout_timeout():
-	health = init_health
+	health = GlobalState.GOAT_HEALTH_MAX
 	is_knocked_out = false
 	print("no longer knocked out")
 	pass # Replace with function body.
