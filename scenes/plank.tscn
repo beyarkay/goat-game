@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://pk1lu52dxw0p"]
+[gd_scene load_steps=9 format=3 uid="uid://pk1lu52dxw0p"]
 
 [ext_resource type="Script" path="res://scenes/plank.gd" id="1_rejyp"]
 [ext_resource type="Texture2D" uid="uid://beo6vxpjr5ak6" path="res://assets/plank.png" id="2_hwpqx"]
+[ext_resource type="AudioStream" uid="uid://1k53yepf0hk6" path="res://assets/sounds/wobble.wav" id="3_iyn2d"]
+[ext_resource type="AudioStream" uid="uid://dd4j2ycp78qp0" path="res://assets/sounds/fall.wav" id="4_6lco3"]
 
 [sub_resource type="Animation" id="Animation_pif5x"]
 length = 0.001
@@ -67,5 +69,12 @@ shape = SubResource("RectangleShape2D_xulgv")
 [node name="despawn_timer" type="Timer" parent="."]
 wait_time = 5.0
 
+[node name="wobble_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_iyn2d")
+
+[node name="fall_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_6lco3")
+
 [connection signal="animation_finished" from="wobbler" to="." method="_on_wobbler_animation_finished"]
 [connection signal="timeout" from="despawn_timer" to="." method="_on_despawn_timer_timeout"]
+[connection signal="finished" from="wobble_sound" to="." method="_on_audio_stream_player_2d_finished"]
