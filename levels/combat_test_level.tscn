@@ -12,7 +12,7 @@ metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D3" groups=["ground"]]
 scale = Vector2(1, 1.00364)
-polygon = PackedVector2Array(-83.8487, 451, -79.8078, 254, -60.6135, 450, 554.614, 311.865, 542.491, 500.18, 1094.07, 472, 1107.21, 282, 1109.23, 641, -80.818, 639)
+polygon = PackedVector2Array(-83.8487, 451, -79.8078, 254, -60.6135, 450, 23.2352, 496.194, 542.491, 500.18, 1094.07, 472, 1107.21, 282, 1109.23, 641, -80.818, 639)
 script = ExtResource("1_atsoa")
 
 [node name="goat" parent="." instance=ExtResource("2_13alk")]
