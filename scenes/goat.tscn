@@ -1,12 +1,25 @@
-[gd_scene load_steps=16 format=3 uid="uid://bgfo3l08bifum"]
+[gd_scene load_steps=21 format=3 uid="uid://bgfo3l08bifum"]
 
 [ext_resource type="Script" path="res://scenes/goat.gd" id="1_2in7i"]
+[ext_resource type="Texture2D" uid="uid://ypx8ekjf3e6v" path="res://assets/goat/spritesheets/charge.png" id="2_srj55"]
 [ext_resource type="Texture2D" uid="uid://dml3t6s147ax" path="res://assets/goat/spritesheets/idle.png" id="2_t8pnn"]
 [ext_resource type="Texture2D" uid="uid://daaa5n1pvsgys" path="res://assets/goat/spritesheets/running.png" id="3_ctjsc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_01sup"]
 radius = 12.0
 height = 34.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rclbf"]
+atlas = ExtResource("2_srj55")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j0nai"]
+atlas = ExtResource("2_srj55")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0o06b"]
+atlas = ExtResource("2_srj55")
+region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ediec"]
 atlas = ExtResource("2_t8pnn")
@@ -46,6 +59,20 @@ region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_au2ay"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rclbf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j0nai")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0o06b")
+}],
+"loop": true,
+"name": &"charging",
+"speed": 18.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ediec")
@@ -88,12 +115,14 @@ animations = [{
 a = Vector2(-17, 0)
 b = Vector2(17, 0)
 
-[node name="goat" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_408vh"]
+size = Vector2(28, 51)
+
+[node name="goat" type="CharacterBody2D" groups=["player"]]
 floor_max_angle = 1.0472
 script = ExtResource("1_2in7i")
 player = 1
 jump_vel = -550.0
-max_hor_vel = 600.0
 metadata/_edit_group_ = true
 
 [node name="collider" type="CollisionShape2D" parent="."]
@@ -104,7 +133,7 @@ shape = SubResource("CapsuleShape2D_01sup")
 position = Vector2(1, -3)
 sprite_frames = SubResource("SpriteFrames_au2ay")
 animation = &"idle"
-frame_progress = 0.86519
+frame_progress = 0.341124
 
 [node name="floor_test" type="ShapeCast2D" parent="."]
 shape = SubResource("SegmentShape2D_er8hu")
@@ -113,4 +142,15 @@ target_position = Vector2(0, 19)
 [node name="input_buffer_timeout" type="Timer" parent="."]
 autostart = true
 
+[node name="charge_timeout" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="attack_area" type="Area2D" parent="."]
+
+[node name="attack_collider" type="CollisionShape2D" parent="attack_area"]
+position = Vector2(21, -8.5)
+shape = SubResource("RectangleShape2D_408vh")
+
 [connection signal="timeout" from="input_buffer_timeout" to="." method="_on_input_buffer_timeout_timeout"]
+[connection signal="timeout" from="charge_timeout" to="." method="_on_charge_timeout_timeout"]
+[connection signal="body_entered" from="attack_area" to="." method="_on_area_2d_body_entered"]

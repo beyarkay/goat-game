@@ -1,7 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://un6b3f3emwrj"]
+[gd_scene load_steps=12 format=3 uid="uid://egnyu2rymyr1"]
 
 [ext_resource type="Script" path="res://scenes/box.gd" id="1_srule"]
-[ext_resource type="Texture2D" uid="uid://dqadkif2qmkwo" path="res://assets/box.png" id="2_d7y46"]
+[ext_resource type="Texture2D" path="res://assets/box.png" id="2_d7y46"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_efuqf"]
+friction = 0.52
+bounce = 0.55
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pfc7g"]
 atlas = ExtResource("2_d7y46")
@@ -48,7 +52,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6ngax")
 }],
-"loop": true,
+"loop": false,
 "name": &"breaking",
 "speed": 14.0
 }]
@@ -57,6 +61,8 @@ animations = [{
 size = Vector2(31, 29)
 
 [node name="box" type="RigidBody2D"]
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_efuqf")
 script = ExtResource("1_srule")
 
 [node name="sprite" type="AnimatedSprite2D" parent="."]
