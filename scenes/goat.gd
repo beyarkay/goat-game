@@ -65,9 +65,15 @@ func find_ground():
 func _physics_process(delta: float) -> void:
 	if is_knocked_out:
 		return
+<<<<<<< Updated upstream
 	
 	var on_floor = is_on_floor()
 	
+=======
+
+	var on_floor = is_on_floor()
+
+>>>>>>> Stashed changes
 	if not on_floor:
 		velocity.y += gravity * delta
 
@@ -76,7 +82,11 @@ func _physics_process(delta: float) -> void:
 		velocity.y = jump_vel
 	if jumping and not on_floor:
 		input_buffer = "jump"
+<<<<<<< Updated upstream
 	
+=======
+
+>>>>>>> Stashed changes
 	var direction: float = Input.get_axis("p%d_left" % player, "p%d_right" % player)
 	if direction and !is_slamming:
 		var acc: float = run_acc
@@ -90,8 +100,13 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		$attack_area.scale.x = direction
 		sprite.flip_h = direction < 0
+<<<<<<< Updated upstream
 		
 		
+=======
+
+
+>>>>>>> Stashed changes
 	# Falling attack
 	if Input.is_action_just_pressed("p%d_down" % player) and !on_floor:
 		is_slamming = true
@@ -100,12 +115,20 @@ func _physics_process(delta: float) -> void:
 			animation.play("slamming_left")
 		else:
 			animation.play("slamming_right")
+<<<<<<< Updated upstream
 		
+=======
+
+>>>>>>> Stashed changes
 	if on_floor:
 		is_slamming = false
 		gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 		animation.stop()
+<<<<<<< Updated upstream
 	
+=======
+
+>>>>>>> Stashed changes
 	# charging attack
 	if abs(velocity.x) == charge_vel_threshold && on_floor:
 		if charge_timeout.time_left == 0:
@@ -113,7 +136,11 @@ func _physics_process(delta: float) -> void:
 	else:
 		charge_timeout.stop()
 		is_charging = false
+<<<<<<< Updated upstream
 		
+=======
+
+>>>>>>> Stashed changes
 	move_and_slide()
 
 func _process(_delta: float) -> void:
@@ -144,6 +171,10 @@ func _on_area_2d_body_entered(body):
 func hit(damage: float) -> void:
 	print(self, " has been hit with ", damage, " damage")
 	if !is_knocked_out:
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 		health -= damage
 		if health < 0: health = 0
 		health_change.emit(player, health)
@@ -158,7 +189,14 @@ func _on_charge_timeout_timeout() -> void:
 
 
 func _on_health_regen_timeout_timeout():
+<<<<<<< Updated upstream
 	health = init_health
 	is_knocked_out = false
 	print("no longer knocked out")
 	pass # Replace with function body.
+=======
+	health = GlobalState.GOAT_HEALTH_MAX
+	health_change.emit(player, health)
+	is_knocked_out = false
+	print("no longer knocked out")
+>>>>>>> Stashed changes

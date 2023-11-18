@@ -1,16 +1,10 @@
-<<<<<<< Updated upstream
-[gd_scene load_steps=31 format=3 uid="uid://bgfo3l08bifum"]
-=======
-[gd_scene load_steps=38 format=3 uid="uid://bgfo3l08bifum"]
->>>>>>> Stashed changes
+[gd_scene load_steps=28 format=3 uid="uid://bgfo3l08bifum"]
 
 [ext_resource type="Script" path="res://scenes/goat.gd" id="1_2in7i"]
 [ext_resource type="Texture2D" uid="uid://ypx8ekjf3e6v" path="res://assets/goat/spritesheets/charge.png" id="2_srj55"]
 [ext_resource type="Texture2D" uid="uid://dml3t6s147ax" path="res://assets/goat/spritesheets/idle.png" id="2_t8pnn"]
-[ext_resource type="Texture2D" uid="uid://c7r1s5g5txcbx" path="res://assets/goat/spritesheets/headbutting.png" id="3_50dav"]
 [ext_resource type="Texture2D" uid="uid://daaa5n1pvsgys" path="res://assets/goat/spritesheets/running.png" id="3_ctjsc"]
 [ext_resource type="Texture2D" path="res://assets/goat/spritesheets/falling.png" id="3_diymy"]
-[ext_resource type="Texture2D" uid="uid://1atsr4was4gj" path="res://assets/goat/spritesheets/knocked_out.png" id="4_3nynr"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_01sup"]
 radius = 12.0
@@ -27,26 +21,6 @@ region = Rect2(64, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_0o06b"]
 atlas = ExtResource("2_srj55")
 region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7wsla"]
-atlas = ExtResource("3_50dav")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o6ad0"]
-atlas = ExtResource("3_50dav")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_84m21"]
-atlas = ExtResource("3_50dav")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8icsl"]
-atlas = ExtResource("3_50dav")
-region = Rect2(192, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fvyoy"]
-atlas = ExtResource("3_50dav")
-region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ediec"]
 atlas = ExtResource("2_t8pnn")
@@ -71,14 +45,6 @@ region = Rect2(256, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_41lls"]
 atlas = ExtResource("2_t8pnn")
 region = Rect2(320, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o1tie"]
-atlas = ExtResource("4_3nynr")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_51itk"]
-atlas = ExtResource("4_3nynr")
-region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7yw58"]
 atlas = ExtResource("3_ctjsc")
@@ -122,32 +88,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7wsla")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7wsla")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7wsla")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o6ad0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_84m21")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8icsl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fvyoy")
-}],
-"loop": false,
-"name": &"headbutting",
-"speed": 15.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_ediec")
 }, {
 "duration": 1.0,
@@ -168,17 +108,6 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o1tie")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_51itk")
-}],
-"loop": true,
-"name": &"knocked_out",
-"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -216,21 +145,6 @@ b = Vector2(17, 0)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_408vh"]
 size = Vector2(28, 51)
 
-[sub_resource type="Animation" id="Animation_xq4x5"]
-resource_name = "slamming_left"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.7),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.000241599, -1.94779]
-}
-
 [sub_resource type="Animation" id="Animation_dhr6c"]
 resource_name = "slamming_right"
 tracks/0/type = "value"
@@ -246,6 +160,21 @@ tracks/0/keys = {
 "values": [0.000241599, 1.9481]
 }
 
+[sub_resource type="Animation" id="Animation_xq4x5"]
+resource_name = "slamming_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.000241599, -1.94779]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sxpwc"]
 _data = {
 "slamming_left": SubResource("Animation_xq4x5"),
@@ -253,7 +182,11 @@ _data = {
 }
 
 [node name="goat" type="CharacterBody2D" groups=["player"]]
+<<<<<<< HEAD
 rotation = 0.000241599
+=======
+z_index = 1
+>>>>>>> 06c202ab5d3dcaaefdd57cc51e775eb6e80e5472
 floor_max_angle = 1.0472
 script = ExtResource("1_2in7i")
 metadata/_edit_group_ = true
@@ -266,14 +199,8 @@ shape = SubResource("CapsuleShape2D_01sup")
 position = Vector2(1, -3)
 scale = Vector2(1.01586, 0.977672)
 sprite_frames = SubResource("SpriteFrames_au2ay")
-<<<<<<< Updated upstream
-animation = &"knocked_out"
-frame_progress = 0.510227
-=======
-animation = &"headbutting"
-frame = 6
-frame_progress = 1.0
->>>>>>> Stashed changes
+animation = &"slamming"
+frame_progress = 0.523567
 
 [node name="floor_test" type="ShapeCast2D" parent="."]
 shape = SubResource("SegmentShape2D_er8hu")
@@ -297,9 +224,6 @@ libraries = {
 "": SubResource("AnimationLibrary_sxpwc")
 }
 
-[node name="health_regen_timeout" type="Timer" parent="."]
-
 [connection signal="timeout" from="input_buffer_timeout" to="." method="_on_input_buffer_timeout_timeout"]
 [connection signal="timeout" from="charge_timeout" to="." method="_on_charge_timeout_timeout"]
 [connection signal="body_entered" from="attack_area" to="." method="_on_area_2d_body_entered"]
-[connection signal="timeout" from="health_regen_timeout" to="." method="_on_health_regen_timeout_timeout"]
