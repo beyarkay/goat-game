@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://tkumhbh3nbkk"]
+[gd_scene load_steps=13 format=3 uid="uid://tkumhbh3nbkk"]
 
 [ext_resource type="Script" path="res://scenes/box.gd" id="1_srule"]
 [ext_resource type="Texture2D" uid="uid://dqadkif2qmkwo" path="res://assets/box.png" id="2_d7y46"]
+[ext_resource type="AudioStream" uid="uid://1yqatwhiobg1" path="res://assets/sounds/box_break.wav" id="3_0jc63"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_efuqf"]
 friction = 0.52
@@ -73,3 +74,6 @@ animation = &"breaking"
 [node name="collider" type="CollisionShape2D" parent="."]
 position = Vector2(-1.5, 0.5)
 shape = SubResource("RectangleShape2D_ktjo6")
+
+[node name="break_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_0jc63")

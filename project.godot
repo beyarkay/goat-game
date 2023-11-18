@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="goat-game"
-run/main_scene="res://levels/debug_level.tscn"
+run/main_scene="res://levels/main_menu.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GlobalState="*res://utility_scripts/global_state.gd"
 
 [display]
 

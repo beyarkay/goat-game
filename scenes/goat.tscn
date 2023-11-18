@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
 [gd_scene load_steps=31 format=3 uid="uid://bgfo3l08bifum"]
-=======
-[gd_scene load_steps=38 format=3 uid="uid://bgfo3l08bifum"]
->>>>>>> Stashed changes
 
 [ext_resource type="Script" path="res://scenes/goat.gd" id="1_2in7i"]
 [ext_resource type="Texture2D" uid="uid://ypx8ekjf3e6v" path="res://assets/goat/spritesheets/charge.png" id="2_srj55"]
@@ -15,6 +11,8 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_01sup"]
 radius = 12.0
 height = 34.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b240r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rclbf"]
 atlas = ExtResource("2_srj55")
@@ -263,17 +261,15 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_01sup")
 
 [node name="sprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_b240r")
 position = Vector2(1, -3)
 scale = Vector2(1.01586, 0.977672)
 sprite_frames = SubResource("SpriteFrames_au2ay")
-<<<<<<< Updated upstream
 animation = &"knocked_out"
 frame_progress = 0.510227
-=======
 animation = &"headbutting"
 frame = 6
 frame_progress = 1.0
->>>>>>> Stashed changes
 
 [node name="floor_test" type="ShapeCast2D" parent="."]
 shape = SubResource("SegmentShape2D_er8hu")
@@ -298,6 +294,7 @@ libraries = {
 }
 
 [node name="health_regen_timeout" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="timeout" from="input_buffer_timeout" to="." method="_on_input_buffer_timeout_timeout"]
 [connection signal="timeout" from="charge_timeout" to="." method="_on_charge_timeout_timeout"]
