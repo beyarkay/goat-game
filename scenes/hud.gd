@@ -8,8 +8,8 @@ func set_health(player: int, health: float) -> void:
 	skulls[player - 1].value = 1 - health
 
 func _ready() -> void:
-	set_health(1, 0.0)
-	set_health(2, 0.0)
+	set_health(1, 1.0)
+	set_health(2, 1.0)
 
 func _process(delta: float) -> void:
 	var seconds: int = Time.get_ticks_msec() / 1000
