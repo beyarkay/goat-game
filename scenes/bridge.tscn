@@ -1,3 +1,35 @@
-[gd_scene format=3 uid="uid://dn606s03i2mqs"]
+[gd_scene load_steps=4 format=3 uid="uid://dn606s03i2mqs"]
 
-[node name="bridge" type="Node"]
+[ext_resource type="Script" path="res://scenes/bridge.gd" id="1_jahsf"]
+[ext_resource type="PackedScene" uid="uid://rdgx5a0pac6n" path="res://scenes/plank.tscn" id="2_31p0g"]
+
+[sub_resource type="Curve2D" id="Curve2D_2gxg3"]
+_data = {
+"points": PackedVector2Array(-183.336, -50.8221, 183.336, 50.8221, 0.741176, 2, 0, 0, 0, 0, 318, 0)
+}
+point_count = 2
+
+[node name="bridge" type="Node2D"]
+script = ExtResource("1_jahsf")
+plank_scene = ExtResource("2_31p0g")
+bottom_line_shift = Vector2(-35, 40)
+
+[node name="top_line" type="Line2D" parent="."]
+width = 5.0
+default_color = Color(0.470588, 0.298039, 0.231373, 1)
+
+[node name="bottom_line" type="Line2D" parent="."]
+width = 5.0
+default_color = Color(0.470588, 0.298039, 0.231373, 1)
+
+[node name="top" type="Path2D" parent="."]
+curve = SubResource("Curve2D_2gxg3")
+
+[node name="follow" type="PathFollow2D" parent="top"]
+position = Vector2(0.741176, 2)
+rotation = 0.270418
+
+[node name="crumble_timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="crumble_timer" to="." method="_on_crumble_timer_timeout"]
