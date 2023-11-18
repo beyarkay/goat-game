@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://50yyteppwyus"]
+[gd_scene load_steps=10 format=3 uid="uid://50yyteppwyus"]
 
 [ext_resource type="Texture2D" uid="uid://bgkvuia5h1kkl" path="res://assets/background_art/background.png" id="1_ok0je"]
 [ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_oncvh"]
@@ -7,6 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://dn606s03i2mqs" path="res://scenes/bridge.tscn" id="5_0ruik"]
 [ext_resource type="PackedScene" uid="uid://dd1xc6nxlvpuy" path="res://scenes/cable_car.tscn" id="5_7qenv"]
 [ext_resource type="PackedScene" uid="uid://un6b3f3emwrj" path="res://scenes/box.tscn" id="6_exi08"]
+
+[sub_resource type="Curve2D" id="Curve2D_bmgey"]
+_data = {
+"points": PackedVector2Array(-183.336, -50.8221, 183.336, 50.8221, 2, -13, 0, 0, 0, 0, 269, -18)
+}
+point_count = 2
 
 [sub_resource type="Curve2D" id="Curve2D_6di2j"]
 _data = {
@@ -50,7 +56,8 @@ script = ExtResource("2_m0bcc")
 position = Vector2(556, 123)
 
 [node name="bridge" parent="." instance=ExtResource("5_0ruik")]
-position = Vector2(119, 62)
+position = Vector2(130, 108)
+curve = SubResource("Curve2D_bmgey")
 
 [node name="cable_car" parent="." instance=ExtResource("5_7qenv")]
 position = Vector2(825, 131)

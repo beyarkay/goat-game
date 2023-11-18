@@ -9,25 +9,28 @@ _data = {
 }
 point_count = 2
 
-[node name="bridge" type="Node2D"]
+[node name="bridge" type="Path2D"]
+curve = SubResource("Curve2D_2gxg3")
 script = ExtResource("1_jahsf")
 plank_scene = ExtResource("2_31p0g")
 bottom_line_shift = Vector2(-35, 40)
+num_planks = 7
+
+[node name="follow" type="PathFollow2D" parent="."]
+position = Vector2(0.741176, 2)
+rotation = 0.270418
 
 [node name="top_line" type="Line2D" parent="."]
 width = 5.0
 default_color = Color(0.470588, 0.298039, 0.231373, 1)
+begin_cap_mode = 2
+end_cap_mode = 2
 
 [node name="bottom_line" type="Line2D" parent="."]
 width = 5.0
 default_color = Color(0.470588, 0.298039, 0.231373, 1)
-
-[node name="top" type="Path2D" parent="."]
-curve = SubResource("Curve2D_2gxg3")
-
-[node name="follow" type="PathFollow2D" parent="top"]
-position = Vector2(0.741176, 2)
-rotation = 0.270418
+begin_cap_mode = 2
+end_cap_mode = 2
 
 [node name="crumble_timer" type="Timer" parent="."]
 one_shot = true
