@@ -8,6 +8,8 @@ extends Node2D
 ## remains constant
 @export var screen_fraction = 0.75
 
+@export var screen_shake_decay_rate = 0.9
+
 signal shake_screen(strength)
 
 @onready var rand = RandomNumberGenerator.new()
@@ -63,6 +65,9 @@ func _process(delta: float) -> void:
 
     apply_screen_shake()
 
+func _on_shake_screen(strength) -> void:
+    start_screen_shake(strength)
+
 func start_screen_shake(strength):
     shake_strength = strength
     apply_screen_shake()
@@ -74,8 +79,5 @@ func apply_screen_shake():
         rand.randf_range(-shake_strength, shake_strength)
     )
     # Decay the shake strength
-    shake_strength = lerp(shake_strength, 0, 2.5)
+    shake_strength *= screen_shake_decay_rate
 
-
-func _on_shake_screen(strength) -> void:
-    start_screen_shake(strength)

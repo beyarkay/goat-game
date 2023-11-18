@@ -38,6 +38,7 @@ var is_knocked_out: bool = false
 @onready var health_regen_timeout: Timer = $health_regen_timeout as Timer
 
 signal health_change(player, new_health)
+signal shake_screen(strength)
 
 # constants
 const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
@@ -143,10 +144,12 @@ func _on_area_2d_body_entered(body):
 func hit(damage: float) -> void:
     print(self, " has been hit with ", damage, " damage")
     if !is_knocked_out:
-
+        shake_screen.emit(0.5 * damage * (2.0 if health == 0 else 1.0))
         health -= damage
         if health < 0: health = 0
         health_change.emit(player, health)
+    else:
+        shake_screen.emit(damage * 0.1)
     if health == 0:
         print("knocked out!")
         is_knocked_out = true
