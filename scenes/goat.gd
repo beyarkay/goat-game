@@ -8,10 +8,17 @@ extends CharacterBody2D
 @export var jump_vel: float = -750.0
 @export var run_acc: float = 30.0
 @export var run_dec: float = 70.0
-@export var max_hor_vel: float = 700.0
+@export var max_hor_vel: float = 600
 
 @export_category("Inputs")
 @export var input_buffer_duration: float = 0.15
+
+@export_category("Attacks")
+@export var charge_damage: float = 100
+@export var charge_vel_threshold: float = max_hor_vel
+@export var charge_buildup_time: float = 0.5
+@onready var charge_timeout: Timer = $charge_timeout as Timer
+var charging: bool = false
 
 # constants
 const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
@@ -28,6 +35,7 @@ var input_buffer = null
 
 func _ready() -> void:
 	input_buffer_timeout.wait_time = input_buffer_duration
+	charge_timeout.wait_time = charge_buildup_time
 
 func find_ground():
 	# scan down to find first colliding object in "ground" group;
@@ -48,7 +56,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y = jump_vel
 	if jumping and not on_floor:
 		input_buffer = "jump"
-
+	
 	var direction: float = Input.get_axis("p%d_left" % player, "p%d_right" % player)
 	if direction:
 		var acc: float = run_acc
@@ -58,25 +66,40 @@ func _physics_process(delta: float) -> void:
 		sprite.flip_h = direction < 0
 	else:
 		velocity.x = move_toward(velocity.x, 0, run_dec)
+	
+	if abs(velocity.x) == charge_vel_threshold && on_floor:
+		if charge_timeout.time_left == 0:
+			charge_timeout.start()
+	else:
+		charge_timeout.stop()
+		charging = false
 		
 	move_and_slide()
 
 func _process(_delta: float) -> void:
 	# animate sprite based on current movement direction
 	if velocity.length() > MIN_ANIMATED_RUN_SPEED:
-		sprite.play("running")
+		if charging:
+			sprite.play("charging")
+		else:
+			sprite.play("running")
 	else:
 		sprite.play("idle")
 
 func _on_input_buffer_timeout_timeout() -> void:
 	input_buffer = null
 
+func _on_area_2d_body_entered(body):
+	if (body.is_in_group("player") && body.player == self.player || !body.has_method("hit")):
+		return
+	if (charging):
+		body.hit(charge_damage)
+
 func hit(damage: float) -> void:
 	print(self, " has taken ", damage, " damage")
 	pass
 
-func _on_area_2d_body_entered(body):
-	if (body.is_in_group("player") && body.player == self.player):
-		return
-	if (body.has_method("hit")):
-		body.hit(1)
+
+func _on_charge_timeout_timeout() -> void:
+	print("charge ready")
+	charging = true
