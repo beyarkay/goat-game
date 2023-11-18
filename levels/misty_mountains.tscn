@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bjakcbtf5w4nv"]
+[gd_scene load_steps=9 format=3 uid="uid://bjakcbtf5w4nv"]
 
 [ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_v4fsq"]
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_ohq1e"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://tkumhbh3nbkk" path="res://scenes/box.tscn" id="4_3kw4m"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="4_ccj1x"]
 [ext_resource type="PackedScene" uid="uid://dd1xc6nxlvpuy" path="res://scenes/cable_car.tscn" id="5_58ujl"]
+[ext_resource type="PackedScene" uid="uid://djja458gq1tos" path="res://scenes/camera.tscn" id="7_of0sv"]
 
 [sub_resource type="Curve2D" id="Curve2D_qmsqm"]
 _data = {
@@ -73,6 +74,12 @@ script = ExtResource("2_ohq1e")
 [node name="box" parent="." instance=ExtResource("4_3kw4m")]
 position = Vector2(104, 48)
 
+[node name="box" parent="box" instance=ExtResource("4_3kw4m")]
+position = Vector2(144, 168)
+
+[node name="box" parent="box/box" instance=ExtResource("4_3kw4m")]
+position = Vector2(-16, -64)
+
 [node name="CharacterBody2D2" parent="." instance=ExtResource("4_ccj1x")]
 position = Vector2(472, 64)
 
@@ -84,17 +91,9 @@ player = 2
 position = Vector2(16, 48)
 curve = SubResource("Curve2D_qmsqm")
 
-[node name="box6" parent="." instance=ExtResource("4_3kw4m")]
-position = Vector2(2016, 368)
-mass = 0.1
-
 [node name="box2" parent="." instance=ExtResource("4_3kw4m")]
 position = Vector2(1078, 152)
 rotation = 0.0801971
-mass = 0.1
-
-[node name="box4" parent="." instance=ExtResource("4_3kw4m")]
-position = Vector2(1864, 312)
 mass = 0.1
 
 [node name="box5" parent="." instance=ExtResource("4_3kw4m")]
@@ -125,3 +124,5 @@ mass = 0.1
 position = Vector2(1045, -8)
 rotation = 0.0106273
 mass = 0.1
+
+[node name="camera_pivot" parent="." instance=ExtResource("7_of0sv")]
