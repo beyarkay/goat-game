@@ -1,22 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://50yyteppwyus"]
+[gd_scene load_steps=7 format=3 uid="uid://50yyteppwyus"]
 
 [ext_resource type="Texture2D" uid="uid://bgkvuia5h1kkl" path="res://assets/background_art/background.png" id="1_ok0je"]
 [ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_oncvh"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="2_7yjoa"]
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_m0bcc"]
-[ext_resource type="PackedScene" uid="uid://dn606s03i2mqs" path="res://scenes/bridge.tscn" id="5_0ruik"]
 [ext_resource type="PackedScene" uid="uid://dd1xc6nxlvpuy" path="res://scenes/cable_car.tscn" id="5_7qenv"]
-[ext_resource type="PackedScene" uid="uid://un6b3f3emwrj" path="res://scenes/box.tscn" id="6_exi08"]
 
-[sub_resource type="Curve2D" id="Curve2D_bmgey"]
+[sub_resource type="Curve2D" id="Curve2D_moalc"]
 _data = {
-"points": PackedVector2Array(-183.336, -50.8221, 183.336, 50.8221, 2, -13, 0, 0, 0, 0, 269, -18)
-}
-point_count = 2
-
-[sub_resource type="Curve2D" id="Curve2D_6di2j"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 337, 103)
+"points": PackedVector2Array(0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 302, 175)
 }
 point_count = 2
 
@@ -52,20 +44,14 @@ metadata/_edit_group_ = true
 polygon = PackedVector2Array(400, 88, 384, 112, 400, 160, 424, 184, 432, 312, 424, 376, 400, 384, 312, 376, 288, 392, 280, 424, 256, 480, 288, 528, 312, 584, 304, 648, 800, 648, 816, 480, 904, 400, 896, 352, 824, 344, 800, 296, 808, 248, 760, 208, 704, 184, 648, 264, 584, 232, 552, 144, 480, 112, 488, 80, 464, 56, 424, 56, 432, 80, 416, 88)
 script = ExtResource("2_m0bcc")
 
-[node name="box" parent="." instance=ExtResource("6_exi08")]
-position = Vector2(556, 123)
-
-[node name="bridge" parent="." instance=ExtResource("5_0ruik")]
-position = Vector2(130, 108)
-curve = SubResource("Curve2D_bmgey")
-
-[node name="cable_car" parent="." instance=ExtResource("5_7qenv")]
-position = Vector2(825, 131)
-curve = SubResource("Curve2D_6di2j")
-
 [node name="CharacterBody2D2" parent="." instance=ExtResource("2_7yjoa")]
 position = Vector2(720, 120)
-player = 2
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("2_7yjoa")]
 position = Vector2(363, 197)
+player = 2
+
+[node name="cable_car" parent="." instance=ExtResource("5_7qenv")]
+position = Vector2(827, 146)
+curve = SubResource("Curve2D_moalc")
+metadata/_edit_group_ = true

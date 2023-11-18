@@ -1,0 +1,70 @@
+[gd_scene load_steps=4 format=3 uid="uid://fv1sulsg8n2j"]
+
+[ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="1_16fea"]
+[ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="1_ukrxs"]
+[ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_y2eui"]
+
+[node name="in_the_mines" type="Node"]
+script = ExtResource("1_y2eui")
+
+[node name="decorations" type="Node" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="decorations"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.235294, 0.352941, 0.380392, 1)
+metadata/_edit_lock_ = true
+
+[node name="platforms" type="Node" parent="."]
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D2"]
+polygon = PackedVector2Array(1152, 192, 1128, 160, 1120, 160, 1104, 144, 1088, 128, 792, 128, 792, 216, 784, 224, 784, 256, 1080, 256, 1088, 264, 1088, 272, 1072, 296, 1064, 312, 1048, 320, 800, 320, 800, 408, 808, 528, 792, 544, 800, 552, 816, 560, 840, 552, 1088, 552, 1096, 568, 1080, 608, 1056, 616, 328, 616, 320, 624, 320, 640, 312, 648, 1152, 648)
+script = ExtResource("1_16fea")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D3"]
+polygon = PackedVector2Array(1040, 64, 1016, 24, 984, 0, 880, -56, 840, -64, 0, -64, 0, -16, 88, 24, 128, 48, 144, 88, 184, 96, 216, 64)
+script = ExtResource("1_16fea")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D4"]
+polygon = PackedVector2Array(696, 128, 256, 128, 248, 144, 248, 192, 256, 232, 264, 256, 568, 256, 704, 264, 712, 248, 696, 216, 696, 160)
+script = ExtResource("1_16fea")
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D5"]
+polygon = PackedVector2Array(688, 320, 688, 376, 688, 424, 696, 432, 688, 448, 704, 520, 704, 552, 312, 552, 304, 536, 304, 520, 624, 520, 656, 496, 664, 456, 640, 408, 552, 400, 472, 408, 456, 440, 448, 480, 304, 480, 296, 448, 296, 424, 304, 384, 296, 352, 280, 336, 280, 320, 424, 320, 440, 288, 464, 264, 504, 272, 520, 296, 528, 320, 584, 320)
+script = ExtResource("1_16fea")
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D7"]
+polygon = PackedVector2Array(64, 648, 64, 568, 72, 552, 56, 536, 48, 352, 40, 344, 48, 200, 40, 192, 40, 128, 32, 96, 16, 80, 0, 72, 0, 648)
+script = ExtResource("1_16fea")
+
+[node name="StaticBody2D10" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D10"]
+polygon = PackedVector2Array(0, 648, -8, 648, -8, -72, 1160, -72, 1160, 648, 1152, 648, 1152, 0, 0, -8)
+script = ExtResource("1_16fea")
+
+[node name="CharacterBody2D2" parent="." instance=ExtResource("1_ukrxs")]
+position = Vector2(64, 56)
+
+[node name="CharacterBody2D3" parent="." instance=ExtResource("1_ukrxs")]
+position = Vector2(1096, 64)
+player = 2
