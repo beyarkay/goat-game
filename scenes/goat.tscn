@@ -251,6 +251,7 @@ _data = {
 }
 
 [node name="goat" type="CharacterBody2D" groups=["player"]]
+z_index = 1
 rotation = 0.000241599
 floor_max_angle = 1.0472
 script = ExtResource("1_2in7i")

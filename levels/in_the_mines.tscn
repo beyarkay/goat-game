@@ -1,10 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://d02dup6g4omjq"]
+[gd_scene load_steps=8 format=3 uid="uid://d02dup6g4omjq"]
 
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="1_16fea"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="1_ukrxs"]
 [ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_y2eui"]
 [ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="2_kgufr"]
 [ext_resource type="PackedScene" uid="uid://djja458gq1tos" path="res://scenes/camera.tscn" id="4_cgcvx"]
+[ext_resource type="PackedScene" uid="uid://dd1xc6nxlvpuy" path="res://scenes/cable_car.tscn" id="6_esfnn"]
+
+[sub_resource type="Curve2D" id="Curve2D_hefw7"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 80, 632, 0, 0, 0, 0, 240, 40)
+}
+point_count = 2
 
 [node name="in_the_mines" type="Node"]
 script = ExtResource("1_y2eui")
@@ -75,5 +82,11 @@ position = Vector2(1008, 592)
 
 [node name="camera_pivot" parent="." instance=ExtResource("4_cgcvx")]
 
+[node name="cable_car" parent="." instance=ExtResource("6_esfnn")]
+curve = SubResource("Curve2D_hefw7")
+
 [connection signal="health_change" from="CharacterBody2D2" to="decorations/HUD" method="_on_health_change"]
+[connection signal="shake_screen" from="CharacterBody2D2" to="camera_pivot" method="_on_shake_screen"]
 [connection signal="health_change" from="CharacterBody2D3" to="decorations/HUD" method="_on_health_change"]
+[connection signal="shake_screen" from="CharacterBody2D3" to="camera_pivot" method="_on_shake_screen"]
+[connection signal="shake_screen" from="camera_pivot" to="camera_pivot" method="_on_shake_screen"]
