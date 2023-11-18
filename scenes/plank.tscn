@@ -1,7 +1,22 @@
-[gd_scene load_steps=7 format=3 uid="uid://rdgx5a0pac6n"]
+[gd_scene load_steps=7 format=3 uid="uid://pk1lu52dxw0p"]
 
 [ext_resource type="Script" path="res://scenes/plank.gd" id="1_rejyp"]
 [ext_resource type="Texture2D" uid="uid://beo6vxpjr5ak6" path="res://assets/plank.png" id="2_hwpqx"]
+
+[sub_resource type="Animation" id="Animation_pif5x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_qpnlp"]
 resource_name = "wobble"
@@ -18,21 +33,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [0.0, 0.141372, 0.0, -0.141372, 0.0, 0.141372, 0.0]
-}
-
-[sub_resource type="Animation" id="Animation_pif5x"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("sprite:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4pgyn"]
@@ -64,7 +64,8 @@ libraries = {
 position = Vector2(-4.75, 6.5)
 shape = SubResource("RectangleShape2D_xulgv")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="despawn_timer" type="Timer" parent="."]
+wait_time = 5.0
 
 [connection signal="animation_finished" from="wobbler" to="." method="_on_wobbler_animation_finished"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="despawn_timer" to="." method="_on_despawn_timer_timeout"]

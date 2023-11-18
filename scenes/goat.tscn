@@ -119,6 +119,7 @@ b = Vector2(17, 0)
 size = Vector2(28, 51)
 
 [node name="goat" type="CharacterBody2D" groups=["player"]]
+z_index = 1
 floor_max_angle = 1.0472
 script = ExtResource("1_2in7i")
 player = 1

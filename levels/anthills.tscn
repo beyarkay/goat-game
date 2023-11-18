@@ -1,0 +1,95 @@
+[gd_scene load_steps=5 format=3 uid="uid://dvt8fbml2xrq3"]
+
+[ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_3vass"]
+[ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_i7fye"]
+[ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="3_pifa8"]
+[ext_resource type="PackedScene" uid="uid://djja458gq1tos" path="res://scenes/camera.tscn" id="4_jgbv6"]
+
+[node name="anthills" type="Node"]
+script = ExtResource("1_3vass")
+
+[node name="decorations" type="Node" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="decorations"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.235294, 0.352941, 0.380392, 1)
+metadata/_edit_lock_ = true
+
+[node name="platforms" type="Node" parent="."]
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D2"]
+polygon = PackedVector2Array(304, 648, 768, 648, 744, 624, 664, 616, 568, 632, 448, 632, 392, 608, 336, 616, 288, 624)
+script = ExtResource("2_i7fye")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D3"]
+polygon = PackedVector2Array(0, 648, 0, 64, 72, 88, 96, 168, 120, 184, 128, 208, 112, 224, 112, 248, 128, 272, 96, 288, 112, 336, 120, 344, 112, 400, 120, 408, 112, 464, 120, 472, 112, 528, 136, 536, 96, 616, 104, 632, 208, 632, 232, 648)
+script = ExtResource("2_i7fye")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D4"]
+polygon = PackedVector2Array(272, 576, 240, 528, 232, 464, 264, 448, 376, 440, 496, 416, 560, 376, 584, 336, 616, 240, 624, 232, 624, 216, 656, 216, 680, 224, 688, 256, 696, 272, 672, 304, 640, 352, 632, 416, 656, 432, 664, 448, 656, 464, 584, 464, 544, 504, 480, 576, 392, 568, 328, 576)
+script = ExtResource("2_i7fye")
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D5"]
+polygon = PackedVector2Array(600, 576, 616, 544, 648, 544, 736, 536, 768, 544, 768, 568, 728, 568, 696, 568, 672, 568, 656, 576, 616, 576, 608, 592, 552, 600, 568, 584, 584, 584)
+script = ExtResource("2_i7fye")
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D6"]
+polygon = PackedVector2Array(224, 408, 232, 368, 248, 352, 272, 280, 264, 240, 248, 232, 248, 208, 296, 208, 376, 200, 432, 184, 544, 184, 576, 200, 552, 256, 544, 288, 536, 320, 504, 328, 464, 312, 352, 320, 288, 352, 280, 408, 240, 416)
+script = ExtResource("2_i7fye")
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D7"]
+polygon = PackedVector2Array(312, 96, 280, 112, 256, 160, 304, 160, 376, 144, 440, 128, 512, 128, 600, 136, 704, 160, 768, 184, 800, 216, 848, 232, 864, 216, 848, 192, 840, 120, 800, 112, 672, 88, 592, 88, 480, 88, 384, 88)
+script = ExtResource("2_i7fye")
+
+[node name="StaticBody2D8" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D8"]
+polygon = PackedVector2Array(736, 240, 744, 232, 792, 264, 848, 280, 872, 280, 888, 288, 880, 352, 888, 360, 880, 456, 888, 464, 880, 520, 880, 544, 816, 544, 784, 488, 760, 472, 736, 432, 736, 384, 752, 368, 736, 312, 752, 296, 744, 264)
+script = ExtResource("2_i7fye")
+
+[node name="StaticBody2D9" type="StaticBody2D" parent="platforms" groups=["ground"]]
+position = Vector2(16, 0)
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D9"]
+polygon = PackedVector2Array(1136, 648, 1136, 128, 1120, 136, 1112, 208, 1056, 208, 1008, 232, 992, 288, 1008, 320, 1048, 360, 1080, 400, 1088, 488, 1048, 552, 992, 568, 944, 568, 944, 608, 920, 624, 880, 624, 832, 624, 824, 648)
+script = ExtResource("2_i7fye")
+
+[node name="StaticBody2D10" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D10"]
+polygon = PackedVector2Array(0, 648, -8, 648, -8, -72, 1160, -72, 1160, 648, 1152, 648, 1152, -64, 0, -64)
+script = ExtResource("2_i7fye")
+
+[node name="CharacterBody2D2" parent="." instance=ExtResource("3_pifa8")]
+position = Vector2(64, 56)
+
+[node name="CharacterBody2D3" parent="." instance=ExtResource("3_pifa8")]
+position = Vector2(1096, 64)
+player = 2
+
+[node name="camera_pivot" parent="." instance=ExtResource("4_jgbv6")]

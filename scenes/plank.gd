@@ -2,6 +2,7 @@ class_name Plank
 extends RigidBody2D
 
 @onready var wobbler: AnimationPlayer = $wobbler as AnimationPlayer
+@onready var despawn_timer: Timer = $despawn_timer as Timer
 
 const TOTAL_WOBBLES = 7
 
@@ -12,6 +13,7 @@ func fall() -> void:
 	lock_rotation = false
 	freeze = false
 	angular_velocity = randf_range(-10, 10)
+	despawn_timer.start()
 
 func begin_fall() -> void:
 	wobbler.play("wobble")
@@ -28,5 +30,5 @@ func _on_wobbler_animation_finished(_anim_name: StringName) -> void:
 	else:
 		wobbler.play()
 
-func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+func _on_despawn_timer_timeout() -> void:
 	queue_free()
