@@ -182,9 +182,11 @@ _data = {
 }
 
 [node name="goat" type="CharacterBody2D" groups=["player"]]
-rotation = 0.000241599
+z_index = 1
 floor_max_angle = 1.0472
 script = ExtResource("1_2in7i")
+player = 1
+jump_vel = -550.0
 metadata/_edit_group_ = true
 
 [node name="collider" type="CollisionShape2D" parent="."]
