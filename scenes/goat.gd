@@ -11,6 +11,7 @@ extends CharacterBody2D
 @export var run_acc: float = 30.0
 @export var run_dec: float = 70.0
 @export var max_hor_vel: float = 600
+@export var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export_category("Inputs")
 @export var input_buffer_duration: float = 0.15
@@ -22,7 +23,8 @@ extends CharacterBody2D
 @onready var charge_timeout: Timer = $charge_timeout as Timer
 var is_charging: bool = false
 
-@export_category("Fall Attack")
+@export_category("Slam Attack")
+@export var slam_damage: float = 100
 @export var max_falling_damage: float = 100
 var slamming_dec: float = 10
 var is_slamming: bool = false
@@ -34,9 +36,6 @@ const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
 @onready var sprite: AnimatedSprite2D = $sprite as AnimatedSprite2D
 @onready var floor_test: ShapeCast2D = $floor_test as ShapeCast2D
 @onready var input_buffer_timeout: Timer = $input_buffer_timeout as Timer
-
-# get gravity from project settings to sync with RigidBody nodes
-var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var input_buffer = null
 
@@ -69,21 +68,29 @@ func _physics_process(delta: float) -> void:
 		var acc: float = run_acc
 		if sign(velocity.x) != sign(direction): acc = run_dec
 		velocity.x = move_toward(velocity.x, direction * max_hor_vel, acc)
-		$attack_area.scale.x = direction
-		sprite.flip_h = direction < 0
 	elif is_slamming:
 		velocity.x = move_toward(velocity.x, 0, slamming_dec)
 	else:
 		velocity.x = move_toward(velocity.x, 0, run_dec)
+
+	if direction:
+		$attack_area.scale.x = direction
+		sprite.flip_h = direction < 0
+		
 		
 	# Falling attack
 	if Input.is_action_just_pressed("p%d_down" % player) and !on_floor:
 		is_slamming = true
-		$AnimationPlayer.play("slamming")
+		gravity *= 2.5
+		if sprite.flip_h:
+			animation.play("slamming_left")
+		else:
+			animation.play("slamming_right")
 		
 	if on_floor:
 		is_slamming = false
-		$AnimationPlayer.stop()
+		gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+		animation.stop()
 	
 	# charging attack
 	if abs(velocity.x) == charge_vel_threshold && on_floor:
@@ -115,6 +122,8 @@ func _on_area_2d_body_entered(body):
 		return
 	if (is_charging):
 		body.hit(charge_damage)
+	if (is_slamming):
+		body.hit(slam_damage)
 
 func hit(damage: float) -> void:
 	print(self, " has taken ", damage, " damage")

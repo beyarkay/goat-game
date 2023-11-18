@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ypx8ekjf3e6v" path="res://assets/goat/spritesheets/charge.png" id="2_srj55"]
 [ext_resource type="Texture2D" uid="uid://dml3t6s147ax" path="res://assets/goat/spritesheets/idle.png" id="2_t8pnn"]
 [ext_resource type="Texture2D" uid="uid://daaa5n1pvsgys" path="res://assets/goat/spritesheets/running.png" id="3_ctjsc"]
-[ext_resource type="Texture2D" uid="uid://b5nikspex6p6b" path="res://assets/goat/spritesheets/falling.png" id="3_diymy"]
+[ext_resource type="Texture2D" path="res://assets/goat/spritesheets/falling.png" id="3_diymy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_01sup"]
 radius = 12.0
@@ -146,7 +146,7 @@ b = Vector2(17, 0)
 size = Vector2(28, 51)
 
 [sub_resource type="Animation" id="Animation_dhr6c"]
-resource_name = "slamming"
+resource_name = "slamming_right"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -160,8 +160,8 @@ tracks/0/keys = {
 "values": [0.000241599, 1.9481]
 }
 
-[sub_resource type="Animation" id="Animation_tavck"]
-resource_name = "idle"
+[sub_resource type="Animation" id="Animation_xq4x5"]
+resource_name = "slamming_left"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -169,23 +169,22 @@ tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": []
+"values": [0.000241599, -1.94779]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sxpwc"]
 _data = {
-"idle": SubResource("Animation_tavck"),
-"slamming": SubResource("Animation_dhr6c")
+"slamming_left": SubResource("Animation_xq4x5"),
+"slamming_right": SubResource("Animation_dhr6c")
 }
 
 [node name="goat" type="CharacterBody2D" groups=["player"]]
+rotation = 0.000241599
 floor_max_angle = 1.0472
 script = ExtResource("1_2in7i")
-player = 1
-jump_vel = -550.0
 metadata/_edit_group_ = true
 
 [node name="collider" type="CollisionShape2D" parent="."]
@@ -216,6 +215,7 @@ position = Vector2(21, -8.5)
 shape = SubResource("RectangleShape2D_408vh")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_process_mode = 0
 libraries = {
 "": SubResource("AnimationLibrary_sxpwc")
 }

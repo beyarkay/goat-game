@@ -18,7 +18,7 @@ script = ExtResource("1_atsoa")
 [node name="goat" parent="." instance=ExtResource("2_13alk")]
 position = Vector2(54, 421)
 scale = Vector2(1, 0.937109)
+player = 1
 
 [node name="goat2" parent="." instance=ExtResource("2_13alk")]
 position = Vector2(876, 467)
-player = 2
