@@ -54,6 +54,8 @@ func _physics_process(delta: float) -> void:
 		var acc: float = run_acc
 		if sign(velocity.x) != sign(direction): acc = run_dec
 		velocity.x = move_toward(velocity.x, direction * max_hor_vel, acc)
+		$attack_area.scale.x = direction
+		sprite.flip_h = direction < 0
 	else:
 		velocity.x = move_toward(velocity.x, 0, run_dec)
 		
@@ -61,8 +63,6 @@ func _physics_process(delta: float) -> void:
 
 func _process(_delta: float) -> void:
 	# animate sprite based on current movement direction
-	var direction: float = Input.get_axis("p%d_left" % player, "p%d_right" % player)
-	if direction != 0: sprite.flip_h = direction < 0
 	if velocity.length() > MIN_ANIMATED_RUN_SPEED:
 		sprite.play("running")
 	else:
@@ -70,3 +70,13 @@ func _process(_delta: float) -> void:
 
 func _on_input_buffer_timeout_timeout() -> void:
 	input_buffer = null
+
+func hit(damage: float) -> void:
+	print(self, " has taken ", damage, " damage")
+	pass
+
+func _on_area_2d_body_entered(body):
+	if (body.is_in_group("player") && body.player == self.player):
+		return
+	if (body.has_method("hit")):
+		body.hit(1)
