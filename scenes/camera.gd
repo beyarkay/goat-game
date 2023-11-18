@@ -74,7 +74,7 @@ func apply_screen_shake():
         rand.randf_range(-shake_strength, shake_strength)
     )
     # Decay the shake strength
-    shake_strength = lerp(shake_strength, 0, 2.5)
+    shake_strength = lerp(shake_strength, 0.0, 2.5)
 
 
 func _on_shake_screen(strength) -> void:
