@@ -15,6 +15,7 @@ extends CharacterBody2D
 
 @export_category("Inputs")
 @export var input_buffer_duration: float = 0.15
+@onready var input_buffer_timeout: Timer = $input_buffer_timeout as Timer
 
 @export_category("Charge Attack")
 @export var charge_damage: float = 100
@@ -26,8 +27,18 @@ var is_charging: bool = false
 @export_category("Slam Attack")
 @export var slam_damage: float = 100
 @export var max_falling_damage: float = 100
+@export var slam_gravity_multiplier: float = 1.75
 var slamming_dec: float = 10
 var is_slamming: bool = false
+
+@export_category("Stats")
+@export var init_health: float = 200
+var health: float = init_health
+var is_knocked_out: bool = false
+@export var health_regen_duration: float = 10
+@onready var health_regen_timeout: Timer = $health_regen_timeout as Timer
+
+signal health_change(player, new_health)
 
 # constants
 const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
@@ -35,13 +46,13 @@ const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
 # child nodes
 @onready var sprite: AnimatedSprite2D = $sprite as AnimatedSprite2D
 @onready var floor_test: ShapeCast2D = $floor_test as ShapeCast2D
-@onready var input_buffer_timeout: Timer = $input_buffer_timeout as Timer
 
 var input_buffer = null
 
 func _ready() -> void:
 	input_buffer_timeout.wait_time = input_buffer_duration
 	charge_timeout.wait_time = charge_buildup_time
+	health_regen_timeout.wait_time = health_regen_duration
 
 func find_ground():
 	# scan down to find first colliding object in "ground" group;
@@ -52,6 +63,9 @@ func find_ground():
 	return [false, Vector2(0, -1)]
 
 func _physics_process(delta: float) -> void:
+	if is_knocked_out:
+		return
+	
 	var on_floor = is_on_floor()
 	
 	if not on_floor:
@@ -81,7 +95,7 @@ func _physics_process(delta: float) -> void:
 	# Falling attack
 	if Input.is_action_just_pressed("p%d_down" % player) and !on_floor:
 		is_slamming = true
-		gravity *= 2.5
+		gravity *= slam_gravity_multiplier
 		if sprite.flip_h:
 			animation.play("slamming_left")
 		else:
@@ -126,10 +140,23 @@ func _on_area_2d_body_entered(body):
 		body.hit(slam_damage)
 
 func hit(damage: float) -> void:
-	print(self, " has taken ", damage, " damage")
-	pass
+	print(self, " has been hit with ", damage, " damage")
+	if !is_knocked_out:
+		health -= damage
+		if health < 0: health = 0
+		health_change.emit(player, health)
+	if health == 0:
+		print("knocked out!")
+		is_knocked_out = true
+		health_regen_timeout.start()
 
 
 func _on_charge_timeout_timeout() -> void:
-	print("charge ready")
 	is_charging = true
+
+
+func _on_health_regen_timeout_timeout():
+	health = init_health
+	is_knocked_out = false
+	print("no longer knocked out")
+	pass # Replace with function body.
