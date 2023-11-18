@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://fv1sulsg8n2j"]
+[gd_scene load_steps=5 format=3 uid="uid://fv1sulsg8n2j"]
 
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="1_16fea"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="1_ukrxs"]
 [ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_y2eui"]
+[ext_resource type="PackedScene" uid="uid://djja458gq1tos" path="res://scenes/camera.tscn" id="4_cgcvx"]
 
 [node name="in_the_mines" type="Node"]
 script = ExtResource("1_y2eui")
@@ -63,8 +64,10 @@ polygon = PackedVector2Array(0, 648, -8, 648, -8, -72, 1160, -72, 1160, 648, 115
 script = ExtResource("1_16fea")
 
 [node name="CharacterBody2D2" parent="." instance=ExtResource("1_ukrxs")]
-position = Vector2(64, 56)
+position = Vector2(264, 104)
 
 [node name="CharacterBody2D3" parent="." instance=ExtResource("1_ukrxs")]
 position = Vector2(1096, 64)
 player = 2
+
+[node name="camera_pivot" parent="." instance=ExtResource("4_cgcvx")]
