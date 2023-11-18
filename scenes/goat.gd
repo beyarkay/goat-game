@@ -37,6 +37,7 @@ var is_knocked_out: bool = false
 @export var health_regen_duration: float = 8
 @onready var health_regen_timeout: Timer = $health_regen_timeout as Timer
 
+var SPAWN_POS: Vector2 # initialised in _ready()
 signal health_change(player, new_health)
 signal shake_screen(strength)
 
@@ -53,6 +54,7 @@ func _ready() -> void:
 	input_buffer_timeout.wait_time = input_buffer_duration
 	charge_timeout.wait_time = charge_buildup_time
 	health_regen_timeout.wait_time = health_regen_duration
+	SPAWN_POS = position
 
 func find_ground():
 	# scan down to find first colliding object in "ground" group;
@@ -165,3 +167,12 @@ func _on_health_regen_timeout_timeout():
 	health_change.emit(player, health)
 	is_knocked_out = false
 	print("no longer knocked out")
+
+
+func respawn() -> void:
+	shake_screen.emit(50)
+	health = GlobalState.GOAT_HEALTH_MAX
+	health_change.emit(player, health)
+	is_knocked_out = false
+	position = SPAWN_POS
+	velocity = Vector2.ZERO
