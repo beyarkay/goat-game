@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bjakcbtf5w4nv"]
+[gd_scene load_steps=8 format=3 uid="uid://bjakcbtf5w4nv"]
 
 [ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_v4fsq"]
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_ohq1e"]
 [ext_resource type="Texture2D" uid="uid://dc7uicde2x8yq" path="res://assets/background_art/mountain_bg.png" id="3_2p7hq"]
+[ext_resource type="PackedScene" uid="uid://tkumhbh3nbkk" path="res://scenes/box.tscn" id="4_3kw4m"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="4_ccj1x"]
 [ext_resource type="PackedScene" uid="uid://dd1xc6nxlvpuy" path="res://scenes/cable_car.tscn" id="5_58ujl"]
 
@@ -45,7 +46,7 @@ script = ExtResource("2_ohq1e")
 metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D11"]
-polygon = PackedVector2Array(456, 520, 720, 504, 720, 496, 712, 488, 680, 384, 672, 376, 664, 280, 656, 272, 648, 168, 576, 96, 512, 88, 480, 96, 448, 272, 440, 280, 424, 416, 416, 424, 408, 512, 416, 520, 432, 536)
+polygon = PackedVector2Array(456, 520, 720, 504, 720, 496, 712, 488, 680, 376, 672, 368, 664, 280, 656, 272, 648, 168, 576, 96, 512, 88, 480, 96, 448, 272, 440, 280, 424, 416, 416, 424, 408, 512, 416, 520, 432, 536)
 script = ExtResource("2_ohq1e")
 
 [node name="StaticBody2D12" type="StaticBody2D" parent="platforms" groups=["ground"]]
@@ -59,8 +60,18 @@ script = ExtResource("2_ohq1e")
 metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D13"]
-polygon = PackedVector2Array(1152, 648, 1152, 352, 1112, 272, 1008, 272, 968, 432, 960, 440, 960, 472, 928, 632, 921.975, 639.308, 920, 648)
+polygon = PackedVector2Array(1152, 648, 1152, 56, 1144, 80, 1136, 176, 1120, 248, 1112, 272, 1024, 272, 1008, 280, 968, 432, 960, 440, 960, 472, 928, 632, 921.975, 639.308, 920, 648)
 script = ExtResource("2_ohq1e")
+
+[node name="StaticBody2D14" type="StaticBody2D" parent="platforms" groups=["ground"]]
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D14"]
+polygon = PackedVector2Array(0, 648, 0, 0, 0, -64, 1152, -64, 1152, 648, 1160, 648, 1160, -72, -8, -72, -8, 648)
+script = ExtResource("2_ohq1e")
+
+[node name="box" parent="." instance=ExtResource("4_3kw4m")]
+position = Vector2(104, 48)
 
 [node name="CharacterBody2D2" parent="." instance=ExtResource("4_ccj1x")]
 position = Vector2(472, 64)
@@ -72,3 +83,45 @@ player = 2
 [node name="cable_car" parent="." instance=ExtResource("5_58ujl")]
 position = Vector2(16, 48)
 curve = SubResource("Curve2D_qmsqm")
+
+[node name="box6" parent="." instance=ExtResource("4_3kw4m")]
+position = Vector2(2016, 368)
+mass = 0.1
+
+[node name="box2" parent="." instance=ExtResource("4_3kw4m")]
+position = Vector2(1078, 152)
+rotation = 0.0801971
+mass = 0.1
+
+[node name="box4" parent="." instance=ExtResource("4_3kw4m")]
+position = Vector2(1864, 312)
+mass = 0.1
+
+[node name="box5" parent="." instance=ExtResource("4_3kw4m")]
+position = Vector2(1080, 232)
+rotation = 0.0106273
+mass = 0.1
+
+[node name="box3" parent="." instance=ExtResource("4_3kw4m")]
+position = Vector2(544, 40)
+mass = 0.1
+
+[node name="box7" parent="." instance=ExtResource("4_3kw4m")]
+position = Vector2(1080, 32)
+rotation = 0.0106273
+mass = 0.1
+
+[node name="box8" parent="." instance=ExtResource("4_3kw4m")]
+position = Vector2(1081, -39)
+rotation = 0.0106273
+mass = 0.1
+
+[node name="box9" parent="." instance=ExtResource("4_3kw4m")]
+position = Vector2(1041, 65)
+rotation = 0.0106273
+mass = 0.1
+
+[node name="box10" parent="." instance=ExtResource("4_3kw4m")]
+position = Vector2(1045, -8)
+rotation = 0.0106273
+mass = 0.1
