@@ -1,10 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://50yyteppwyus"]
+[gd_scene load_steps=7 format=3 uid="uid://50yyteppwyus"]
 
 [ext_resource type="Texture2D" uid="uid://bgkvuia5h1kkl" path="res://assets/background_art/background.png" id="1_ok0je"]
 [ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_oncvh"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="2_7yjoa"]
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_m0bcc"]
 [ext_resource type="PackedScene" uid="uid://dd1xc6nxlvpuy" path="res://scenes/cable_car.tscn" id="5_7qenv"]
+
+[sub_resource type="Curve2D" id="Curve2D_moalc"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 302, 175)
+}
+point_count = 2
 
 [node name="root" type="Node"]
 script = ExtResource("1_oncvh")
@@ -45,13 +51,7 @@ position = Vector2(720, 120)
 position = Vector2(363, 197)
 player = 1
 
-[node name="cable_car" parent="." node_paths=PackedStringArray("from", "to") instance=ExtResource("5_7qenv")]
-speed = 0.05
-from = NodePath("cable_car_from")
-to = NodePath("cable_car_to")
-
-[node name="cable_car_from" type="Marker2D" parent="cable_car"]
-position = Vector2(600, 176)
-
-[node name="cable_car_to" type="Marker2D" parent="cable_car"]
-position = Vector2(1120, 120)
+[node name="cable_car" parent="." instance=ExtResource("5_7qenv")]
+position = Vector2(827, 146)
+curve = SubResource("Curve2D_moalc")
+metadata/_edit_group_ = true
