@@ -10,7 +10,7 @@
 
 [sub_resource type="Curve2D" id="Curve2D_qmsqm"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 184, 352, 0, 0, 0, 0, 392, 56)
+"points": PackedVector2Array(0, 0, 0, 0, 64, 368, 0, 0, 0, 0, 392, 56)
 }
 point_count = 2
 
@@ -88,7 +88,7 @@ position = Vector2(584, 64)
 player = 2
 
 [node name="cable_car" parent="." instance=ExtResource("5_58ujl")]
-position = Vector2(16, 48)
+position = Vector2(72, -64)
 curve = SubResource("Curve2D_qmsqm")
 
 [node name="box2" parent="." instance=ExtResource("4_3kw4m")]
@@ -119,3 +119,7 @@ position = Vector2(1045, -8)
 rotation = 0.0106273
 
 [node name="camera_pivot" parent="." instance=ExtResource("7_of0sv")]
+zoom_out_step_size = 0.004
+
+[node name="box4" parent="." instance=ExtResource("4_3kw4m")]
+position = Vector2(207.173, 93.1838)
