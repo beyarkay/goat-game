@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://bjakcbtf5w4nv"]
+[gd_scene load_steps=9 format=3 uid="uid://rghbj8tsqlh7"]
 
 [ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_v4fsq"]
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_ohq1e"]
-[ext_resource type="Texture2D" uid="uid://dc7uicde2x8yq" path="res://assets/background_art/mountain_bg.png" id="3_2p7hq"]
+[ext_resource type="Texture2D" path="res://assets/background_art/mountain_bg.png" id="3_2p7hq"]
 [ext_resource type="PackedScene" uid="uid://tkumhbh3nbkk" path="res://scenes/box.tscn" id="4_3kw4m"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="4_ccj1x"]
 [ext_resource type="PackedScene" uid="uid://dd1xc6nxlvpuy" path="res://scenes/cable_car.tscn" id="5_58ujl"]
@@ -94,35 +94,28 @@ curve = SubResource("Curve2D_qmsqm")
 [node name="box2" parent="." instance=ExtResource("4_3kw4m")]
 position = Vector2(1078, 152)
 rotation = 0.0801971
-mass = 0.1
 
 [node name="box5" parent="." instance=ExtResource("4_3kw4m")]
 position = Vector2(1080, 232)
 rotation = 0.0106273
-mass = 0.1
 
 [node name="box3" parent="." instance=ExtResource("4_3kw4m")]
 position = Vector2(544, 40)
-mass = 0.1
 
 [node name="box7" parent="." instance=ExtResource("4_3kw4m")]
 position = Vector2(1080, 32)
 rotation = 0.0106273
-mass = 0.1
 
 [node name="box8" parent="." instance=ExtResource("4_3kw4m")]
 position = Vector2(1081, -39)
 rotation = 0.0106273
-mass = 0.1
 
 [node name="box9" parent="." instance=ExtResource("4_3kw4m")]
 position = Vector2(1041, 65)
 rotation = 0.0106273
-mass = 0.1
 
 [node name="box10" parent="." instance=ExtResource("4_3kw4m")]
 position = Vector2(1045, -8)
 rotation = 0.0106273
-mass = 0.1
 
 [node name="camera_pivot" parent="." instance=ExtResource("7_of0sv")]

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://ccxij2dog7r5q"]
+[gd_scene load_steps=5 format=3 uid="uid://dvt8fbml2xrq3"]
 
 [ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_3vass"]
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_i7fye"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="3_pifa8"]
+[ext_resource type="PackedScene" uid="uid://djja458gq1tos" path="res://scenes/camera.tscn" id="4_jgbv6"]
 
 [node name="anthills" type="Node"]
 script = ExtResource("1_3vass")
@@ -90,3 +91,5 @@ position = Vector2(64, 56)
 [node name="CharacterBody2D3" parent="." instance=ExtResource("3_pifa8")]
 position = Vector2(1096, 64)
 player = 2
+
+[node name="camera_pivot" parent="." instance=ExtResource("4_jgbv6")]
