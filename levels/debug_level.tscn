@@ -7,9 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://dd1xc6nxlvpuy" path="res://scenes/cable_car.tscn" id="5_7qenv"]
 [ext_resource type="PackedScene" uid="uid://un6b3f3emwrj" path="res://scenes/box.tscn" id="6_exi08"]
 
-[sub_resource type="Curve2D" id="Curve2D_moalc"]
+[sub_resource type="Curve2D" id="Curve2D_6di2j"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 302, 175)
+"points": PackedVector2Array(0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 337, 103)
 }
 point_count = 2
 
@@ -48,14 +48,13 @@ script = ExtResource("2_m0bcc")
 [node name="box" parent="." instance=ExtResource("6_exi08")]
 position = Vector2(556, 123)
 
+[node name="cable_car" parent="." instance=ExtResource("5_7qenv")]
+position = Vector2(825, 131)
+curve = SubResource("Curve2D_6di2j")
+
 [node name="CharacterBody2D2" parent="." instance=ExtResource("2_7yjoa")]
 position = Vector2(720, 120)
 player = 2
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("2_7yjoa")]
 position = Vector2(363, 197)
-
-[node name="cable_car" parent="." instance=ExtResource("5_7qenv")]
-position = Vector2(827, 146)
-curve = SubResource("Curve2D_moalc")
-metadata/_edit_group_ = true

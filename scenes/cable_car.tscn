@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dd1xc6nxlvpuy"]
+[gd_scene load_steps=8 format=3 uid="uid://dd1xc6nxlvpuy"]
 
-[ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_5aadb"]
+[ext_resource type="Script" path="res://scenes/cable_car.gd" id="1_6k6y5"]
+[ext_resource type="Texture2D" uid="uid://mefwxyn37x5f" path="res://assets/ski_lift.png" id="3_ysbbp"]
 
-[sub_resource type="Curve2D" id="Curve2D_7swgw"]
+[sub_resource type="Curve2D" id="Curve2D_5ao03"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 360, 328)
+"points": PackedVector2Array(0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 561, 217)
 }
 point_count = 2
 
@@ -51,16 +52,15 @@ _data = {
 }
 
 [node name="cable_car" type="Path2D"]
-curve = SubResource("Curve2D_7swgw")
+curve = SubResource("Curve2D_5ao03")
+script = ExtResource("1_6k6y5")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 position = Vector2(0, -1)
-rotation = 0.377566
 rotates = false
 
 [node name="RigidBody2D" type="RigidBody2D" parent="PathFollow2D"]
-position = Vector2(-46.1967, -10.764)
-rotation = -0.369099
+position = Vector2(-39, 58)
 physics_material_override = SubResource("PhysicsMaterial_bt8ai")
 gravity_scale = 0.0
 lock_rotation = true
@@ -69,9 +69,7 @@ freeze_mode = 1
 metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PathFollow2D/RigidBody2D"]
-rotation = -0.0052704
 polygon = PackedVector2Array(-8, 32, 96, 32, 96, 16, 88, 16, 80, 24, 8, 24, 0, 16, -8, 16)
-script = ExtResource("2_5aadb")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PathFollow2D"]
 autoplay = "move_platform"
@@ -79,3 +77,11 @@ playback_process_mode = 0
 libraries = {
 "": SubResource("AnimationLibrary_up2q8")
 }
+
+[node name="Sprite2D" type="Sprite2D" parent="PathFollow2D"]
+position = Vector2(4, 50)
+texture = ExtResource("3_ysbbp")
+
+[node name="line" type="Line2D" parent="."]
+position = Vector2(0, -1)
+width = 2.0
