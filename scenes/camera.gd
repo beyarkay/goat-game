@@ -9,7 +9,7 @@ extends Node2D
 @export var screen_fraction = 0.75
 
 @export var zoom_in_step_size = 0.001
-@export var zoom_out_step_size = 0.002
+@export var zoom_out_step_size = 0.004
 
 ## The camera won't zoom in any less than this
 @export_range(0.01, 3.0, 0.01) var min_zoom = 1.0
