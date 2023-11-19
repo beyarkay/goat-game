@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dwm8wiylxqt4t"]
+[gd_scene load_steps=17 format=3 uid="uid://dwm8wiylxqt4t"]
 
 [ext_resource type="Script" path="res://scenes/goat_sounds.gd" id="1_bgxn2"]
 [ext_resource type="AudioStream" uid="uid://dslkg4d2cosb2" path="res://assets/sounds/step1.wav" id="2_wfvoh"]
@@ -12,6 +12,44 @@
 [ext_resource type="AudioStream" uid="uid://c1eox6xmpyl5t" path="res://assets/sounds/bleat4.wav" id="10_kl8h4"]
 [ext_resource type="AudioStream" uid="uid://dwslkk0pj7osr" path="res://assets/sounds/bleat5.wav" id="11_w84hp"]
 [ext_resource type="AudioStream" uid="uid://w7m5kit263im" path="res://assets/sounds/charge_hit.wav" id="12_cp5qu"]
+[ext_resource type="AudioStream" uid="uid://bbx6pulcle3h0" path="res://assets/sounds/charge.wav" id="13_or8fu"]
+
+[sub_resource type="Animation" id="Animation_jkyxf"]
+resource_name = "fade_in"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("charge:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1.7411),
+"update": 0,
+"values": [-20.0, -3.0]
+}
+
+[sub_resource type="Animation" id="Animation_jshr7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("charge:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-8.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nbbad"]
+_data = {
+"RESET": SubResource("Animation_jshr7"),
+"fade_in": SubResource("Animation_jkyxf")
+}
 
 [node name="goat_sounds" type="Node2D"]
 script = ExtResource("1_bgxn2")
@@ -61,3 +99,13 @@ attenuation = 1.5
 
 [node name="charge_hit" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("12_cp5qu")
+
+[node name="charge" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_or8fu")
+volume_db = -8.0
+attenuation = 2.5
+
+[node name="charge_volume" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_nbbad")
+}

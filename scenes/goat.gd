@@ -170,6 +170,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		charge_timeout.stop()
 		is_charging = false
+		goat_sounds.stop_charge()
 		
 	# Headbutt attack
 	var input_direction = 0;
@@ -233,6 +234,7 @@ func hit(damage: float) -> void:
 
 func _on_charge_timeout_timeout() -> void:
 	is_charging = true
+	goat_sounds.start_charge()
 	snort_sound_timer.stop()
 	_on_snort_sound_timer_timeout()
 
