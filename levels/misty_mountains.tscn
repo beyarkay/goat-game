@@ -14,7 +14,7 @@
 
 [sub_resource type="Curve2D" id="Curve2D_qmsqm"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 64, 368, 0, 0, 0, 0, 392, 56)
+"points": PackedVector2Array(0, 0, 0, 0, 3, 457, 0, 0, 0, 0, 738, -407)
 }
 point_count = 2
 
@@ -92,6 +92,8 @@ position = Vector2(588, 62)
 [node name="cable_car" parent="." instance=ExtResource("5_58ujl")]
 position = Vector2(72, -64)
 curve = SubResource("Curve2D_qmsqm")
+start_fraction = 0.1
+end_fraction = 0.7
 
 [node name="box2" parent="." instance=ExtResource("4_3kw4m")]
 position = Vector2(1078, 152)

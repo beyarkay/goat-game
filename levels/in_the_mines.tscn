@@ -12,7 +12,7 @@
 
 [sub_resource type="Curve2D" id="Curve2D_hefw7"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 80, 632, 0, 0, 0, 0, 240, 40)
+"points": PackedVector2Array(-144.326, 494.449, 144.326, -494.449, -31, 1159, -69.8467, 435.126, 69.8467, -435.126, 240, 40)
 }
 point_count = 2
 
@@ -83,6 +83,7 @@ position = Vector2(1008, 592)
 
 [node name="cable_car" parent="." instance=ExtResource("6_esfnn")]
 curve = SubResource("Curve2D_hefw7")
+start_fraction = 0.25
 
 [node name="out_of_bounds_detector" parent="." instance=ExtResource("7_abx83")]
 position = Vector2(48, 1160)
