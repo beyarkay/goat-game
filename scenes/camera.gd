@@ -2,6 +2,9 @@ extends Node2D
 
 @onready var camera: Camera2D = $Camera2D
 
+@export var move_camera = true
+@export var zoom_camera = true
+
 ## The inner fraction of the screen that the goats should occupy. The camera
 ## will zoom in/out so try and ensure that
 ##	(distance between goats) / (screen size)
@@ -49,34 +52,36 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	var mean_position = Vector2.ZERO
-
 	var max_dist = 0.0
-	# Calculate mean, min, max positions
-	for i in range(len(players)):
-		mean_position += players[i].position / len(players)
 
-		# Figure out the maximum distance from this player to any other player
-		for j in range(len(players)):
-			if i <= j: continue
-			max_dist = max(max_dist, (players[i].position - players[j].position).length())
+	if move_camera || zoom_camera:
+		# Calculate mean, min, max positions
+		for i in range(len(players)):
+			mean_position += players[i].position / len(players)
 
-	position = mean_position
+			# Figure out the maximum distance from this player to any other player
+			for j in range(len(players)):
+				if i <= j: continue
+				max_dist = max(max_dist, (players[i].position - players[j].position).length())
+	if move_camera:
+		position = mean_position
 
-	var viewport_size = get_viewport().get_visible_rect().size
-	var smallest_dimension = min(viewport_size.x, viewport_size.y)
+	if zoom_camera:
+		var viewport_size = get_viewport().get_visible_rect().size
+		var smallest_dimension = min(viewport_size.x, viewport_size.y)
 
-	var target_zoom = clamp(
-		screen_fraction / (max_dist / smallest_dimension),
-		min_zoom,
-		max_zoom
-	)
+		var target_zoom = clamp(
+			screen_fraction / (max_dist / smallest_dimension),
+			min_zoom,
+			max_zoom
+		)
 
-	var zoom_adjustment = clamp(
-		target_zoom - camera.zoom.x,
-		-zoom_out_step_size,
-		zoom_in_step_size,
-	)
-	camera.zoom += Vector2.ONE * zoom_adjustment
+		var zoom_adjustment = clamp(
+			target_zoom - camera.zoom.x,
+			-zoom_out_step_size,
+			zoom_in_step_size,
+		)
+		camera.zoom += Vector2.ONE * zoom_adjustment
 
 	apply_screen_shake()
 

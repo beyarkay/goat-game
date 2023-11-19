@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c6kjnxvsi7hyt"]
+[gd_scene load_steps=23 format=3 uid="uid://c6kjnxvsi7hyt"]
 
 [ext_resource type="Script" path="res://levels/main_menu.gd" id="1_j3mdw"]
 [ext_resource type="FontFile" uid="uid://qngwvyeqmk0n" path="res://assets/fonts/Chilanka-Regular.otf" id="2_0lg7c"]
@@ -17,6 +17,8 @@
 [ext_resource type="Texture2D" uid="uid://d4chh01q2sspd" path="res://assets/keys/ARROWLEFT.png" id="15_12w6b"]
 [ext_resource type="Texture2D" uid="uid://c345k3d6xjs70" path="res://assets/keys/ARROWDOWN.png" id="16_trdq1"]
 [ext_resource type="Texture2D" uid="uid://b4xadcg7pdidn" path="res://assets/keys/ARROWRIGHT.png" id="17_t2ydi"]
+[ext_resource type="AudioStream" uid="uid://d2jnqvo6bbp5j" path="res://assets/sounds/click.wav" id="18_n1d3s"]
+[ext_resource type="PackedScene" uid="uid://djja458gq1tos" path="res://scenes/camera.tscn" id="19_sqrvl"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nx8i7"]
 line_spacing = 14.0
@@ -37,6 +39,10 @@ script = ExtResource("1_j3mdw")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -85.0
+offset_top = -48.0
+offset_right = 100.0
+offset_bottom = 56.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -132,38 +138,9 @@ polygon = PackedVector2Array(376, 640, 784, 640, 872, 584, 840, 536, 816, 536, 7
 [node name="goat" parent="." instance=ExtResource("8_v42xo")]
 position = Vector2(328, 304)
 player = 1
-jump_vel = -750.0
-run_acc = 30.0
-run_dec = 70.0
-max_hor_vel = 600.0
-input_buffer_duration = 0.15
-charge_damage = 100.0
-charge_buildup_time = 0.2
-slam_damage = 150.0
-max_falling_damage = 100.0
-slam_gravity_multiplier = 1.75
-headbutt_damage = 50.0
-headbutt_tap_buffer_time = 0.2
-is_headbutting = false
-health_regen_duration = 8.0
 
 [node name="goat2" parent="." instance=ExtResource("8_v42xo")]
 position = Vector2(824, 304)
-player = 2
-jump_vel = -750.0
-run_acc = 30.0
-run_dec = 70.0
-max_hor_vel = 600.0
-input_buffer_duration = 0.15
-charge_damage = 100.0
-charge_buildup_time = 0.2
-slam_damage = 150.0
-max_falling_damage = 100.0
-slam_gravity_multiplier = 1.75
-headbutt_damage = 50.0
-headbutt_tap_buffer_time = 0.2
-is_headbutting = false
-health_regen_duration = 8.0
 
 [node name="out_of_bounds_detector" parent="." instance=ExtResource("8_xf6wr")]
 position = Vector2(544, 648)
@@ -274,4 +251,18 @@ size_flags_vertical = 4
 texture = ExtResource("17_t2ydi")
 stretch_mode = 3
 
+[node name="click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_n1d3s")
+volume_db = -9.0
+pitch_scale = 1.3
+
+[node name="camera_pivot" parent="." instance=ExtResource("19_sqrvl")]
+move_camera = false
+zoom_camera = false
+zoom_in_step_size = 2.08165e-12
+zoom_out_step_size = 2.08165e-12
+min_zoom = 0.01
+
+[connection signal="item_selected" from="PanelContainer/VBoxContainer/HBoxContainer/level_select" to="." method="button_click"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/level_select" to="." method="button_click"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/start" to="." method="_on_button_pressed"]

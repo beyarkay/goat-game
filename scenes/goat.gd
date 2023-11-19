@@ -18,8 +18,12 @@ var is_pushed: bool = false
 @onready var push_timer: Timer = $push_timer as Timer
 
 @export_category("Inputs")
-@export var input_buffer_duration: float = 0.15
-@onready var input_buffer_timeout: Timer = $input_buffer_timeout as Timer
+@export var jump_buffer_duration: float = 0.15
+@export var cayote_time_duration: float = 0.15
+@onready var jump_buffer_timeout: Timer = $jump_buffer_timeout as Timer
+@onready var cayote_timer: Timer = $cayote_timer as Timer
+var jump_buffered := false
+var cayote_time := false
 
 @export_category("Charge Attack")
 @export var charge_damage: float = 150
@@ -79,10 +83,9 @@ var step_sound_timer: Timer = Timer.new()
 var snort_sound_timer: Timer = Timer.new()
 var bleat_sound_timer: Timer = Timer.new()
 
-var input_buffer = null
-
 func _ready() -> void:
-	input_buffer_timeout.wait_time = input_buffer_duration
+	jump_buffer_timeout.wait_time = jump_buffer_duration
+	cayote_timer.wait_time = cayote_time_duration
 	charge_timeout.wait_time = charge_buildup_time
 	health_regen_timeout.wait_time = health_regen_duration
 	headbutt_tap_buffer_timeout.wait_time = headbutt_tap_buffer_time
@@ -140,16 +143,21 @@ func _physics_process(delta: float) -> void:
 		
 	if not on_floor:
 		velocity.y += gravity * delta
+	else:
+		cayote_time = true
+		cayote_timer.start()
 	
 	if is_knocked_out:
 		move_and_slide()
 		return
 
 	var jumping = Input.is_action_just_pressed("p%d_up" % player)
-	if (jumping or input_buffer == "jump") and on_floor:
+	if (jumping or jump_buffered) and (on_floor or cayote_time):
+		cayote_time = false
 		velocity.y = jump_vel
-	if jumping and not on_floor:
-		input_buffer = "jump"
+	elif jumping and not on_floor:
+		jump_buffered = true
+		jump_buffer_timeout.start()
 
 	var direction: float = Input.get_axis("p%d_left" % player, "p%d_right" % player)
 	if direction and !is_slamming:
@@ -224,8 +232,8 @@ func _process(_delta: float) -> void:
 	else:
 		sprite.play("idle")
 
-func _on_input_buffer_timeout_timeout() -> void:
-	input_buffer = null
+func _on_jump_buffer_timeout_timeout() -> void:
+	jump_buffered = false
 
 func _on_area_2d_body_entered(body):
 	var hor_attack_direction = -1 if sprite.flip_h else 1
@@ -299,3 +307,6 @@ func _on_respawn_immunity_timeout() -> void:
 
 func _on_push_timer_timeout():
 	is_pushed = false
+
+func _on_cayote_timer_timeout() -> void:
+	cayote_time = false
