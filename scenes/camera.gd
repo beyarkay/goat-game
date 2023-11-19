@@ -44,7 +44,6 @@ func _ready() -> void:
 			has_screen_shake_signal,
 			"Player " + player.to_string() + " doesn't have screen_shake signal"
 			)
-		print("Connecting player " + player.to_string() + " to signal")
 		player.shake_screen.connect(_on_shake_screen)
 
 
