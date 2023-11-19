@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwm8wiylxqt4t"]
+
+[ext_resource type="Script" path="res://scenes/goat_sounds.gd" id="1_bgxn2"]
+
+[node name="goat_sounds" type="Node"]
+script = ExtResource("1_bgxn2")
