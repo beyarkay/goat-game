@@ -85,6 +85,4 @@ curve = SubResource("Curve2D_hefw7")
 [node name="out_of_bounds_detector" parent="." instance=ExtResource("7_abx83")]
 position = Vector2(48, 1160)
 
-[connection signal="health_change" from="CharacterBody2D3" to="decorations/HUD" method="_on_health_change"]
-[connection signal="shake_screen" from="CharacterBody2D3" to="camera_pivot" method="_on_shake_screen"]
 [connection signal="shake_screen" from="camera_pivot" to="camera_pivot" method="_on_shake_screen"]
