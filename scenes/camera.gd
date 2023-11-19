@@ -22,9 +22,9 @@ var shake_strength = 0.0
 @export var zoom_out_step_size = 0.02
 
 ## The camera won't zoom in any less than this
-@export_range(0.01, 3.0, 0.01) var min_zoom = 1.0
+@export_range(0.01, 3.0, 0.01) var min_zoom = 0.55
 ## The camera won't zoom in any more than this
-@export_range(0.01, 3.0, 0.01) var max_zoom = 10.0
+@export_range(0.01, 3.0, 0.01) var max_zoom = 2.5
 
 var players: Array[CharacterBody2D] = []
 

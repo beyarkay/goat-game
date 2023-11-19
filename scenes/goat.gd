@@ -8,7 +8,7 @@ extends CharacterBody2D
 @export var jump_vel: float = -750.0
 @export var run_acc: float = 30.0
 @export var run_dec: float = 70.0
-@export var push_dec: float = 40
+@export var push_dec: float = 30
 @export var knocked_out_push_dec: float = 35
 @export var max_hor_vel: float = 600
 @export var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -36,7 +36,8 @@ var is_charging: bool = false
 
 @export_category("Slam Attack")
 @export var slam_damage: float = 200
-@export var slam_vert_knockback: float = 100
+@export var slam_hor_knockback: float = 1000
+@export var slam_vert_knockback: float = 200
 @export var max_falling_damage: float = 100
 @export var slam_gravity_multiplier: float = 1.75
 var slamming_dec: float = 10
@@ -45,7 +46,7 @@ var is_slamming: bool = false
 @export_category("Headbutt Attack")
 @export var headbutt_damage: float = 50
 @export var headbutt_hor_knockback: float = 900
-@export var headbutt_vert_knockback: float = 600
+@export var headbutt_vert_knockback: float = 400
 @export var headbutt_tap_buffer_time: float = 0.2
 @export var is_headbutting: bool = false
 var headbutt_direction: float = 0
@@ -138,19 +139,19 @@ func _on_bleat_sound_timer_timeout() -> void:
 
 func _physics_process(delta: float) -> void:
 	var on_floor = is_on_floor()
-
+	
 	if is_pushed:
 		if is_knocked_out:
 			velocity.x = move_toward(velocity.x, 0, knocked_out_push_dec)
 		else:
 			velocity.x = move_toward(velocity.x, 0, push_dec)
-
+		
 	if not on_floor:
 		velocity.y += gravity * delta
 	else:
 		cayote_time = true
 		cayote_timer.start()
-
+	
 	if is_knocked_out:
 		move_and_slide()
 		return
@@ -193,7 +194,7 @@ func _physics_process(delta: float) -> void:
 		animation.stop()
 
 	# Charging attack
-	if abs(velocity.x) == charge_vel_threshold && on_floor:
+	if abs(velocity.x) == charge_vel_threshold && (on_floor or cayote_time):
 		if charge_timeout.time_left == 0:
 			charge_timeout.start()
 	else:
@@ -206,7 +207,7 @@ func _physics_process(delta: float) -> void:
 		input_direction = -1
 	elif Input.is_action_just_pressed("p%d_right" % player):
 		input_direction = 1
-
+	
 	if input_direction:
 		if input_direction == headbutt_direction && on_floor && headbutt_tap_buffer_timeout.time_left > 0:
 			#animation.play("headbutt")
@@ -249,8 +250,7 @@ func _on_area_2d_body_entered(body):
 		body.hit(charge_damage, Vector2(charge_hor_knockback * hor_attack_direction, -charge_vert_knockback))
 		goat_sounds.charge_hit()
 	if is_slamming:
-		body.hit(slam_damage, Vector2(0, -slam_vert_knockback * vert_attack_direction))
-		goat_sounds.slam(true)
+		body.hit(slam_damage, Vector2(slam_hor_knockback, -slam_vert_knockback * vert_attack_direction))
 	if is_headbutting:
 		body.hit(headbutt_damage, Vector2(headbutt_hor_knockback * hor_attack_direction, -headbutt_vert_knockback))
 		goat_sounds.headbutt()
@@ -266,6 +266,9 @@ func hit(damage: float, knockback: Vector2) -> void:
 		health_regen_timeout.start()
 
 	# Set logic for this here
+	if sign(get_floor_normal().x):
+		knockback.x = knockback.x * sign(get_floor_normal().x)
+	print(knockback)
 	velocity = knockback
 	print(knockback)
 	is_pushed = true
@@ -285,7 +288,7 @@ func update_health(player, new_health):
 func _on_health_regen_timeout_timeout():
 	update_health(player, GlobalState.GOAT_HEALTH_MAX)
 	is_knocked_out = false
-
+	
 func _on_headbutt_tap_buffer_timeout_timeout():
 	pass
 
