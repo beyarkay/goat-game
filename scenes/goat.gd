@@ -1,8 +1,6 @@
 class_name Goat
 extends CharacterBody2D
 
-@onready var animation: AnimationPlayer = $AnimationPlayer as AnimationPlayer
-
 # exported parameters
 @export_range(1, 2, 1) var player: int = 2
 
@@ -53,6 +51,7 @@ const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
 # child nodes
 @onready var sprite: AnimatedSprite2D = $sprite as AnimatedSprite2D
 @onready var floor_test: ShapeCast2D = $floor_test as ShapeCast2D
+@onready var animation: AnimationPlayer = $AnimationPlayer as AnimationPlayer
 
 var input_buffer = null
 
@@ -126,11 +125,13 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("p%d_left" % player) || Input.is_action_just_pressed("p%d_right" % player):
 		if headbutt_buffer_timeout.time_left > 0:
 			is_headbutting = true
+			headbutt_buffer_timeout.stop()
 		else:
 			is_headbutting = false
 			headbutt_buffer_timeout.start()
 	
-	move_and_slide()
+	if !is_headbutting:
+		move_and_slide()
 
 func _process(_delta: float) -> void:
 	# animate sprite based on current movement direction
@@ -141,10 +142,10 @@ func _process(_delta: float) -> void:
 			sprite.play("slamming")
 		else:
 			sprite.play("running")
-	elif is_knocked_out:
-		sprite.play("knocked_out")
 	elif is_headbutting:
 		sprite.play("headbutting")
+	elif is_knocked_out:
+		sprite.play("knocked_out")
 	else:
 		sprite.play("idle")
 		
@@ -187,4 +188,7 @@ func _on_health_regen_timeout_timeout():
 	
 func _on_headbutt_buffer_timeout_timeout():
 	pass
-	#is_headbutting = false
+
+func _on_sprite_animation_finished():
+	if sprite.animation == "headbutting":
+		is_headbutting = false

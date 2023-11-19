@@ -298,6 +298,7 @@ one_shot = true
 [node name="headbutt_buffer_timeout" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="animation_finished" from="sprite" to="." method="_on_sprite_animation_finished"]
 [connection signal="timeout" from="input_buffer_timeout" to="." method="_on_input_buffer_timeout_timeout"]
 [connection signal="timeout" from="charge_timeout" to="." method="_on_charge_timeout_timeout"]
 [connection signal="body_entered" from="attack_area" to="." method="_on_area_2d_body_entered"]
