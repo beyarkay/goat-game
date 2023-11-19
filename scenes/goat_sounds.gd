@@ -50,7 +50,6 @@ func stop_charge() -> void:
 	charge_sound.stop()
 	
 func slam(hit: bool) -> void:
-	print(hit)
 	if hit: slam_sound.volume_db = 10
 	else: slam_sound.volume_db = -1
 	slam_sound.play()
