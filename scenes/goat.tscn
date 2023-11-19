@@ -289,8 +289,8 @@ animation = &"headbutting"
 frame = 4
 frame_progress = 1.0
 
-[node name="input_buffer_timeout" type="Timer" parent="."]
-autostart = true
+[node name="jump_buffer_timeout" type="Timer" parent="."]
+one_shot = true
 
 [node name="charge_timeout" type="Timer" parent="."]
 wait_time = 0.5
@@ -328,8 +328,10 @@ one_shot = true
 wait_time = 0.4
 one_shot = true
 
-[connection signal="animation_finished" from="sprite" to="." method="_on_sprite_animation_finished"]
-[connection signal="timeout" from="input_buffer_timeout" to="." method="_on_input_buffer_timeout_timeout"]
+[node name="cayote_timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="jump_buffer_timeout" to="." method="_on_jump_buffer_timeout_timeout"]
 [connection signal="timeout" from="charge_timeout" to="." method="_on_charge_timeout_timeout"]
 [connection signal="body_entered" from="attack_area" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="health_regen_timeout" to="." method="_on_health_regen_timeout_timeout"]
@@ -337,3 +339,4 @@ one_shot = true
 [connection signal="timeout" from="respawn_immunity" to="." method="_on_respawn_immunity_timeout"]
 [connection signal="timeout" from="headbutt_timer" to="." method="_on_headbutt_timer_timeout"]
 [connection signal="timeout" from="push_timer" to="." method="_on_push_timer_timeout"]
+[connection signal="timeout" from="cayote_timer" to="." method="_on_cayote_timer_timeout"]
