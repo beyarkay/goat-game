@@ -91,6 +91,7 @@ texture = ExtResource("3_ysbbp")
 [node name="rail_sound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_2e58o")
 autoplay = true
+attenuation = 3.73213
 
 [node name="pitch_shift_timer" type="Timer" parent="."]
 wait_time = 4.0
