@@ -16,7 +16,7 @@ signal shake_screen(strength)
 var shake_strength = 0.0
 
 @export var zoom_in_step_size = 0.001
-@export var zoom_out_step_size = 0.004
+@export var zoom_out_step_size = 0.02
 
 ## The camera won't zoom in any less than this
 @export_range(0.01, 3.0, 0.01) var min_zoom = 1.0

@@ -19,6 +19,10 @@ extends Node
 	$bleat5 as AudioStreamPlayer2D
 ]
 
+@onready var charge_hit_sound: AudioStreamPlayer2D = $charge_hit as AudioStreamPlayer2D
+@onready var charge_sound: AudioStreamPlayer2D = $charge as AudioStreamPlayer2D
+@onready var charge_volume: AnimationPlayer = $charge_volume as AnimationPlayer
+
 func play_random(list: Array[AudioStreamPlayer2D], low = 0.75, hi = 1.3) -> void:
 	var sound = list[randi_range(0, list.size() - 1)]
 	sound.pitch_scale = randf_range(low, hi)
@@ -32,3 +36,14 @@ func snort() -> void:
 
 func bleat() -> void:
 	play_random(bleat_sounds, 0.65, 1.2)
+
+func charge_hit() -> void:
+	charge_hit_sound.play()
+	stop_charge()
+
+func start_charge() -> void:
+	charge_volume.play("fade_in")
+	charge_sound.play()
+
+func stop_charge() -> void:
+	charge_sound.stop()

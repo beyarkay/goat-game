@@ -85,7 +85,7 @@ func _ready() -> void:
 	health_regen_timeout.wait_time = health_regen_duration
 	headbutt_tap_buffer_timeout.wait_time = headbutt_tap_buffer_time
 	setup_sound_timers()
-	
+	SPAWN_POS = position
 	attack_collider.disabled = true
 
 func setup_sound_timers() -> void:
@@ -94,13 +94,13 @@ func setup_sound_timers() -> void:
 	step_sound_timer.connect("timeout", self._on_step_sound_timer_timeout)
 	add_child(step_sound_timer)
 	step_sound_timer.start()
-	
+
 	# snort sounds
 	snort_sound_timer.wait_time = randf_range(1.0, 4.6)
 	snort_sound_timer.connect("timeout", self._on_snort_sound_timer_timeout)
 	add_child(snort_sound_timer)
 	snort_sound_timer.start()
-	
+
 	# bleat sounds
 	bleat_sound_timer.wait_time = randf_range(2.2, 9.6)
 	bleat_sound_timer.connect("timeout", self._on_bleat_sound_timer_timeout)
@@ -126,7 +126,7 @@ func _on_snort_sound_timer_timeout() -> void:
 func _on_bleat_sound_timer_timeout() -> void:
 	goat_sounds.bleat()
 	bleat_sound_timer.wait_time = randf_range(2.2, 9.6)
-	
+
 func _physics_process(delta: float) -> void:
 	var on_floor = is_on_floor()
 	
@@ -184,7 +184,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		charge_timeout.stop()
 		is_charging = false
-		
+		goat_sounds.stop_charge()
 	# Headbutt attack
 	var input_direction = 0;
 	if Input.is_action_just_pressed("p%d_left" % player):
@@ -217,6 +217,8 @@ func _process(_delta: float) -> void:
 			sprite.play("slamming")
 		else:
 			sprite.play("running")
+	elif is_knocked_out:
+		sprite.play("knocked_out")
 	else:
 		sprite.play("idle")
 
@@ -229,6 +231,7 @@ func _on_area_2d_body_entered(body):
 		return
 	if is_charging:
 		body.hit(charge_damage, charge_push_velocity * attack_direction)
+		goat_sounds.charge_hit()
 	if is_slamming:
 		body.hit(slam_damage, slam_push_velocity * attack_direction)
 	if is_headbutting:
@@ -251,12 +254,14 @@ func hit(damage: float, push_velocity: float) -> void:
 
 func _on_charge_timeout_timeout() -> void:
 	is_charging = true
+	goat_sounds.start_charge()
 	snort_sound_timer.stop()
 	_on_snort_sound_timer_timeout()
 
 func update_health(player, new_health):
 	health = max(0, new_health)
 	health_change.emit(player, health)
+
 
 func _on_health_regen_timeout_timeout():
 	update_health(player, GlobalState.GOAT_HEALTH_MAX)
@@ -287,8 +292,3 @@ func respawn() -> void:
 
 func _on_respawn_immunity_timeout() -> void:
 	has_respawn_immunity = false
-
-
-func _on_push_timer_timeout():
-	print("stop pushing")
-	is_pushed = false

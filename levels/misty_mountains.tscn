@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://rghbj8tsqlh7"]
+[gd_scene load_steps=12 format=3 uid="uid://rghbj8tsqlh7"]
 
 [ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_v4fsq"]
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_ohq1e"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dd1xc6nxlvpuy" path="res://scenes/cable_car.tscn" id="5_58ujl"]
 [ext_resource type="PackedScene" uid="uid://djja458gq1tos" path="res://scenes/camera.tscn" id="7_of0sv"]
 [ext_resource type="PackedScene" uid="uid://dcxje6kcdg0k5" path="res://scenes/out_of_bounds_detector.tscn" id="8_4unst"]
+[ext_resource type="AudioStream" uid="uid://c4qbmeuwnechd" path="res://assets/sounds/war.wav" id="10_eau05"]
 
 [sub_resource type="Curve2D" id="Curve2D_qmsqm"]
 _data = {
@@ -125,3 +126,7 @@ position = Vector2(207.173, 93.1838)
 
 [node name="out_of_bounds_detector" parent="." instance=ExtResource("8_4unst")]
 position = Vector2(568, 712)
+
+[node name="war_horn" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_eau05")
+autoplay = true
