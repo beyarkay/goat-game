@@ -93,6 +93,10 @@ func _ready() -> void:
 	SPAWN_POS = position
 	attack_collider.disabled = true
 
+	# Tell the shader if we're player 1 or 2
+	var mat = $sprite.get_material()
+	mat.set_shader_parameter("player", player)
+
 func setup_sound_timers() -> void:
 	# step sounds
 	step_sound_timer.wait_time = 0.2
@@ -134,19 +138,19 @@ func _on_bleat_sound_timer_timeout() -> void:
 
 func _physics_process(delta: float) -> void:
 	var on_floor = is_on_floor()
-	
+
 	if is_pushed:
 		if is_knocked_out:
 			velocity.x = move_toward(velocity.x, 0, knocked_out_push_dec)
 		else:
 			velocity.x = move_toward(velocity.x, 0, push_dec)
-		
+
 	if not on_floor:
 		velocity.y += gravity * delta
 	else:
 		cayote_time = true
 		cayote_timer.start()
-	
+
 	if is_knocked_out:
 		move_and_slide()
 		return
@@ -201,7 +205,7 @@ func _physics_process(delta: float) -> void:
 		input_direction = -1
 	elif Input.is_action_just_pressed("p%d_right" % player):
 		input_direction = 1
-	
+
 	if input_direction:
 		if input_direction == headbutt_direction && on_floor && headbutt_tap_buffer_timeout.time_left > 0:
 			#animation.play("headbutt")
@@ -257,7 +261,7 @@ func hit(damage: float, knockback: Vector2) -> void:
 	if health == 0:
 		is_knocked_out = true
 		health_regen_timeout.start()
-	
+
 	# Set logic for this here
 	velocity = knockback
 	print(knockback)
@@ -278,7 +282,7 @@ func update_health(player, new_health):
 func _on_health_regen_timeout_timeout():
 	update_health(player, GlobalState.GOAT_HEALTH_MAX)
 	is_knocked_out = false
-	
+
 func _on_headbutt_tap_buffer_timeout_timeout():
 	pass
 
