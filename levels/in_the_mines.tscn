@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://d02dup6g4omjq"]
+[gd_scene load_steps=9 format=3 uid="uid://d02dup6g4omjq"]
 
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="1_16fea"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="1_ukrxs"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="2_kgufr"]
 [ext_resource type="PackedScene" uid="uid://djja458gq1tos" path="res://scenes/camera.tscn" id="4_cgcvx"]
 [ext_resource type="PackedScene" uid="uid://dd1xc6nxlvpuy" path="res://scenes/cable_car.tscn" id="6_esfnn"]
+[ext_resource type="PackedScene" uid="uid://dcxje6kcdg0k5" path="res://scenes/out_of_bounds_detector.tscn" id="7_abx83"]
 
 [sub_resource type="Curve2D" id="Curve2D_hefw7"]
 _data = {
@@ -22,10 +23,13 @@ script = ExtResource("1_y2eui")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -1032.0
+offset_top = -672.0
+offset_right = 1016.0
+offset_bottom = 544.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.235294, 0.352941, 0.380392, 1)
-metadata/_edit_lock_ = true
+color = Color(1, 1, 1, 0.254902)
 
 [node name="HUD" parent="decorations" instance=ExtResource("2_kgufr")]
 
@@ -35,14 +39,14 @@ metadata/_edit_lock_ = true
 metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D2"]
-polygon = PackedVector2Array(1152, 192, 1128, 160, 1120, 160, 1104, 144, 1088, 128, 792, 128, 792, 216, 784, 224, 784, 256, 1080, 256, 1088, 264, 1088, 272, 1072, 296, 1064, 312, 1048, 320, 800, 320, 800, 408, 808, 528, 792, 544, 800, 552, 816, 560, 840, 552, 1088, 552, 1096, 568, 1080, 608, 1056, 616, 328, 616, 320, 624, 320, 640, 312, 648, 1152, 648)
+polygon = PackedVector2Array(2288, -632, 1448, -664, 1416, 104, 1328, 160, 1152, 152, 1088, 128, 792, 128, 792, 216, 784, 224, 784, 256, 1080, 256, 1088, 264, 1088, 272, 1072, 296, 1064, 312, 1048, 320, 800, 320, 800, 408, 808, 528, 792, 544, 800, 552, 816, 560, 840, 552, 1088, 552, 1096, 568, 1080, 608, 1056, 616, 328, 616, 320, 624, 320, 640, 312, 648, 208, 824, 176, 1168, 2296, 1352)
 script = ExtResource("1_16fea")
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="platforms" groups=["ground"]]
 metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D3"]
-polygon = PackedVector2Array(1040, 64, 1016, 24, 984, 0, 880, -56, 840, -64, 0, -64, 0, -16, 88, 24, 128, 48, 144, 88, 184, 96, 216, 64)
+polygon = PackedVector2Array(1040, 64, 1016, 24, 984, 0, 880, -56, 840, -64, 360, -240, 72, -488, -176, -472, -208, -376, -192, -168, 0, -64, 0, -16, 88, 24, 128, 48, 144, 88, 184, 96, 216, 64)
 script = ExtResource("1_16fea")
 
 [node name="StaticBody2D4" type="StaticBody2D" parent="platforms" groups=["ground"]]
@@ -63,14 +67,7 @@ script = ExtResource("1_16fea")
 metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D7"]
-polygon = PackedVector2Array(64, 648, 64, 568, 72, 552, 56, 536, 48, 352, 40, 344, 48, 200, 40, 192, 40, 128, 32, 96, 16, 80, 0, 72, 0, 648)
-script = ExtResource("1_16fea")
-
-[node name="StaticBody2D10" type="StaticBody2D" parent="platforms" groups=["ground"]]
-metadata/_edit_group_ = true
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D10"]
-polygon = PackedVector2Array(0, 648, -8, 648, -8, -72, 1160, -72, 1160, 648, 1152, 648, 1152, 0, 0, -8)
+polygon = PackedVector2Array(64, 648, 64, 568, 72, 552, 56, 536, 48, 352, 40, 344, 48, 200, 40, 192, 40, 128, 32, 96, 16, 80, 0, 72, -160, 24, -352, -88, -376, -560, -136, -1416, -1232, -1488, -1088, -512, -984, 1176, -40, 1168, -40, 784)
 script = ExtResource("1_16fea")
 
 [node name="CharacterBody2D2" parent="." instance=ExtResource("1_ukrxs")]
@@ -85,8 +82,9 @@ position = Vector2(1008, 592)
 [node name="cable_car" parent="." instance=ExtResource("6_esfnn")]
 curve = SubResource("Curve2D_hefw7")
 
-[connection signal="health_change" from="CharacterBody2D2" to="decorations/HUD" method="_on_health_change"]
-[connection signal="shake_screen" from="CharacterBody2D2" to="camera_pivot" method="_on_shake_screen"]
+[node name="out_of_bounds_detector" parent="." instance=ExtResource("7_abx83")]
+position = Vector2(48, 1160)
+
 [connection signal="health_change" from="CharacterBody2D3" to="decorations/HUD" method="_on_health_change"]
 [connection signal="shake_screen" from="CharacterBody2D3" to="camera_pivot" method="_on_shake_screen"]
 [connection signal="shake_screen" from="camera_pivot" to="camera_pivot" method="_on_shake_screen"]
