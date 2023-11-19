@@ -4,7 +4,7 @@
 [ext_resource type="FontFile" uid="uid://qngwvyeqmk0n" path="res://assets/fonts/Chilanka-Regular.otf" id="2_0lg7c"]
 [ext_resource type="FontFile" uid="uid://jeqp1o5gothr" path="res://assets/fonts/Bouncy.otf" id="2_fqa2g"]
 [ext_resource type="Texture2D" uid="uid://3t3d8g0dqbk5" path="res://assets/skull_left.png" id="4_dvnb0"]
-[ext_resource type="Texture2D" uid="uid://dyytsp8jofq6r" path="res://assets/skull_right.png" id="5_5miqg"]
+[ext_resource type="Texture2D" uid="uid://byx63yw1rr6be" path="res://assets/skull_right.png" id="5_5miqg"]
 [ext_resource type="Texture2D" uid="uid://1atsr4was4gj" path="res://assets/goat/spritesheets/knocked_out.png" id="6_8fgku"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nx8i7"]
