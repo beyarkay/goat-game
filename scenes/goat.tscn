@@ -1,19 +1,23 @@
-[gd_scene load_steps=39 format=3 uid="uid://bgfo3l08bifum"]
+[gd_scene load_steps=40 format=3 uid="uid://bgfo3l08bifum"]
 
 [ext_resource type="Script" path="res://scenes/goat.gd" id="1_2in7i"]
+[ext_resource type="Shader" path="res://scenes/goat.gdshader" id="2_al3t7"]
 [ext_resource type="Texture2D" uid="uid://ypx8ekjf3e6v" path="res://assets/goat/spritesheets/charge.png" id="2_srj55"]
 [ext_resource type="Texture2D" uid="uid://dml3t6s147ax" path="res://assets/goat/spritesheets/idle.png" id="2_t8pnn"]
 [ext_resource type="Texture2D" uid="uid://c7r1s5g5txcbx" path="res://assets/goat/spritesheets/headbutting.png" id="3_50dav"]
 [ext_resource type="Texture2D" uid="uid://daaa5n1pvsgys" path="res://assets/goat/spritesheets/running.png" id="3_ctjsc"]
 [ext_resource type="Texture2D" uid="uid://b5nikspex6p6b" path="res://assets/goat/spritesheets/falling.png" id="3_diymy"]
 [ext_resource type="Texture2D" uid="uid://1atsr4was4gj" path="res://assets/goat/spritesheets/knocked_out.png" id="4_3nynr"]
-[ext_resource type="PackedScene" uid="uid://dwm8wiylxqt4t" path="res://scenes/goat_sounds.tscn" id="8_hc2mw"]
+[ext_resource type="PackedScene" uid="uid://c5qxvhhygwjad" path="res://scenes/goat_sounds.tscn" id="8_hc2mw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_01sup"]
 radius = 12.0
 height = 34.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b240r"]
+resource_local_to_scene = true
+shader = ExtResource("2_al3t7")
+shader_parameter/player = 1
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rclbf"]
 atlas = ExtResource("2_srj55")
@@ -309,9 +313,7 @@ material = SubResource("ShaderMaterial_b240r")
 position = Vector2(1, -3)
 scale = Vector2(1.01586, 0.977672)
 sprite_frames = SubResource("SpriteFrames_au2ay")
-animation = &"headbutting"
-frame = 4
-frame_progress = 1.0
+animation = &"charging"
 
 [node name="jump_buffer_timeout" type="Timer" parent="."]
 one_shot = true

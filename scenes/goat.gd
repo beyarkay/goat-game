@@ -94,6 +94,10 @@ func _ready() -> void:
 	SPAWN_POS = position
 	attack_collider.disabled = true
 
+	# Tell the shader if we're player 1 or 2
+	var mat = $sprite.get_material()
+	mat.set_shader_parameter("player", player)
+
 func setup_sound_timers() -> void:
 	# step sounds
 	step_sound_timer.wait_time = 0.2
@@ -184,6 +188,7 @@ func _physics_process(delta: float) -> void:
 			animation.play("slamming_right")
 
 	if on_floor:
+		if is_slamming: goat_sounds.slam(false)
 		is_slamming = false
 		gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 		animation.stop()
@@ -258,11 +263,13 @@ func hit(damage: float, knockback: Vector2) -> void:
 	if health == 0:
 		is_knocked_out = true
 		health_regen_timeout.start()
+
 	# Set logic for this here
 	if sign(get_floor_normal().x):
 		knockback.x = knockback.x * sign(get_floor_normal().x)
 	print(knockback)
 	velocity = knockback
+	print(knockback)
 	is_pushed = true
 	push_timer.start()
 
@@ -302,6 +309,7 @@ func respawn() -> void:
 	is_knocked_out = false
 	position = SPAWN_POS
 	velocity = Vector2.ZERO
+
 
 func _on_respawn_immunity_timeout() -> void:
 	has_respawn_immunity = false
