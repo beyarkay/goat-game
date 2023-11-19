@@ -274,6 +274,30 @@ z_index = 1
 rotation = 0.000241599
 floor_max_angle = 1.0472
 script = ExtResource("1_2in7i")
+player = null
+jump_vel = null
+run_acc = null
+run_dec = null
+push_dec = null
+knocked_out_push_dec = null
+max_hor_vel = null
+jump_buffer_duration = null
+cayote_time_duration = null
+charge_damage = null
+charge_hor_knockback = null
+charge_vert_knockback = null
+charge_buildup_time = null
+slam_damage = null
+slam_hor_knockback = null
+slam_vert_knockback = null
+max_falling_damage = null
+slam_gravity_multiplier = null
+headbutt_damage = null
+headbutt_hor_knockback = null
+headbutt_vert_knockback = null
+headbutt_tap_buffer_time = null
+is_headbutting = null
+health_regen_duration = null
 metadata/_edit_group_ = true
 
 [node name="collider" type="CollisionShape2D" parent="."]
@@ -325,7 +349,7 @@ wait_time = 0.33
 one_shot = true
 
 [node name="push_timer" type="Timer" parent="."]
-wait_time = 0.4
+wait_time = 0.3
 one_shot = true
 
 [node name="cayote_timer" type="Timer" parent="."]
