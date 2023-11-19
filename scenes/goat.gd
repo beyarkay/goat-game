@@ -39,7 +39,7 @@ var is_slamming: bool = false
 
 @export_category("Headbutt Attack")
 @export var headbutt_damage: float = 50
-@export var headbutt_push_velocity: float = 600
+@export var headbutt_push_velocity: float = 900
 @export var headbutt_tap_buffer_time: float = 0.2
 @export var is_headbutting: bool = false
 var headbutt_direction: float = 0
@@ -292,3 +292,6 @@ func respawn() -> void:
 
 func _on_respawn_immunity_timeout() -> void:
 	has_respawn_immunity = false
+
+func _on_push_timer_timeout():
+	is_pushed = false
