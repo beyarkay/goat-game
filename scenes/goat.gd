@@ -253,6 +253,7 @@ func _on_area_2d_body_entered(body):
 		goat_sounds.slam(true)
 	if is_headbutting:
 		body.hit(headbutt_damage, Vector2(headbutt_hor_knockback * hor_attack_direction, -headbutt_vert_knockback))
+		goat_sounds.headbutt()
 
 func hit(damage: float, knockback: Vector2) -> void:
 	if !is_knocked_out:
