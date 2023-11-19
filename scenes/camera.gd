@@ -6,7 +6,7 @@ extends Node2D
 ## will zoom in/out so try and ensure that
 ##	(distance between goats) / (screen size)
 ## remains constant
-@export var screen_fraction = 0.75
+@export var screen_fraction = 0.65
 
 @export var screen_shake_decay_rate = 0.9
 
