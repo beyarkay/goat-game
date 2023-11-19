@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dd1xc6nxlvpuy"]
+[gd_scene load_steps=9 format=3 uid="uid://dd1xc6nxlvpuy"]
 
 [ext_resource type="Script" path="res://scenes/cable_car.gd" id="1_6k6y5"]
+[ext_resource type="AudioStream" uid="uid://cscb236k23rmf" path="res://assets/sounds/rail.wav" id="3_2e58o"]
 [ext_resource type="Texture2D" uid="uid://mefwxyn37x5f" path="res://assets/ski_lift.png" id="3_ysbbp"]
 
 [sub_resource type="Curve2D" id="Curve2D_5ao03"]
@@ -76,7 +77,7 @@ metadata/_edit_group_ = true
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PathFollow2D/RigidBody2D"]
 polygon = PackedVector2Array(-8, 32, 96, 32, 96, 16, 88, 16, 80, 24, 8, 24, 0, 16, -8, 16)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="PathFollow2D"]
+[node name="mover" type="AnimationPlayer" parent="PathFollow2D"]
 autoplay = "move_platform"
 playback_process_mode = 0
 libraries = {
@@ -86,3 +87,15 @@ libraries = {
 [node name="Sprite2D" type="Sprite2D" parent="PathFollow2D"]
 position = Vector2(4, 50)
 texture = ExtResource("3_ysbbp")
+
+[node name="rail_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_2e58o")
+autoplay = true
+attenuation = 3.73213
+
+[node name="pitch_shift_timer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="pitch_shift_timer" to="." method="_on_pitch_shift_timer_timeout"]

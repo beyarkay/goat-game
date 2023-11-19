@@ -1,9 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://11cq0we8g5el"]
+[gd_scene load_steps=10 format=3 uid="uid://c6kjnxvsi7hyt"]
 
 [ext_resource type="Script" path="res://levels/main_menu.gd" id="1_j3mdw"]
+[ext_resource type="FontFile" uid="uid://qngwvyeqmk0n" path="res://assets/fonts/Chilanka-Regular.otf" id="2_0lg7c"]
+[ext_resource type="FontFile" uid="uid://jeqp1o5gothr" path="res://assets/fonts/Bouncy.otf" id="2_fqa2g"]
+[ext_resource type="Texture2D" uid="uid://3t3d8g0dqbk5" path="res://assets/skull_left.png" id="4_dvnb0"]
+[ext_resource type="Texture2D" uid="uid://dyytsp8jofq6r" path="res://assets/skull_right.png" id="5_5miqg"]
+[ext_resource type="Texture2D" uid="uid://1atsr4was4gj" path="res://assets/goat/spritesheets/knocked_out.png" id="6_8fgku"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nx8i7"]
+line_spacing = 14.0
+font = ExtResource("2_fqa2g")
 font_size = 60
+font_color = Color(1, 0.568627, 0.321569, 0.87451)
+
+[sub_resource type="InputEventAction" id="InputEventAction_y0s6l"]
+action = &"start_game"
+
+[sub_resource type="Shortcut" id="Shortcut_lrj3l"]
+events = [SubResource("InputEventAction_y0s6l")]
 
 [node name="main_menu" type="Node"]
 script = ExtResource("1_j3mdw")
@@ -22,28 +36,76 @@ size_flags_vertical = 4
 [node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
-text = "Goat Game
+text = "g o a t
+b u s t e r s
 "
 label_settings = SubResource("LabelSettings_nx8i7")
-horizontal_alignment = 3
+horizontal_alignment = 1
+uppercase = true
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+visibility_layer = 0
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="misty_mountains_btn" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="level_select" type="OptionButton" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_colors/icon_normal_color = Color(0.619608, 0.545098, 0.607843, 1)
-text = "Misty Mountains"
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.898039, 0.658824, 0.701961)
+theme_override_colors/font_pressed_color = Color(1, 0.898039, 0.658824, 1)
+theme_override_colors/font_hover_color = Color(1, 0.898039, 0.658824, 1)
+theme_override_colors/font_focus_color = Color(1, 0.898039, 0.658824, 0.701961)
+theme_override_constants/arrow_margin = 12
+theme_override_fonts/font = ExtResource("2_0lg7c")
+theme_override_font_sizes/font_size = 24
+alignment = 1
+item_count = 3
+selected = 0
+popup/item_0/text = " Misty Mountains"
+popup/item_0/id = 0
+popup/item_1/text = " In the Mines"
+popup/item_1/id = 1
+popup/item_2/text = " Anthills"
+popup/item_2/id = 2
 
-[node name="in_the_mines_btn" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+visibility_layer = 0
+custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
-text = "In The Mines"
 
-[node name="anthills_btn" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="start" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Anthills"
+theme_override_colors/font_color = Color(1, 0.898039, 0.658824, 0.701961)
+theme_override_colors/font_pressed_color = Color(1, 0.898039, 0.658824, 0.701961)
+theme_override_colors/font_hover_color = Color(1, 0.898039, 0.658824, 1)
+theme_override_colors/font_focus_color = Color(1, 0.898039, 0.658824, 0.701961)
+theme_override_fonts/font = ExtResource("2_0lg7c")
+theme_override_font_sizes/font_size = 28
+shortcut = SubResource("Shortcut_lrj3l")
+text = "  Play!  "
 
-[connection signal="button_up" from="PanelContainer/VBoxContainer/HBoxContainer/misty_mountains_btn" to="." method="_on_misty_mountains_btn_button_up"]
-[connection signal="button_up" from="PanelContainer/VBoxContainer/HBoxContainer/in_the_mines_btn" to="." method="_on_in_the_mines_btn_button_up"]
-[connection signal="button_up" from="PanelContainer/VBoxContainer/HBoxContainer/anthills_btn" to="." method="_on_anthills_btn_button_up"]
+[node name="SkullLeft" type="Sprite2D" parent="."]
+position = Vector2(334, 391)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_dvnb0")
+
+[node name="SkullRight" type="Sprite2D" parent="."]
+position = Vector2(822, 387)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("5_5miqg")
+
+[node name="KnockedOut" type="Sprite2D" parent="."]
+position = Vector2(501, 176)
+scale = Vector2(1.39062, 1.39062)
+texture = ExtResource("6_8fgku")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 64)
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/start" to="." method="_on_button_pressed"]

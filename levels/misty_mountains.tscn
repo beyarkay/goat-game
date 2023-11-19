@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_v4fsq"]
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_ohq1e"]
-[ext_resource type="Texture2D" path="res://assets/background_art/mountain_bg.png" id="3_2p7hq"]
+[ext_resource type="Texture2D" uid="uid://dc7uicde2x8yq" path="res://assets/background_art/mountain_bg.png" id="3_2p7hq"]
 [ext_resource type="PackedScene" uid="uid://tkumhbh3nbkk" path="res://scenes/box.tscn" id="4_3kw4m"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="4_ccj1x"]
 [ext_resource type="PackedScene" uid="uid://dd1xc6nxlvpuy" path="res://scenes/cable_car.tscn" id="5_58ujl"]
@@ -80,12 +80,12 @@ position = Vector2(144, 168)
 [node name="box" parent="box/box" instance=ExtResource("4_3kw4m")]
 position = Vector2(-16, -64)
 
-[node name="CharacterBody2D2" parent="." instance=ExtResource("4_ccj1x")]
-position = Vector2(472, 64)
+[node name="goat" parent="." instance=ExtResource("4_ccj1x")]
+position = Vector2(473, 67)
+player = 1
 
-[node name="CharacterBody2D3" parent="." instance=ExtResource("4_ccj1x")]
-position = Vector2(584, 64)
-player = 2
+[node name="goat2" parent="." instance=ExtResource("4_ccj1x")]
+position = Vector2(588, 62)
 
 [node name="cable_car" parent="." instance=ExtResource("5_58ujl")]
 position = Vector2(72, -64)
@@ -119,7 +119,6 @@ position = Vector2(1045, -8)
 rotation = 0.0106273
 
 [node name="camera_pivot" parent="." instance=ExtResource("7_of0sv")]
-zoom_out_step_size = 0.004
 
 [node name="box4" parent="." instance=ExtResource("4_3kw4m")]
 position = Vector2(207.173, 93.1838)
