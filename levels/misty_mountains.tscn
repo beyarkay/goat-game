@@ -1,12 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://rghbj8tsqlh7"]
+[gd_scene load_steps=11 format=3 uid="uid://rghbj8tsqlh7"]
 
 [ext_resource type="Script" path="res://utility_scripts/quit_on_esc.gd" id="1_v4fsq"]
 [ext_resource type="Script" path="res://utility_scripts/add_poly_mesh.gd" id="2_ohq1e"]
 [ext_resource type="Texture2D" uid="uid://dc7uicde2x8yq" path="res://assets/background_art/mountain_bg.png" id="3_2p7hq"]
+[ext_resource type="PackedScene" uid="uid://bggo3tsx1odsv" path="res://scenes/hud.tscn" id="3_ybf1q"]
 [ext_resource type="PackedScene" uid="uid://tkumhbh3nbkk" path="res://scenes/box.tscn" id="4_3kw4m"]
 [ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="4_ccj1x"]
 [ext_resource type="PackedScene" uid="uid://dd1xc6nxlvpuy" path="res://scenes/cable_car.tscn" id="5_58ujl"]
 [ext_resource type="PackedScene" uid="uid://djja458gq1tos" path="res://scenes/camera.tscn" id="7_of0sv"]
+[ext_resource type="PackedScene" uid="uid://dcxje6kcdg0k5" path="res://scenes/out_of_bounds_detector.tscn" id="8_4unst"]
 
 [sub_resource type="Curve2D" id="Curve2D_qmsqm"]
 _data = {
@@ -21,18 +23,23 @@ script = ExtResource("1_v4fsq")
 
 [node name="MountainBg" type="Sprite2D" parent="decorations"]
 position = Vector2(576.512, 324)
-scale = Vector2(1.15302, 1.15302)
+scale = Vector2(2.83302, 2.83302)
 texture = ExtResource("3_2p7hq")
-metadata/_edit_lock_ = true
 
 [node name="ColorRect" type="ColorRect" parent="decorations"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -840.0
+offset_top = -472.0
+offset_right = -840.0
+offset_bottom = -472.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(2.49036, 2.49714)
 color = Color(0.0470588, 0.0588235, 0.0588235, 0.67451)
-metadata/_edit_lock_ = true
+
+[node name="HUD" parent="decorations" instance=ExtResource("3_ybf1q")]
 
 [node name="platforms" type="Node" parent="."]
 
@@ -40,7 +47,7 @@ metadata/_edit_lock_ = true
 metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D10"]
-polygon = PackedVector2Array(392, 648, 400, 640, 400, 592, 408, 584, 736, 560, 760, 648)
+polygon = PackedVector2Array(392, 648, 400, 640, 400, 592, 408, 584, 736, 560, 760, 648, 720, 1120, 480, 1112)
 script = ExtResource("2_ohq1e")
 
 [node name="StaticBody2D11" type="StaticBody2D" parent="platforms" groups=["ground"]]
@@ -54,21 +61,14 @@ script = ExtResource("2_ohq1e")
 metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D12"]
-polygon = PackedVector2Array(0, 648, 0, 384, 24, 392, 152, 392, 128, 520, 144, 528, 104, 648)
+polygon = PackedVector2Array(-952, 1136, -920, -688, -72, -648, -128, 88, 0, 384, 24, 392, 152, 392, 128, 520, 144, 528, 104, 648, 64, 1128)
 script = ExtResource("2_ohq1e")
 
 [node name="StaticBody2D13" type="StaticBody2D" parent="platforms" groups=["ground"]]
 metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D13"]
-polygon = PackedVector2Array(1152, 648, 1152, 56, 1144, 80, 1136, 176, 1120, 248, 1112, 272, 1024, 272, 1008, 280, 968, 432, 960, 440, 960, 472, 928, 632, 921.975, 639.308, 920, 648)
-script = ExtResource("2_ohq1e")
-
-[node name="StaticBody2D14" type="StaticBody2D" parent="platforms" groups=["ground"]]
-metadata/_edit_group_ = true
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D14"]
-polygon = PackedVector2Array(0, 648, 0, 0, 0, -64, 1152, -64, 1152, 648, 1160, 648, 1160, -72, -8, -72, -8, 648)
+polygon = PackedVector2Array(1624, 1096, 1728, -584, 1208, -568, 1152, 56, 1144, 80, 1136, 176, 1120, 248, 1112, 272, 1024, 272, 1008, 280, 968, 432, 960, 440, 960, 472, 928, 632, 921.975, 639.308, 920, 648, 968, 1112)
 script = ExtResource("2_ohq1e")
 
 [node name="box" parent="." instance=ExtResource("4_3kw4m")]
@@ -122,3 +122,6 @@ rotation = 0.0106273
 
 [node name="box4" parent="." instance=ExtResource("4_3kw4m")]
 position = Vector2(207.173, 93.1838)
+
+[node name="out_of_bounds_detector" parent="." instance=ExtResource("8_4unst")]
+position = Vector2(568, 712)

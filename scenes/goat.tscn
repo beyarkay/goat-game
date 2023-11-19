@@ -205,6 +205,33 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_408vh"]
 size = Vector2(28, 51)
 
+[sub_resource type="Animation" id="Animation_n6wqo"]
+resource_name = "headbutt"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath(".:is_headbutting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("attack_area/attack_collider:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7),
+"transitions": PackedFloat32Array(0.965936, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+
 [sub_resource type="Animation" id="Animation_xq4x5"]
 resource_name = "slamming_left"
 tracks/0/type = "value"
@@ -233,33 +260,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.000241599, 1.9481]
-}
-
-[sub_resource type="Animation" id="Animation_n6wqo"]
-resource_name = "headbutt"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/path = NodePath(".:is_headbutting")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("attack_area/attack_collider:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.7),
-"transitions": PackedFloat32Array(0.965936, 1, 1),
-"update": 1,
-"values": [true, false, true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sxpwc"]
@@ -315,6 +315,8 @@ one_shot = true
 [node name="headbutt_tap_buffer_timeout" type="Timer" parent="."]
 one_shot = true
 
+[node name="respawn_immunity" type="Timer" parent="."]
+
 [node name="goat_sounds" parent="." instance=ExtResource("8_hc2mw")]
 
 [node name="headbutt_timer" type="Timer" parent="."]
@@ -328,4 +330,5 @@ one_shot = true
 [connection signal="body_entered" from="attack_area" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="health_regen_timeout" to="." method="_on_health_regen_timeout_timeout"]
 [connection signal="timeout" from="headbutt_tap_buffer_timeout" to="." method="_on_headbutt_tap_buffer_timeout_timeout"]
+[connection signal="timeout" from="respawn_immunity" to="." method="_on_respawn_immunity_timeout"]
 [connection signal="timeout" from="headbutt_timer" to="." method="_on_headbutt_timer_timeout"]
