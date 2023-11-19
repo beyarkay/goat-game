@@ -29,15 +29,17 @@ func _ready() -> void:
 		plank.scale.x = randf_range(0.95, 1.15)
 		planks.append(plank)
 		add_child(plank)
-	
+
 	top_line.points = curve.get_baked_points()
 	bottom_line.points = curve.get_baked_points()
 	bottom_line.scale.x = 1.1
 	bottom_line.position += bottom_line_shift
-	
+
 	reset_crumble_timer()
 
 func _on_crumble_timer_timeout() -> void:
+	if planks.size() == 0:
+		return
 	var plank_to_fall := randi_range(0, planks.size() - 1)
 	planks[plank_to_fall].begin_fall()
 	planks.remove_at(plank_to_fall)
