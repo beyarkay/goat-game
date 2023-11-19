@@ -159,7 +159,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, run_dec)
 
-	if direction:
+	if direction and !is_slamming:
 		$attack_area.scale.x = direction
 		sprite.flip_h = direction < 0
 
