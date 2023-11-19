@@ -1,6 +1,59 @@
-[gd_scene load_steps=2 format=3 uid="uid://dwm8wiylxqt4t"]
+[gd_scene load_steps=12 format=3 uid="uid://dwm8wiylxqt4t"]
 
 [ext_resource type="Script" path="res://scenes/goat_sounds.gd" id="1_bgxn2"]
+[ext_resource type="AudioStream" uid="uid://dslkg4d2cosb2" path="res://assets/sounds/step1.wav" id="2_wfvoh"]
+[ext_resource type="AudioStream" uid="uid://ccqkhsg06rxe8" path="res://assets/sounds/step2.wav" id="3_2mh6m"]
+[ext_resource type="AudioStream" uid="uid://dm22fy56084vj" path="res://assets/sounds/step3.wav" id="4_x80jb"]
+[ext_resource type="AudioStream" uid="uid://du72cm1v87llv" path="res://assets/sounds/snort1.wav" id="5_8pxak"]
+[ext_resource type="AudioStream" uid="uid://cwbrjajs4k5k1" path="res://assets/sounds/snort2.wav" id="6_86poj"]
+[ext_resource type="AudioStream" uid="uid://ukhty5kgh34a" path="res://assets/sounds/bleat1.wav" id="7_av6kd"]
+[ext_resource type="AudioStream" uid="uid://cdu6pwujlsdga" path="res://assets/sounds/bleat2.wav" id="8_yc0dq"]
+[ext_resource type="AudioStream" uid="uid://b4obc3cpylvyl" path="res://assets/sounds/bleat3.wav" id="9_e5pjx"]
+[ext_resource type="AudioStream" uid="uid://c1eox6xmpyl5t" path="res://assets/sounds/bleat4.wav" id="10_kl8h4"]
+[ext_resource type="AudioStream" uid="uid://dwslkk0pj7osr" path="res://assets/sounds/bleat5.wav" id="11_w84hp"]
 
-[node name="goat_sounds" type="Node"]
+[node name="goat_sounds" type="Node2D"]
 script = ExtResource("1_bgxn2")
+
+[node name="step1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_wfvoh")
+volume_db = -1.0
+attenuation = 2.0
+
+[node name="step2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_2mh6m")
+volume_db = -1.0
+attenuation = 2.0
+
+[node name="step3" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_x80jb")
+volume_db = -1.0
+attenuation = 2.0
+
+[node name="snort1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_8pxak")
+attenuation = 1.2
+
+[node name="snort2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_86poj")
+attenuation = 1.2
+
+[node name="bleat1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_av6kd")
+attenuation = 1.5
+
+[node name="bleat2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_yc0dq")
+attenuation = 1.5
+
+[node name="bleat3" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_e5pjx")
+attenuation = 1.5
+
+[node name="bleat4" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_kl8h4")
+attenuation = 1.5
+
+[node name="bleat5" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_w84hp")
+attenuation = 1.5

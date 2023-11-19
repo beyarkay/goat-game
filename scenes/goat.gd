@@ -50,8 +50,13 @@ const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
 
 # child nodes
 @onready var sprite: AnimatedSprite2D = $sprite as AnimatedSprite2D
-@onready var floor_test: ShapeCast2D = $floor_test as ShapeCast2D
 @onready var animation: AnimationPlayer = $AnimationPlayer as AnimationPlayer
+@onready var goat_sounds: GoatSounds = $goat_sounds as GoatSounds
+
+# sound timers: set up in _ready()
+var step_sound_timer: Timer = Timer.new()
+var snort_sound_timer: Timer = Timer.new()
+var bleat_sound_timer: Timer = Timer.new()
 
 var input_buffer = null
 
@@ -60,15 +65,47 @@ func _ready() -> void:
 	charge_timeout.wait_time = charge_buildup_time
 	health_regen_timeout.wait_time = health_regen_duration
 	headbutt_buffer_timeout.wait_time = headbutt_buffer_time
+	setup_sound_timers()
 
-func find_ground():
-	# scan down to find first colliding object in "ground" group;
-	# return whether ground is found & normal vector
-	for index in range(floor_test.get_collision_count()):
-		if floor_test.get_collider(index).is_in_group("ground"):
-			return [true, floor_test.collision_result[index].normal]
-	return [false, Vector2(0, -1)]
+func setup_sound_timers() -> void:
+	# step sounds
+	step_sound_timer.wait_time = 0.2
+	step_sound_timer.connect("timeout", self._on_step_sound_timer_timeout)
+	add_child(step_sound_timer)
+	step_sound_timer.start()
+	
+	# snort sounds
+	snort_sound_timer.wait_time = randf_range(1.0, 4.6)
+	snort_sound_timer.connect("timeout", self._on_snort_sound_timer_timeout)
+	add_child(snort_sound_timer)
+	snort_sound_timer.start()
+	
+	# bleat sounds
+	bleat_sound_timer.wait_time = randf_range(2.2, 9.6)
+	bleat_sound_timer.connect("timeout", self._on_bleat_sound_timer_timeout)
+	add_child(bleat_sound_timer)
+	bleat_sound_timer.start()
 
+func _on_step_sound_timer_timeout() -> void:
+	# play step sound if on floor
+	if is_on_floor() and velocity.length() > MIN_ANIMATED_RUN_SPEED:
+		goat_sounds.step()
+		step_sound_timer.wait_time = randf_range(0.1, 0.23)
+		step_sound_timer.start()
+
+func _on_snort_sound_timer_timeout() -> void:
+	# play snorts with increased frequency if running
+	goat_sounds.snort()
+	if is_charging:
+		snort_sound_timer.wait_time = randf_range(0.5, 1.0)
+	else:
+		snort_sound_timer.wait_time = randf_range(1.0, 4.6)
+	snort_sound_timer.start()
+
+func _on_bleat_sound_timer_timeout() -> void:
+	goat_sounds.bleat()
+	bleat_sound_timer.wait_time = randf_range(2.2, 9.6)
+	
 func _physics_process(delta: float) -> void:
 	if is_knocked_out:
 		return
@@ -97,7 +134,6 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		$attack_area.scale.x = direction
 		sprite.flip_h = direction < 0
-
 
 	# Falling attack
 	if Input.is_action_just_pressed("p%d_down" % player) and !on_floor:
@@ -148,7 +184,6 @@ func _process(_delta: float) -> void:
 		sprite.play("knocked_out")
 	else:
 		sprite.play("idle")
-		
 
 func _on_input_buffer_timeout_timeout() -> void:
 	input_buffer = null
@@ -176,10 +211,10 @@ func hit(damage: float) -> void:
 		is_knocked_out = true
 		health_regen_timeout.start()
 
-
 func _on_charge_timeout_timeout() -> void:
 	is_charging = true
-
+	snort_sound_timer.stop()
+	_on_snort_sound_timer_timeout()
 
 func _on_health_regen_timeout_timeout():
 	health = GlobalState.GOAT_HEALTH_MAX

@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://dm22fy56084vj"
-path="res://.godot/imported/step3.wav-75e45b480c5619f46c9cb8b0f405e62f.sample"
+uid="uid://cwbrjajs4k5k1"
+path="res://.godot/imported/snort2.wav-e93a4490919403cfa956f53d7dc464be.sample"
 
 [deps]
 
-source_file="res://assets/sounds/step3.wav"
-dest_files=["res://.godot/imported/step3.wav-75e45b480c5619f46c9cb8b0f405e62f.sample"]
+source_file="res://assets/sounds/snort2.wav"
+dest_files=["res://.godot/imported/snort2.wav-e93a4490919403cfa956f53d7dc464be.sample"]
 
 [params]
 
