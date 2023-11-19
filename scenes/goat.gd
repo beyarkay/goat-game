@@ -214,6 +214,7 @@ func _on_area_2d_body_entered(body):
 		return
 	if is_charging:
 		body.hit(charge_damage)
+		goat_sounds.charge_hit()
 	if is_slamming:
 		body.hit(slam_damage)
 	if is_headbutting:

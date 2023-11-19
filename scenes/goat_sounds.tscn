@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dwm8wiylxqt4t"]
+[gd_scene load_steps=13 format=3 uid="uid://dwm8wiylxqt4t"]
 
 [ext_resource type="Script" path="res://scenes/goat_sounds.gd" id="1_bgxn2"]
 [ext_resource type="AudioStream" uid="uid://dslkg4d2cosb2" path="res://assets/sounds/step1.wav" id="2_wfvoh"]
@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://b4obc3cpylvyl" path="res://assets/sounds/bleat3.wav" id="9_e5pjx"]
 [ext_resource type="AudioStream" uid="uid://c1eox6xmpyl5t" path="res://assets/sounds/bleat4.wav" id="10_kl8h4"]
 [ext_resource type="AudioStream" uid="uid://dwslkk0pj7osr" path="res://assets/sounds/bleat5.wav" id="11_w84hp"]
+[ext_resource type="AudioStream" uid="uid://w7m5kit263im" path="res://assets/sounds/charge_hit.wav" id="12_cp5qu"]
 
 [node name="goat_sounds" type="Node2D"]
 script = ExtResource("1_bgxn2")
@@ -57,3 +58,6 @@ attenuation = 1.5
 [node name="bleat5" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_w84hp")
 attenuation = 1.5
+
+[node name="charge_hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_cp5qu")
