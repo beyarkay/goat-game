@@ -31,6 +31,13 @@ var is_charging: bool = false
 var slamming_dec: float = 10
 var is_slamming: bool = false
 
+@export_category("Headbutt Attack")
+@export var headbutt_damage: float = 50
+# Determines length of time for double tap to trigger headbutt
+@export var headbutt_buffer_time: float = 0.2
+var is_headbutting: bool = false
+@onready var headbutt_buffer_timeout: Timer = $headbutt_buffer_timeout as Timer
+
 @export_category("Stats")
 var health: float = GlobalState.GOAT_HEALTH_MAX
 var is_knocked_out: bool = false
@@ -53,6 +60,7 @@ func _ready() -> void:
 	input_buffer_timeout.wait_time = input_buffer_duration
 	charge_timeout.wait_time = charge_buildup_time
 	health_regen_timeout.wait_time = health_regen_duration
+	headbutt_buffer_timeout.wait_time = headbutt_buffer_time
 
 func find_ground():
 	# scan down to find first colliding object in "ground" group;
@@ -106,14 +114,22 @@ func _physics_process(delta: float) -> void:
 		gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 		animation.stop()
 
-	# charging attack
+	# Charging attack
 	if abs(velocity.x) == charge_vel_threshold && on_floor:
 		if charge_timeout.time_left == 0:
 			charge_timeout.start()
 	else:
 		charge_timeout.stop()
 		is_charging = false
-
+		
+	# Headbutt attack
+	if Input.is_action_just_pressed("p%d_left" % player) || Input.is_action_just_pressed("p%d_right" % player):
+		if headbutt_buffer_timeout.time_left > 0:
+			is_headbutting = true
+		else:
+			is_headbutting = false
+			headbutt_buffer_timeout.start()
+	
 	move_and_slide()
 
 func _process(_delta: float) -> void:
@@ -127,8 +143,11 @@ func _process(_delta: float) -> void:
 			sprite.play("running")
 	elif is_knocked_out:
 		sprite.play("knocked_out")
+	elif is_headbutting:
+		sprite.play("headbutting")
 	else:
 		sprite.play("idle")
+		
 
 func _on_input_buffer_timeout_timeout() -> void:
 	input_buffer = null
@@ -136,10 +155,12 @@ func _on_input_buffer_timeout_timeout() -> void:
 func _on_area_2d_body_entered(body):
 	if (body.is_in_group("player") && body.player == self.player || !body.has_method("hit")):
 		return
-	if (is_charging):
+	if is_charging:
 		body.hit(charge_damage)
-	if (is_slamming):
+	if is_slamming:
 		body.hit(slam_damage)
+	if is_headbutting:
+		body.hit(headbutt_damage)
 
 func hit(damage: float) -> void:
 	print(self, " has been hit with ", damage, " damage")
@@ -151,7 +172,6 @@ func hit(damage: float) -> void:
 	else:
 		shake_screen.emit(damage * 0.1)
 	if health == 0:
-		print("knocked out!")
 		is_knocked_out = true
 		health_regen_timeout.start()
 
@@ -164,4 +184,7 @@ func _on_health_regen_timeout_timeout():
 	health = GlobalState.GOAT_HEALTH_MAX
 	health_change.emit(player, health)
 	is_knocked_out = false
-	print("no longer knocked out")
+	
+func _on_headbutt_buffer_timeout_timeout():
+	pass
+	#is_headbutting = false
