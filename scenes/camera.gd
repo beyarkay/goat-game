@@ -32,6 +32,22 @@ func _ready() -> void:
 		assert(node is CharacterBody2D)
 		players.append(node as CharacterBody2D)
 
+	# Connect up the screen-shake signals
+	for player in get_tree().get_nodes_in_group("player"):
+		# NOTE: we *cannot* use player.has_signal because it only returns true
+		# for signals added via `add_user_signal` ):
+		var has_screen_shake_signal = false
+		for signal_entry in player.get_signal_list():
+			if signal_entry.name == "shake_screen":
+				has_screen_shake_signal = true
+		assert(
+			has_screen_shake_signal,
+			"Player " + player.to_string() + " doesn't have screen_shake signal"
+			)
+		print("Connecting player " + player.to_string() + " to signal")
+		player.shake_screen.connect(_on_shake_screen)
+
+
 func _process(delta: float) -> void:
 	var mean_position = Vector2.ZERO
 
