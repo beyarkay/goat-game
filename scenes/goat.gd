@@ -12,7 +12,7 @@ extends CharacterBody2D
 @export var knocked_out_push_dec: float = 35
 @export var max_hor_vel: float = 600
 @export var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
-var push_velocity: float = 0
+var knockback: float = 0
 var push_direction: float = 0
 var is_pushed: bool = false
 @onready var push_timer: Timer = $push_timer as Timer
@@ -23,15 +23,16 @@ var is_pushed: bool = false
 
 @export_category("Charge Attack")
 @export var charge_damage: float = 150
-@export var charge_push_velocity: float = 1500
+@export var charge_hor_knockback: float = 1500
+@export var charge_vert_knockback: float = 400
 @export var charge_vel_threshold: float = max_hor_vel
 @export var charge_buildup_time: float = 0.2
 @onready var charge_timeout: Timer = $charge_timeout as Timer
 var is_charging: bool = false
 
 @export_category("Slam Attack")
-@export var slam_damage: float = 1000
-@export var slam_push_velocity: float = 0
+@export var slam_damage: float = 200
+@export var slam_vert_knockback: float = 100
 @export var max_falling_damage: float = 100
 @export var slam_gravity_multiplier: float = 1.75
 var slamming_dec: float = 10
@@ -39,7 +40,8 @@ var is_slamming: bool = false
 
 @export_category("Headbutt Attack")
 @export var headbutt_damage: float = 50
-@export var headbutt_push_velocity: float = 900
+@export var headbutt_hor_knockback: float = 900
+@export var headbutt_vert_knockback: float = 600
 @export var headbutt_tap_buffer_time: float = 0.2
 @export var is_headbutting: bool = false
 var headbutt_direction: float = 0
@@ -226,18 +228,19 @@ func _on_input_buffer_timeout_timeout() -> void:
 	input_buffer = null
 
 func _on_area_2d_body_entered(body):
-	var attack_direction = -1 if sprite.flip_h else 1
+	var hor_attack_direction = -1 if sprite.flip_h else 1
+	var vert_attack_direction = sign(velocity.y)
 	if (body.is_in_group("player") && body.player == self.player || !body.has_method("hit")):
 		return
 	if is_charging:
-		body.hit(charge_damage, charge_push_velocity * attack_direction)
+		body.hit(charge_damage, Vector2(charge_hor_knockback * hor_attack_direction, -charge_vert_knockback))
 		goat_sounds.charge_hit()
 	if is_slamming:
-		body.hit(slam_damage, slam_push_velocity * attack_direction)
+		body.hit(slam_damage, Vector2(0, -slam_vert_knockback * vert_attack_direction))
 	if is_headbutting:
-		body.hit(headbutt_damage, headbutt_push_velocity * attack_direction)
+		body.hit(headbutt_damage, Vector2(headbutt_hor_knockback * hor_attack_direction, -headbutt_vert_knockback))
 
-func hit(damage: float, push_velocity: float) -> void:
+func hit(damage: float, knockback: Vector2) -> void:
 	if !is_knocked_out:
 		shake_screen.emit(0.5 * damage * (2.0 if health == 0 else 1.0))
 		update_health(player, health - damage)
@@ -248,7 +251,8 @@ func hit(damage: float, push_velocity: float) -> void:
 		health_regen_timeout.start()
 	
 	# Set logic for this here
-	velocity.x = push_velocity
+	velocity = knockback
+	print(knockback)
 	is_pushed = true
 	push_timer.start()
 
