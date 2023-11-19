@@ -324,6 +324,10 @@ process_callback = 0
 wait_time = 0.33
 one_shot = true
 
+[node name="push_timer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
 [connection signal="animation_finished" from="sprite" to="." method="_on_sprite_animation_finished"]
 [connection signal="timeout" from="input_buffer_timeout" to="." method="_on_input_buffer_timeout_timeout"]
 [connection signal="timeout" from="charge_timeout" to="." method="_on_charge_timeout_timeout"]
@@ -332,3 +336,4 @@ one_shot = true
 [connection signal="timeout" from="headbutt_tap_buffer_timeout" to="." method="_on_headbutt_tap_buffer_timeout_timeout"]
 [connection signal="timeout" from="respawn_immunity" to="." method="_on_respawn_immunity_timeout"]
 [connection signal="timeout" from="headbutt_timer" to="." method="_on_headbutt_timer_timeout"]
+[connection signal="timeout" from="push_timer" to="." method="_on_push_timer_timeout"]
