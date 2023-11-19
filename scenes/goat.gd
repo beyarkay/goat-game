@@ -32,9 +32,11 @@ var is_slamming: bool = false
 @export_category("Headbutt Attack")
 @export var headbutt_damage: float = 50
 # Determines length of time for double tap to trigger headbutt
-@export var headbutt_buffer_time: float = 0.2
-var is_headbutting: bool = false
-@onready var headbutt_buffer_timeout: Timer = $headbutt_buffer_timeout as Timer
+@export var headbutt_tap_buffer_time: float = 0.2
+@export var is_headbutting: bool = false
+var headbutt_direction: float = 0
+@onready var headbutt_tap_buffer_timeout: Timer = $headbutt_tap_buffer_timeout as Timer
+@onready var headbutt_timer: Timer = $headbutt_timer as Timer
 
 @export_category("Stats")
 var health: float = GlobalState.GOAT_HEALTH_MAX
@@ -50,8 +52,8 @@ const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
 
 # child nodes
 @onready var sprite: AnimatedSprite2D = $sprite as AnimatedSprite2D
-@onready var floor_test: ShapeCast2D = $floor_test as ShapeCast2D
 @onready var animation: AnimationPlayer = $AnimationPlayer as AnimationPlayer
+@onready var attack_collider: CollisionShape2D = %attack_collider as CollisionShape2D
 
 var input_buffer = null
 
@@ -59,18 +61,13 @@ func _ready() -> void:
 	input_buffer_timeout.wait_time = input_buffer_duration
 	charge_timeout.wait_time = charge_buildup_time
 	health_regen_timeout.wait_time = health_regen_duration
-	headbutt_buffer_timeout.wait_time = headbutt_buffer_time
-
-func find_ground():
-	# scan down to find first colliding object in "ground" group;
-	# return whether ground is found & normal vector
-	for index in range(floor_test.get_collision_count()):
-		if floor_test.get_collider(index).is_in_group("ground"):
-			return [true, floor_test.collision_result[index].normal]
-	return [false, Vector2(0, -1)]
+	headbutt_tap_buffer_timeout.wait_time = headbutt_tap_buffer_time
+	
+	attack_collider.disabled = true
 
 func _physics_process(delta: float) -> void:
 	if is_knocked_out:
+		move_and_slide()
 		return
 
 	var on_floor = is_on_floor()
@@ -98,7 +95,6 @@ func _physics_process(delta: float) -> void:
 		$attack_area.scale.x = direction
 		sprite.flip_h = direction < 0
 
-
 	# Falling attack
 	if Input.is_action_just_pressed("p%d_down" % player) and !on_floor:
 		is_slamming = true
@@ -122,33 +118,39 @@ func _physics_process(delta: float) -> void:
 		is_charging = false
 		
 	# Headbutt attack
-	if Input.is_action_just_pressed("p%d_left" % player) || Input.is_action_just_pressed("p%d_right" % player):
-		if headbutt_buffer_timeout.time_left > 0:
-			is_headbutting = true
-			headbutt_buffer_timeout.stop()
-		else:
-			is_headbutting = false
-			headbutt_buffer_timeout.start()
+	var input_direction = 0;
+	if Input.is_action_just_pressed("p%d_left" % player):
+		input_direction = -1
+	elif Input.is_action_just_pressed("p%d_right" % player):
+		input_direction = 1
 	
-	if !is_headbutting:
-		move_and_slide()
+	if input_direction:
+		if input_direction == headbutt_direction && on_floor && headbutt_tap_buffer_timeout.time_left > 0:
+			#animation.play("headbutt")
+			headbutt_timer.start()
+			is_headbutting = true
+		else:
+			headbutt_tap_buffer_timeout.start()
+			headbutt_direction = input_direction
+			5
+	attack_collider.disabled = not (is_charging or is_headbutting or is_slamming)
+	move_and_slide()
 
 func _process(_delta: float) -> void:
 	# animate sprite based on current movement direction
-	if velocity.length() > MIN_ANIMATED_RUN_SPEED:
+	if is_headbutting:
+		sprite.play("headbutting")
+	elif velocity.length() > MIN_ANIMATED_RUN_SPEED:
 		if is_charging:
 			sprite.play("charging")
 		elif is_slamming:
 			sprite.play("slamming")
 		else:
 			sprite.play("running")
-	elif is_headbutting:
-		sprite.play("headbutting")
 	elif is_knocked_out:
 		sprite.play("knocked_out")
 	else:
 		sprite.play("idle")
-		
 
 func _on_input_buffer_timeout_timeout() -> void:
 	input_buffer = null
@@ -176,19 +178,16 @@ func hit(damage: float) -> void:
 		is_knocked_out = true
 		health_regen_timeout.start()
 
-
 func _on_charge_timeout_timeout() -> void:
 	is_charging = true
-
 
 func _on_health_regen_timeout_timeout():
 	health = GlobalState.GOAT_HEALTH_MAX
 	health_change.emit(player, health)
 	is_knocked_out = false
 	
-func _on_headbutt_buffer_timeout_timeout():
+func _on_headbutt_tap_buffer_timeout_timeout():
 	pass
 
-func _on_sprite_animation_finished():
-	if sprite.animation == "headbutting":
-		is_headbutting = false
+func _on_headbutt_timer_timeout():
+	is_headbutting = false
