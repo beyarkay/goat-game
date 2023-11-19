@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export_category("Physics")
 @export var jump_vel: float = -750.0
 @export var run_acc: float = 30.0
+@export var airtime_acc: float = 5
 @export var run_dec: float = 70.0
 @export var push_dec: float = 30
 @export var knocked_out_push_dec: float = 35
@@ -165,8 +166,8 @@ func _physics_process(delta: float) -> void:
 		jump_buffer_timeout.start()
 
 	var direction: float = Input.get_axis("p%d_left" % player, "p%d_right" % player)
-	if direction and !is_slamming:
-		var acc: float = run_acc
+	if direction:
+		var acc: float = airtime_acc if is_slamming else run_acc
 		if sign(velocity.x) != sign(direction): acc = run_dec
 		velocity.x = move_toward(velocity.x, direction * max_hor_vel, acc)
 	elif is_slamming:
