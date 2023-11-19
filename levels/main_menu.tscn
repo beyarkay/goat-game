@@ -1,11 +1,22 @@
-[gd_scene load_steps=10 format=3 uid="uid://c6kjnxvsi7hyt"]
+[gd_scene load_steps=21 format=3 uid="uid://c6kjnxvsi7hyt"]
 
 [ext_resource type="Script" path="res://levels/main_menu.gd" id="1_j3mdw"]
 [ext_resource type="FontFile" uid="uid://qngwvyeqmk0n" path="res://assets/fonts/Chilanka-Regular.otf" id="2_0lg7c"]
 [ext_resource type="FontFile" uid="uid://jeqp1o5gothr" path="res://assets/fonts/Bouncy.otf" id="2_fqa2g"]
+[ext_resource type="Texture2D" uid="uid://de6gpnn6mvavt" path="res://assets/keys/A.png" id="2_pe4ps"]
+[ext_resource type="Texture2D" uid="uid://dogpy26a7x4hs" path="res://assets/keys/W.png" id="3_vdwid"]
 [ext_resource type="Texture2D" uid="uid://3t3d8g0dqbk5" path="res://assets/skull_left.png" id="4_dvnb0"]
+[ext_resource type="Texture2D" uid="uid://cg2x31ot2lcgo" path="res://assets/keys/S.png" id="4_lu3bf"]
 [ext_resource type="Texture2D" uid="uid://byx63yw1rr6be" path="res://assets/skull_right.png" id="5_5miqg"]
+[ext_resource type="Texture2D" uid="uid://comqk7uouu2in" path="res://assets/keys/D.png" id="5_a0ooo"]
 [ext_resource type="Texture2D" uid="uid://1atsr4was4gj" path="res://assets/goat/spritesheets/knocked_out.png" id="6_8fgku"]
+[ext_resource type="PackedScene" uid="uid://bgfo3l08bifum" path="res://scenes/goat.tscn" id="8_v42xo"]
+[ext_resource type="PackedScene" uid="uid://dcxje6kcdg0k5" path="res://scenes/out_of_bounds_detector.tscn" id="8_xf6wr"]
+[ext_resource type="Script" path="res://scenes/key_press_indicators.gd" id="9_vdggw"]
+[ext_resource type="Texture2D" uid="uid://q3innqx3frr3" path="res://assets/keys/ARROWUP.png" id="14_ftd7u"]
+[ext_resource type="Texture2D" uid="uid://d4chh01q2sspd" path="res://assets/keys/ARROWLEFT.png" id="15_12w6b"]
+[ext_resource type="Texture2D" uid="uid://c345k3d6xjs70" path="res://assets/keys/ARROWDOWN.png" id="16_trdq1"]
+[ext_resource type="Texture2D" uid="uid://b4xadcg7pdidn" path="res://assets/keys/ARROWRIGHT.png" id="17_t2ydi"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nx8i7"]
 line_spacing = 14.0
@@ -107,5 +118,160 @@ scale = Vector2(1.39062, 1.39062)
 texture = ExtResource("6_8fgku")
 region_enabled = true
 region_rect = Rect2(0, 0, 64, 64)
+
+[node name="platforms" type="Node" parent="."]
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="platforms" groups=["ground"]]
+visible = false
+position = Vector2(0, -200)
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="platforms/StaticBody2D4"]
+polygon = PackedVector2Array(376, 640, 784, 640, 872, 584, 840, 536, 816, 536, 760, 568, 760, 480, 680, 472, 680, 416, 544, 408, 536, 360, 464, 360, 456, 368, 456, 416, 472, 432, 480, 480, 400, 480, 400, 568, 384, 568, 328, 536, 312, 544, 288, 592)
+
+[node name="goat" parent="." instance=ExtResource("8_v42xo")]
+position = Vector2(328, 304)
+player = 1
+jump_vel = -750.0
+run_acc = 30.0
+run_dec = 70.0
+max_hor_vel = 600.0
+input_buffer_duration = 0.15
+charge_damage = 100.0
+charge_buildup_time = 0.2
+slam_damage = 150.0
+max_falling_damage = 100.0
+slam_gravity_multiplier = 1.75
+headbutt_damage = 50.0
+headbutt_tap_buffer_time = 0.2
+is_headbutting = false
+health_regen_duration = 8.0
+
+[node name="goat2" parent="." instance=ExtResource("8_v42xo")]
+position = Vector2(824, 304)
+player = 2
+jump_vel = -750.0
+run_acc = 30.0
+run_dec = 70.0
+max_hor_vel = 600.0
+input_buffer_duration = 0.15
+charge_damage = 100.0
+charge_buildup_time = 0.2
+slam_damage = 150.0
+max_falling_damage = 100.0
+slam_gravity_multiplier = 1.75
+headbutt_damage = 50.0
+headbutt_tap_buffer_time = 0.2
+is_headbutting = false
+health_regen_duration = 8.0
+
+[node name="out_of_bounds_detector" parent="." instance=ExtResource("8_xf6wr")]
+position = Vector2(544, 648)
+
+[node name="key_press_indicators" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("9_vdggw")
+
+[node name="wasd_indicator" type="VBoxContainer" parent="key_press_indicators"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 280.0
+offset_top = 448.0
+offset_right = 336.0
+offset_bottom = 488.0
+scale = Vector2(2, 2)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="p1_up_sprite" type="TextureRect" parent="key_press_indicators/wasd_indicator"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("3_vdwid")
+stretch_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="key_press_indicators/wasd_indicator"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="p1_left_sprite" type="TextureRect" parent="key_press_indicators/wasd_indicator/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_pe4ps")
+stretch_mode = 3
+
+[node name="p1_down_sprite" type="TextureRect" parent="key_press_indicators/wasd_indicator/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_lu3bf")
+stretch_mode = 3
+
+[node name="p1_right_sprite" type="TextureRect" parent="key_press_indicators/wasd_indicator/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("5_a0ooo")
+stretch_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="key_press_indicators/wasd_indicator"]
+layout_mode = 2
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="uldr_indicator" type="VBoxContainer" parent="key_press_indicators"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 768.0
+offset_top = 440.0
+offset_right = 824.0
+offset_bottom = 476.0
+scale = Vector2(2, 2)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="p2_up_sprite" type="TextureRect" parent="key_press_indicators/uldr_indicator"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("14_ftd7u")
+stretch_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="key_press_indicators/uldr_indicator"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="p2_left_sprite" type="TextureRect" parent="key_press_indicators/uldr_indicator/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("15_12w6b")
+stretch_mode = 3
+
+[node name="p2_down_sprite" type="TextureRect" parent="key_press_indicators/uldr_indicator/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("16_trdq1")
+stretch_mode = 3
+
+[node name="p2_right_sprite" type="TextureRect" parent="key_press_indicators/uldr_indicator/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("17_t2ydi")
+stretch_mode = 3
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/start" to="." method="_on_button_pressed"]

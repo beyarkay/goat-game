@@ -77,7 +77,7 @@ func _ready() -> void:
 	health_regen_timeout.wait_time = health_regen_duration
 	headbutt_tap_buffer_timeout.wait_time = headbutt_tap_buffer_time
 	setup_sound_timers()
-	
+	SPAWN_POS = position
 	attack_collider.disabled = true
 
 func setup_sound_timers() -> void:
@@ -86,13 +86,13 @@ func setup_sound_timers() -> void:
 	step_sound_timer.connect("timeout", self._on_step_sound_timer_timeout)
 	add_child(step_sound_timer)
 	step_sound_timer.start()
-	
+
 	# snort sounds
 	snort_sound_timer.wait_time = randf_range(1.0, 4.6)
 	snort_sound_timer.connect("timeout", self._on_snort_sound_timer_timeout)
 	add_child(snort_sound_timer)
 	snort_sound_timer.start()
-	
+
 	# bleat sounds
 	bleat_sound_timer.wait_time = randf_range(2.2, 9.6)
 	bleat_sound_timer.connect("timeout", self._on_bleat_sound_timer_timeout)
@@ -118,7 +118,7 @@ func _on_snort_sound_timer_timeout() -> void:
 func _on_bleat_sound_timer_timeout() -> void:
 	goat_sounds.bleat()
 	bleat_sound_timer.wait_time = randf_range(2.2, 9.6)
-	
+
 func _physics_process(delta: float) -> void:
 	if is_knocked_out:
 		move_and_slide()
@@ -171,14 +171,13 @@ func _physics_process(delta: float) -> void:
 		charge_timeout.stop()
 		is_charging = false
 		goat_sounds.stop_charge()
-		
 	# Headbutt attack
 	var input_direction = 0;
 	if Input.is_action_just_pressed("p%d_left" % player):
 		input_direction = -1
 	elif Input.is_action_just_pressed("p%d_right" % player):
 		input_direction = 1
-	
+
 	if input_direction:
 		if input_direction == headbutt_direction && on_floor && headbutt_tap_buffer_timeout.time_left > 0:
 			#animation.play("headbutt")
@@ -246,7 +245,7 @@ func update_health(player, new_health):
 func _on_health_regen_timeout_timeout():
 	update_health(player, GlobalState.GOAT_HEALTH_MAX)
 	is_knocked_out = false
-	
+
 func _on_headbutt_tap_buffer_timeout_timeout():
 	pass
 
