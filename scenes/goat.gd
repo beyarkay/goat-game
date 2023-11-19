@@ -261,7 +261,7 @@ func hit(damage: float, knockback: Vector2) -> void:
 		update_health(player, health - damage)
 	else:
 		shake_screen.emit(damage * 0.1)
-	if health == 0:
+	if health == 0 and not is_knocked_out:
 		is_knocked_out = true
 		health_regen_timeout.start()
 
