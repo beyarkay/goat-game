@@ -14,8 +14,8 @@ extends CharacterBody2D
 @export var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export_category("Inputs")
-@export var input_buffer_duration: float = 0.15
-@onready var input_buffer_timeout: Timer = $input_buffer_timeout as Timer
+@export var jump_buffer_duration: float = 0.15
+@onready var jump_buffer_timeout: Timer = $jump_buffer_timeout as Timer
 
 @export_category("Charge Attack")
 @export var charge_damage: float = 100
@@ -46,23 +46,21 @@ const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
 
 # child nodes
 @onready var sprite: AnimatedSprite2D = $sprite as AnimatedSprite2D
-@onready var floor_test: ShapeCast2D = $floor_test as ShapeCast2D
+@onready var knockout_sound: AudioStreamPlayer2D = $knockout_sound as AudioStreamPlayer2D
+@onready var step_sounds: Array[AudioStreamPlayer2D] = [
+	$step1 as AudioStreamPlayer2D,
+	$step3 as AudioStreamPlayer2D,
+	$step4 as AudioStreamPlayer2D
+]
+@onready var step_timer: Timer = $step_timer as Timer
 
-var input_buffer = null
+var jump_buffer = null
 
 func _ready() -> void:
-	input_buffer_timeout.wait_time = input_buffer_duration
+	jump_buffer_timeout.wait_time = jump_buffer_duration
 	charge_timeout.wait_time = charge_buildup_time
 	health_regen_timeout.wait_time = health_regen_duration
 	SPAWN_POS = position
-
-func find_ground():
-	# scan down to find first colliding object in "ground" group;
-	# return whether ground is found & normal vector
-	for index in range(floor_test.get_collision_count()):
-		if floor_test.get_collider(index).is_in_group("ground"):
-			return [true, floor_test.collision_result[index].normal]
-	return [false, Vector2(0, -1)]
 
 func _physics_process(delta: float) -> void:
 	if is_knocked_out:
@@ -74,10 +72,10 @@ func _physics_process(delta: float) -> void:
 		velocity.y += gravity * delta
 
 	var jumping = Input.is_action_just_pressed("p%d_up" % player)
-	if (jumping or input_buffer == "jump") and on_floor:
+	if (jumping or jump_buffer == "jump") and on_floor:
 		velocity.y = jump_vel
 	if jumping and not on_floor:
-		input_buffer = "jump"
+		jump_buffer = "jump"
 
 	var direction: float = Input.get_axis("p%d_left" % player, "p%d_right" % player)
 	if direction and !is_slamming:
@@ -92,7 +90,6 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		$attack_area.scale.x = direction
 		sprite.flip_h = direction < 0
-
 
 	# Falling attack
 	if Input.is_action_just_pressed("p%d_down" % player) and !on_floor:
@@ -132,8 +129,8 @@ func _process(_delta: float) -> void:
 	else:
 		sprite.play("idle")
 
-func _on_input_buffer_timeout_timeout() -> void:
-	input_buffer = null
+func _on_jump_buffer_timeout_timeout() -> void:
+	jump_buffer = null
 
 func _on_area_2d_body_entered(body):
 	if (body.is_in_group("player") && body.player == self.player || !body.has_method("hit")):
@@ -154,20 +151,19 @@ func hit(damage: float) -> void:
 		shake_screen.emit(damage * 0.1)
 	if health == 0:
 		print("knocked out!")
+		knockout_sound.pitch_scale = randf_range(0.85, 1.15)
+		knockout_sound.play()
 		is_knocked_out = true
 		health_regen_timeout.start()
 
-
 func _on_charge_timeout_timeout() -> void:
 	is_charging = true
-
 
 func _on_health_regen_timeout_timeout():
 	health = GlobalState.GOAT_HEALTH_MAX
 	health_change.emit(player, health)
 	is_knocked_out = false
 	print("no longer knocked out")
-
 
 func respawn() -> void:
 	shake_screen.emit(50)
@@ -176,3 +172,11 @@ func respawn() -> void:
 	is_knocked_out = false
 	position = SPAWN_POS
 	velocity = Vector2.ZERO
+
+func _on_step_timer_timeout() -> void:
+	if is_on_floor() and velocity.length() > MIN_ANIMATED_RUN_SPEED:
+		var step = step_sounds[randi_range(0, step_sounds.size() - 1)]
+		step.pitch_scale = randf_range(0.75, 1.3)
+		step.play()
+	step_timer.wait_time = randf_range(0.1, 0.3)
+	step_timer.start()

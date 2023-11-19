@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bgfo3l08bifum"]
+[gd_scene load_steps=35 format=3 uid="uid://bgfo3l08bifum"]
 
 [ext_resource type="Script" path="res://scenes/goat.gd" id="1_2in7i"]
 [ext_resource type="Texture2D" uid="uid://ypx8ekjf3e6v" path="res://assets/goat/spritesheets/charge.png" id="2_srj55"]
@@ -6,6 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://daaa5n1pvsgys" path="res://assets/goat/spritesheets/running.png" id="3_ctjsc"]
 [ext_resource type="Texture2D" uid="uid://b5nikspex6p6b" path="res://assets/goat/spritesheets/falling.png" id="3_diymy"]
 [ext_resource type="Texture2D" uid="uid://1atsr4was4gj" path="res://assets/goat/spritesheets/knocked_out.png" id="4_3nynr"]
+[ext_resource type="AudioStream" uid="uid://bifywuylcu8nl" path="res://assets/sounds/knockout.wav" id="7_714fh"]
+[ext_resource type="AudioStream" uid="uid://dslkg4d2cosb2" path="res://assets/sounds/step1.wav" id="8_d2ue2"]
+[ext_resource type="AudioStream" uid="uid://ccqkhsg06rxe8" path="res://assets/sounds/step3.wav" id="10_2172m"]
+[ext_resource type="AudioStream" uid="uid://dm22fy56084vj" path="res://assets/sounds/step4.wav" id="11_7o3cq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_01sup"]
 radius = 12.0
@@ -160,10 +164,6 @@ animations = [{
 "speed": 15.0
 }]
 
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_er8hu"]
-a = Vector2(-17, 0)
-b = Vector2(17, 0)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_408vh"]
 size = Vector2(28, 51)
 
@@ -219,13 +219,9 @@ material = SubResource("ShaderMaterial_b240r")
 position = Vector2(1, -3)
 scale = Vector2(1.01586, 0.977672)
 sprite_frames = SubResource("SpriteFrames_au2ay")
-animation = &"idle"
+animation = &"running"
 
-[node name="floor_test" type="ShapeCast2D" parent="."]
-shape = SubResource("SegmentShape2D_er8hu")
-target_position = Vector2(0, 19)
-
-[node name="input_buffer_timeout" type="Timer" parent="."]
+[node name="jump_buffer_timeout" type="Timer" parent="."]
 autostart = true
 
 [node name="charge_timeout" type="Timer" parent="."]
@@ -246,7 +242,34 @@ libraries = {
 [node name="health_regen_timeout" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="timeout" from="input_buffer_timeout" to="." method="_on_input_buffer_timeout_timeout"]
+[node name="knockout_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_714fh")
+
+[node name="step1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_d2ue2")
+volume_db = -1.0
+attenuation = 2.0
+max_polyphony = 3
+
+[node name="step3" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_2172m")
+volume_db = -1.0
+attenuation = 2.0
+max_polyphony = 3
+
+[node name="step4" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_7o3cq")
+volume_db = -1.0
+attenuation = 2.0
+max_polyphony = 3
+
+[node name="step_timer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="jump_buffer_timeout" to="." method="_on_jump_buffer_timeout_timeout"]
 [connection signal="timeout" from="charge_timeout" to="." method="_on_charge_timeout_timeout"]
 [connection signal="body_entered" from="attack_area" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="health_regen_timeout" to="." method="_on_health_regen_timeout_timeout"]
+[connection signal="timeout" from="step_timer" to="." method="_on_step_timer_timeout"]
