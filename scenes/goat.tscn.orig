@@ -1,14 +1,19 @@
-[gd_scene load_steps=28 format=3 uid="uid://bgfo3l08bifum"]
+[gd_scene load_steps=39 format=3 uid="uid://bgfo3l08bifum"]
 
 [ext_resource type="Script" path="res://scenes/goat.gd" id="1_2in7i"]
 [ext_resource type="Texture2D" uid="uid://ypx8ekjf3e6v" path="res://assets/goat/spritesheets/charge.png" id="2_srj55"]
 [ext_resource type="Texture2D" uid="uid://dml3t6s147ax" path="res://assets/goat/spritesheets/idle.png" id="2_t8pnn"]
+[ext_resource type="Texture2D" uid="uid://c7r1s5g5txcbx" path="res://assets/goat/spritesheets/headbutting.png" id="3_50dav"]
 [ext_resource type="Texture2D" uid="uid://daaa5n1pvsgys" path="res://assets/goat/spritesheets/running.png" id="3_ctjsc"]
-[ext_resource type="Texture2D" path="res://assets/goat/spritesheets/falling.png" id="3_diymy"]
+[ext_resource type="Texture2D" uid="uid://b5nikspex6p6b" path="res://assets/goat/spritesheets/falling.png" id="3_diymy"]
+[ext_resource type="Texture2D" uid="uid://1atsr4was4gj" path="res://assets/goat/spritesheets/knocked_out.png" id="4_3nynr"]
+[ext_resource type="PackedScene" path="res://scenes/goat_sounds.tscn" id="8_hc2mw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_01sup"]
 radius = 12.0
 height = 34.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b240r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rclbf"]
 atlas = ExtResource("2_srj55")
@@ -21,6 +26,26 @@ region = Rect2(64, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_0o06b"]
 atlas = ExtResource("2_srj55")
 region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7wsla"]
+atlas = ExtResource("3_50dav")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o6ad0"]
+atlas = ExtResource("3_50dav")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_84m21"]
+atlas = ExtResource("3_50dav")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8icsl"]
+atlas = ExtResource("3_50dav")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fvyoy"]
+atlas = ExtResource("3_50dav")
+region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ediec"]
 atlas = ExtResource("2_t8pnn")
@@ -45,6 +70,14 @@ region = Rect2(256, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_41lls"]
 atlas = ExtResource("2_t8pnn")
 region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o1tie"]
+atlas = ExtResource("4_3nynr")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_51itk"]
+atlas = ExtResource("4_3nynr")
+region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7yw58"]
 atlas = ExtResource("3_ctjsc")
@@ -88,6 +121,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_7wsla")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o6ad0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_84m21")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8icsl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fvyoy")
+}],
+"loop": false,
+"name": &"headbutting",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ediec")
 }, {
 "duration": 1.0,
@@ -108,6 +161,17 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o1tie")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_51itk")
+}],
+"loop": true,
+"name": &"knocked_out",
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -138,27 +202,8 @@ animations = [{
 "speed": 15.0
 }]
 
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_er8hu"]
-a = Vector2(-17, 0)
-b = Vector2(17, 0)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_408vh"]
 size = Vector2(28, 51)
-
-[sub_resource type="Animation" id="Animation_dhr6c"]
-resource_name = "slamming_right"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.7),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.000241599, 1.9481]
-}
 
 [sub_resource type="Animation" id="Animation_xq4x5"]
 resource_name = "slamming_left"
@@ -175,18 +220,58 @@ tracks/0/keys = {
 "values": [0.000241599, -1.94779]
 }
 
+[sub_resource type="Animation" id="Animation_dhr6c"]
+resource_name = "slamming_right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.000241599, 1.9481]
+}
+
+[sub_resource type="Animation" id="Animation_n6wqo"]
+resource_name = "headbutt"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath(".:is_headbutting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("attack_area/attack_collider:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7),
+"transitions": PackedFloat32Array(0.965936, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sxpwc"]
 _data = {
+"headbutt": SubResource("Animation_n6wqo"),
 "slamming_left": SubResource("Animation_xq4x5"),
 "slamming_right": SubResource("Animation_dhr6c")
 }
 
 [node name="goat" type="CharacterBody2D" groups=["player"]]
-<<<<<<< HEAD
-rotation = 0.000241599
-=======
 z_index = 1
->>>>>>> 06c202ab5d3dcaaefdd57cc51e775eb6e80e5472
+rotation = 0.000241599
 floor_max_angle = 1.0472
 script = ExtResource("1_2in7i")
 metadata/_edit_group_ = true
@@ -196,15 +281,13 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_01sup")
 
 [node name="sprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_b240r")
 position = Vector2(1, -3)
 scale = Vector2(1.01586, 0.977672)
 sprite_frames = SubResource("SpriteFrames_au2ay")
-animation = &"slamming"
-frame_progress = 0.523567
-
-[node name="floor_test" type="ShapeCast2D" parent="."]
-shape = SubResource("SegmentShape2D_er8hu")
-target_position = Vector2(0, 19)
+animation = &"headbutting"
+frame = 4
+frame_progress = 1.0
 
 [node name="input_buffer_timeout" type="Timer" parent="."]
 autostart = true
@@ -215,8 +298,10 @@ wait_time = 0.5
 [node name="attack_area" type="Area2D" parent="."]
 
 [node name="attack_collider" type="CollisionShape2D" parent="attack_area"]
+unique_name_in_owner = true
 position = Vector2(21, -8.5)
 shape = SubResource("RectangleShape2D_408vh")
+disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_process_mode = 0
@@ -224,6 +309,30 @@ libraries = {
 "": SubResource("AnimationLibrary_sxpwc")
 }
 
+[node name="health_regen_timeout" type="Timer" parent="."]
+one_shot = true
+
+[node name="headbutt_tap_buffer_timeout" type="Timer" parent="."]
+one_shot = true
+
+[node name="respawn_immunity" type="Timer" parent="."]
+
+[node name="goat_sounds" parent="." instance=ExtResource("8_hc2mw")]
+
+[node name="headbutt_timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.33
+one_shot = true
+
+[connection signal="animation_finished" from="sprite" to="." method="_on_sprite_animation_finished"]
 [connection signal="timeout" from="input_buffer_timeout" to="." method="_on_input_buffer_timeout_timeout"]
 [connection signal="timeout" from="charge_timeout" to="." method="_on_charge_timeout_timeout"]
 [connection signal="body_entered" from="attack_area" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="health_regen_timeout" to="." method="_on_health_regen_timeout_timeout"]
+<<<<<<< HEAD
+[connection signal="timeout" from="headbutt_tap_buffer_timeout" to="." method="_on_headbutt_tap_buffer_timeout_timeout"]
+[connection signal="timeout" from="headbutt_timer" to="." method="_on_headbutt_timer_timeout"]
+=======
+[connection signal="timeout" from="headbutt_buffer_timeout" to="." method="_on_headbutt_buffer_timeout_timeout"]
+[connection signal="timeout" from="respawn_immunity" to="." method="_on_respawn_immunity_timeout"]
+>>>>>>> 631513784f05c31f8a77c9fb4483508c1c26ad16

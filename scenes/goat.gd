@@ -32,25 +32,36 @@ var is_slamming: bool = false
 @export_category("Headbutt Attack")
 @export var headbutt_damage: float = 50
 # Determines length of time for double tap to trigger headbutt
-@export var headbutt_buffer_time: float = 0.2
-var is_headbutting: bool = false
-@onready var headbutt_buffer_timeout: Timer = $headbutt_buffer_timeout as Timer
+@export var headbutt_tap_buffer_time: float = 0.2
+@export var is_headbutting: bool = false
+var headbutt_direction: float = 0
+@onready var headbutt_tap_buffer_timeout: Timer = $headbutt_tap_buffer_timeout as Timer
+@onready var headbutt_timer: Timer = $headbutt_timer as Timer
 
 @export_category("Stats")
 var health: float = GlobalState.GOAT_HEALTH_MAX
+var lives: int = GlobalState.GOAT_LIVES_MAX
 var is_knocked_out: bool = false
 @export var health_regen_duration: float = 8
 @onready var health_regen_timeout: Timer = $health_regen_timeout as Timer
 
+signal lives_change(player, new_lives)
 signal health_change(player, new_health)
 signal shake_screen(strength)
+
+@onready var respawn_immunity_timer: Timer = $respawn_immunity
+var has_respawn_immunity = false
 
 # constants
 const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
 
+# initialised in _ready()
+var SPAWN_POS: Vector2
+
 # child nodes
 @onready var sprite: AnimatedSprite2D = $sprite as AnimatedSprite2D
 @onready var animation: AnimationPlayer = $AnimationPlayer as AnimationPlayer
+@onready var attack_collider: CollisionShape2D = %attack_collider as CollisionShape2D
 @onready var goat_sounds: GoatSounds = $goat_sounds as GoatSounds
 
 # sound timers: set up in _ready()
@@ -64,8 +75,10 @@ func _ready() -> void:
 	input_buffer_timeout.wait_time = input_buffer_duration
 	charge_timeout.wait_time = charge_buildup_time
 	health_regen_timeout.wait_time = health_regen_duration
-	headbutt_buffer_timeout.wait_time = headbutt_buffer_time
+	headbutt_tap_buffer_timeout.wait_time = headbutt_tap_buffer_time
 	setup_sound_timers()
+	
+	attack_collider.disabled = true
 
 func setup_sound_timers() -> void:
 	# step sounds
@@ -108,6 +121,7 @@ func _on_bleat_sound_timer_timeout() -> void:
 	
 func _physics_process(delta: float) -> void:
 	if is_knocked_out:
+		move_and_slide()
 		return
 
 	var on_floor = is_on_floor()
@@ -158,28 +172,35 @@ func _physics_process(delta: float) -> void:
 		is_charging = false
 		
 	# Headbutt attack
-	if Input.is_action_just_pressed("p%d_left" % player) || Input.is_action_just_pressed("p%d_right" % player):
-		if headbutt_buffer_timeout.time_left > 0:
-			is_headbutting = true
-			headbutt_buffer_timeout.stop()
-		else:
-			is_headbutting = false
-			headbutt_buffer_timeout.start()
+	var input_direction = 0;
+	if Input.is_action_just_pressed("p%d_left" % player):
+		input_direction = -1
+	elif Input.is_action_just_pressed("p%d_right" % player):
+		input_direction = 1
 	
-	if !is_headbutting:
-		move_and_slide()
+	if input_direction:
+		if input_direction == headbutt_direction && on_floor && headbutt_tap_buffer_timeout.time_left > 0:
+			#animation.play("headbutt")
+			headbutt_timer.start()
+			is_headbutting = true
+		else:
+			headbutt_tap_buffer_timeout.start()
+			headbutt_direction = input_direction
+			5
+	attack_collider.disabled = not (is_charging or is_headbutting or is_slamming)
+	move_and_slide()
 
 func _process(_delta: float) -> void:
 	# animate sprite based on current movement direction
-	if velocity.length() > MIN_ANIMATED_RUN_SPEED:
+	if is_headbutting:
+		sprite.play("headbutting")
+	elif velocity.length() > MIN_ANIMATED_RUN_SPEED:
 		if is_charging:
 			sprite.play("charging")
 		elif is_slamming:
 			sprite.play("slamming")
 		else:
 			sprite.play("running")
-	elif is_headbutting:
-		sprite.play("headbutting")
 	elif is_knocked_out:
 		sprite.play("knocked_out")
 	else:
@@ -202,9 +223,7 @@ func hit(damage: float) -> void:
 	print(self, " has been hit with ", damage, " damage")
 	if !is_knocked_out:
 		shake_screen.emit(0.5 * damage * (2.0 if health == 0 else 1.0))
-		health -= damage
-		if health < 0: health = 0
-		health_change.emit(player, health)
+		update_health(player, health - damage)
 	else:
 		shake_screen.emit(damage * 0.1)
 	if health == 0:
@@ -216,14 +235,37 @@ func _on_charge_timeout_timeout() -> void:
 	snort_sound_timer.stop()
 	_on_snort_sound_timer_timeout()
 
-func _on_health_regen_timeout_timeout():
-	health = GlobalState.GOAT_HEALTH_MAX
+func update_health(player, new_health):
+	health = max(0, new_health)
 	health_change.emit(player, health)
+
+
+func _on_health_regen_timeout_timeout():
+	update_health(player, GlobalState.GOAT_HEALTH_MAX)
 	is_knocked_out = false
 	
-func _on_headbutt_buffer_timeout_timeout():
+func _on_headbutt_tap_buffer_timeout_timeout():
 	pass
 
-func _on_sprite_animation_finished():
-	if sprite.animation == "headbutting":
-		is_headbutting = false
+func _on_headbutt_timer_timeout():
+	is_headbutting = false
+
+func respawn() -> void:
+	# Sometimes respawn can be called multiple times in quick succession.
+	if has_respawn_immunity:
+		return
+	has_respawn_immunity = true
+	respawn_immunity_timer.start()
+	lives -= 1
+	if lives == 0:
+		get_tree().change_scene_to_file("res://levels/main_menu.tscn")
+	lives_change.emit(player, lives)
+	shake_screen.emit(50)
+	update_health(player, GlobalState.GOAT_HEALTH_MAX)
+	is_knocked_out = false
+	position = SPAWN_POS
+	velocity = Vector2.ZERO
+
+
+func _on_respawn_immunity_timeout() -> void:
+	has_respawn_immunity = false
