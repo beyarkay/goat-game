@@ -48,6 +48,9 @@ signal shake_screen(strength)
 # constants
 const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
 
+# initialised in _ready()
+var SPAWN_POS: Vector2
+
 # child nodes
 @onready var sprite: AnimatedSprite2D = $sprite as AnimatedSprite2D
 @onready var floor_test: ShapeCast2D = $floor_test as ShapeCast2D
@@ -60,6 +63,7 @@ func _ready() -> void:
 	charge_timeout.wait_time = charge_buildup_time
 	health_regen_timeout.wait_time = health_regen_duration
 	headbutt_buffer_timeout.wait_time = headbutt_buffer_time
+	SPAWN_POS = position
 
 func find_ground():
 	# scan down to find first colliding object in "ground" group;
@@ -120,7 +124,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		charge_timeout.stop()
 		is_charging = false
-		
+
 	# Headbutt attack
 	if Input.is_action_just_pressed("p%d_left" % player) || Input.is_action_just_pressed("p%d_right" % player):
 		if headbutt_buffer_timeout.time_left > 0:
@@ -129,7 +133,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			is_headbutting = false
 			headbutt_buffer_timeout.start()
-	
+
 	if !is_headbutting:
 		move_and_slide()
 
@@ -148,7 +152,7 @@ func _process(_delta: float) -> void:
 		sprite.play("knocked_out")
 	else:
 		sprite.play("idle")
-		
+
 
 func _on_input_buffer_timeout_timeout() -> void:
 	input_buffer = null
@@ -185,10 +189,17 @@ func _on_health_regen_timeout_timeout():
 	health = GlobalState.GOAT_HEALTH_MAX
 	health_change.emit(player, health)
 	is_knocked_out = false
-	
+
 func _on_headbutt_buffer_timeout_timeout():
 	pass
 
 func _on_sprite_animation_finished():
 	if sprite.animation == "headbutting":
 		is_headbutting = false
+
+func respawn() -> void:
+	shake_screen.emit(50)
+	health = GlobalState.GOAT_HEALTH_MAX
+	is_knocked_out = false
+	position = SPAWN_POS
+	velocity = Vector2.ZERO
