@@ -181,6 +181,7 @@ func _physics_process(delta: float) -> void:
 			animation.play("slamming_right")
 
 	if on_floor:
+		if is_slamming: goat_sounds.slam(false)
 		is_slamming = false
 		gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 		animation.stop()
@@ -242,6 +243,7 @@ func _on_area_2d_body_entered(body):
 		goat_sounds.charge_hit()
 	if is_slamming:
 		body.hit(slam_damage, slam_push_velocity * attack_direction)
+		goat_sounds.slam(true)
 	if is_headbutting:
 		body.hit(headbutt_damage, headbutt_push_velocity * attack_direction)
 

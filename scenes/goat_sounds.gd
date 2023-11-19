@@ -22,6 +22,7 @@ extends Node
 @onready var charge_hit_sound: AudioStreamPlayer2D = $charge_hit as AudioStreamPlayer2D
 @onready var charge_sound: AudioStreamPlayer2D = $charge as AudioStreamPlayer2D
 @onready var charge_volume: AnimationPlayer = $charge_volume as AnimationPlayer
+@onready var slam_sound: AudioStreamPlayer2D = $slam as AudioStreamPlayer2D
 
 func play_random(list: Array[AudioStreamPlayer2D], low = 0.75, hi = 1.3) -> void:
 	var sound = list[randi_range(0, list.size() - 1)]
@@ -47,3 +48,9 @@ func start_charge() -> void:
 
 func stop_charge() -> void:
 	charge_sound.stop()
+	
+func slam(hit: bool) -> void:
+	print(hit)
+	if hit: slam_sound.volume_db = 10
+	else: slam_sound.volume_db = -1
+	slam_sound.play()

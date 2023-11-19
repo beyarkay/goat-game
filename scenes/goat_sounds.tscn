@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dwm8wiylxqt4t"]
+[gd_scene load_steps=18 format=3 uid="uid://dwm8wiylxqt4t"]
 
 [ext_resource type="Script" path="res://scenes/goat_sounds.gd" id="1_bgxn2"]
 [ext_resource type="AudioStream" uid="uid://dslkg4d2cosb2" path="res://assets/sounds/step1.wav" id="2_wfvoh"]
@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://dwslkk0pj7osr" path="res://assets/sounds/bleat5.wav" id="11_w84hp"]
 [ext_resource type="AudioStream" uid="uid://w7m5kit263im" path="res://assets/sounds/charge_hit.wav" id="12_cp5qu"]
 [ext_resource type="AudioStream" uid="uid://bbx6pulcle3h0" path="res://assets/sounds/charge.wav" id="13_or8fu"]
+[ext_resource type="AudioStream" uid="uid://dqr8df12tik7i" path="res://assets/sounds/slam.wav" id="14_5vhh1"]
 
 [sub_resource type="Animation" id="Animation_jshr7"]
 length = 0.001
@@ -109,3 +110,8 @@ attenuation = 2.5
 libraries = {
 "": SubResource("AnimationLibrary_nbbad")
 }
+
+[node name="slam" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("14_5vhh1")
+volume_db = 8.0
+attenuation = 2.0
