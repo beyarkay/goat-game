@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcxje6kcdg0k5"]
+
+[ext_resource type="Script" path="res://scenes/out_of_bounds_detector.gd" id="1_w6c83"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ae75p"]
+
+[node name="out_of_bounds_detector" type="Area2D"]
+position = Vector2(480, 712)
+script = ExtResource("1_w6c83")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("WorldBoundaryShape2D_ae75p")
