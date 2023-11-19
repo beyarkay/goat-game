@@ -38,12 +38,17 @@ var is_headbutting: bool = false
 
 @export_category("Stats")
 var health: float = GlobalState.GOAT_HEALTH_MAX
+var lives: int = GlobalState.GOAT_LIVES_MAX
 var is_knocked_out: bool = false
 @export var health_regen_duration: float = 8
 @onready var health_regen_timeout: Timer = $health_regen_timeout as Timer
 
+signal lives_change(player, new_lives)
 signal health_change(player, new_health)
 signal shake_screen(strength)
+
+@onready var respawn_immunity_timer: Timer = $respawn_immunity
+var has_respawn_immunity = false
 
 # constants
 const MIN_ANIMATED_RUN_SPEED: float = 2.0 # speed below which we do not animate
@@ -171,9 +176,7 @@ func hit(damage: float) -> void:
 	print(self, " has been hit with ", damage, " damage")
 	if !is_knocked_out:
 		shake_screen.emit(0.5 * damage * (2.0 if health == 0 else 1.0))
-		health -= damage
-		if health < 0: health = 0
-		health_change.emit(player, health)
+		update_health(player, health - damage)
 	else:
 		shake_screen.emit(damage * 0.1)
 	if health == 0:
@@ -184,10 +187,13 @@ func hit(damage: float) -> void:
 func _on_charge_timeout_timeout() -> void:
 	is_charging = true
 
+func update_health(player, new_health):
+	health = max(0, new_health)
+	health_change.emit(player, health)
+
 
 func _on_health_regen_timeout_timeout():
-	health = GlobalState.GOAT_HEALTH_MAX
-	health_change.emit(player, health)
+	update_health(player, GlobalState.GOAT_HEALTH_MAX)
 	is_knocked_out = false
 
 func _on_headbutt_buffer_timeout_timeout():
@@ -198,8 +204,21 @@ func _on_sprite_animation_finished():
 		is_headbutting = false
 
 func respawn() -> void:
+	# Sometimes respawn can be called multiple times in quick succession.
+	if has_respawn_immunity:
+		return
+	has_respawn_immunity = true
+	respawn_immunity_timer.start()
+	lives -= 1
+	if lives == 0:
+		get_tree().change_scene_to_file("res://levels/main_menu.tscn")
+	lives_change.emit(player, lives)
 	shake_screen.emit(50)
-	health = GlobalState.GOAT_HEALTH_MAX
+	update_health(player, GlobalState.GOAT_HEALTH_MAX)
 	is_knocked_out = false
 	position = SPAWN_POS
 	velocity = Vector2.ZERO
+
+
+func _on_respawn_immunity_timeout() -> void:
+	has_respawn_immunity = false
