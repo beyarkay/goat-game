@@ -194,7 +194,7 @@ func _physics_process(delta: float) -> void:
 		animation.stop()
 
 	# Charging attack
-	if abs(velocity.x) == charge_vel_threshold && on_floor:
+	if abs(velocity.x) == charge_vel_threshold && (on_floor or cayote_time):
 		if charge_timeout.time_left == 0:
 			charge_timeout.start()
 	else:
