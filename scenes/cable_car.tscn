@@ -78,11 +78,11 @@ metadata/_edit_group_ = true
 polygon = PackedVector2Array(-8, 32, 96, 32, 96, 16, 88, 16, 80, 24, 8, 24, 0, 16, -8, 16)
 
 [node name="mover" type="AnimationPlayer" parent="PathFollow2D"]
-autoplay = "move_platform"
-playback_process_mode = 0
+callback_mode_process = 0
 libraries = {
 "": SubResource("AnimationLibrary_up2q8")
 }
+autoplay = "move_platform"
 
 [node name="Sprite2D" type="Sprite2D" parent="PathFollow2D"]
 position = Vector2(4, 50)

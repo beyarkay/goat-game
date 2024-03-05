@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://daaa5n1pvsgys" path="res://assets/goat/spritesheets/running.png" id="3_ctjsc"]
 [ext_resource type="Texture2D" uid="uid://b5nikspex6p6b" path="res://assets/goat/spritesheets/falling.png" id="3_diymy"]
 [ext_resource type="Texture2D" uid="uid://1atsr4was4gj" path="res://assets/goat/spritesheets/knocked_out.png" id="4_3nynr"]
-[ext_resource type="PackedScene" uid="uid://c5qxvhhygwjad" path="res://scenes/goat_sounds.tscn" id="8_hc2mw"]
+[ext_resource type="PackedScene" uid="uid://dwm8wiylxqt4t" path="res://scenes/goat_sounds.tscn" id="8_hc2mw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_01sup"]
 radius = 12.0
@@ -330,7 +330,7 @@ shape = SubResource("RectangleShape2D_408vh")
 disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_process_mode = 0
+callback_mode_process = 0
 libraries = {
 "": SubResource("AnimationLibrary_sxpwc")
 }

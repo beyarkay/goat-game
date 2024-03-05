@@ -57,3 +57,4 @@ func slam(hit: bool) -> void:
 
 func headbutt() -> void:
 	headbutt_sound.play()
+	
